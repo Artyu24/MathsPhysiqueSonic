@@ -6,16 +6,18 @@
 template<typename T>
 struct Vector3
 {
-	T x;
-	T y;
-	T z;
+	T x, y, z;
 
-	Vector3() :
-		x(T{}), y(T{}), z(T{})
+	Vector3() = default;
+	explicit Vector3(T V) :
+	x(V),
+	y(V),
+	z(V)
 	{
 	}
-	Vector3(T x, T y, T z) :
-		x(x), y(y), z(z)
+
+	Vector3(T X, T Y, T Z) :
+		x(X), y(Y), z(Z)
 	{
 	}
 	Vector3(glm::vec3 vec) :
@@ -31,6 +33,7 @@ struct Vector3
 	Vector3& operator-=(const Vector3& other);
 	Vector3& operator*=(const Vector3& other);
 	Vector3& operator/=(const Vector3& other);
+
 	bool operator==(const Vector3& other) const;
 	bool operator!=(const Vector3& other) const;
 
@@ -47,11 +50,9 @@ struct Vector3
 
 	operator glm::vec3() { return glm::vec3(x, y, z); }
 
-	//Vector3& Rotate(const float& angle);
-	//static Vector3 Rotate(const Vector3& vec, float angle);
-
-	//float Magnitude();
-	//Vector3 Normalize();
+	float Length();
+	float SquaredLength();
+	Vector3 Normalize();
 
 	/*std::string ToString() const
 	{
@@ -209,33 +210,21 @@ Vector3<T> Vector3<T>::operator-() const
 	return Vector3(x * -1, y * -1, z * -1);
 }
 
-//template <typename T>
-//inline Vector3<T>& Vector3<T>::Rotate(const float& angle)
-//{
-//	float rad = DEG2RAD(angle);
-//	float tempX = x * cos(rad) - y * sin(rad);
-//	float tempY = x * sin(rad) + y * cos(rad);
-//
-//	x = tempX;
-//	y = tempY;
-//
-//	return *this;
-//}
-//template <typename T>
-//Vector3<T> Vector3<T>::Rotate(const Vector3& vec, float angle)
-//{
-//	Vector3 rotatedVec = vec;
-//	return rotatedVec.Rotate(angle);
-//}
-//
-//template <typename T>
-//float Vector3<T>::Magnitude()
-//{
-//	return sqrt(pow(x) + pow(y));
-//}
-//
-//template <typename T>
-//Vector3<T> Vector3<T>::Normalize()
-//{
-//	return Vector3(x / Magnitude(), y / Magnitude());
-//}
+template <typename T>
+float Vector3<T>::Length()
+{
+	return sqrt(pow(x) + pow(y) + pow(z));
+}
+
+template<typename T>
+float Vector3<T>::SquaredLength()
+{
+	return pow(x) + pow(y) + pow(z);
+}
+
+template <typename T>
+Vector3<T> Vector3<T>::Normalize()
+{
+	float invMagnitude = 1 / Magnitude();
+	return Vector3(x * invMagnitude, y * invMagnitude, z * invMagnitude);
+}
