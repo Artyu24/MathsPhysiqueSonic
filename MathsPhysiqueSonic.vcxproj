@@ -106,9 +106,12 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\UnitTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\include\Vector3.h" />
     <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\UnitTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
