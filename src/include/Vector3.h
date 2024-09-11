@@ -53,6 +53,8 @@ struct Vector3
 	float Length();
 	float SquaredLength();
 	Vector3 Normalize();
+	float DotProduct(Vector3 v);
+	Vector3 CrossProduct(Vector3 v);
 
 	/*std::string ToString() const
 	{
@@ -227,4 +229,21 @@ Vector3<T> Vector3<T>::Normalize()
 {
 	float invMagnitude = 1 / Magnitude();
 	return Vector3(x * invMagnitude, y * invMagnitude, z * invMagnitude);
+}
+
+template<typename T>
+inline float Vector3<T>::DotProduct(Vector3 v)
+{
+	return x * v.x + y * v.y + z * v.z;
+}
+
+template<typename T>
+inline Vector3<T> Vector3<T>::CrossProduct(Vector3 v)
+{
+	return Vector3(
+
+		y*v.z - z * v.y,
+		z*v.x - x*v.z,
+		x*v.y - y*v.x
+	);
 }
