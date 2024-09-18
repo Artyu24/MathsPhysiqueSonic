@@ -5,6 +5,9 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+	UnitTest unitTest;
+	unitTest.LaunchTest();
+
 	cannon.load("Cannon.png");
 	cannonPos = { -75, (ofGetWindowHeight() / 2), 0 };
 }
