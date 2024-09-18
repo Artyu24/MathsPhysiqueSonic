@@ -22,6 +22,7 @@
     <ClInclude Include="src\include\Vector3.h" />
     <ClInclude Include="src\UnitTest.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="src\include\UnitTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

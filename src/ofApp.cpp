@@ -1,9 +1,12 @@
 #include "ofApp.h"
 #include "include/Vector3.h"
+#include "include/UnitTest.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
-
+void ofApp::setup()
+{
+	cannon.load("Cannon.png");
+	cannonPos = { -75, (ofGetWindowHeight() / 2), 0 };
 }
 
 //--------------------------------------------------------------
@@ -14,12 +17,23 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	//Vector3i
+	
+	cannon.draw(cannonPos, cannon.getWidth() * 0.3f, cannon.getHeight() * 0.3f);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
+void ofApp::keyPressed(int key)
+{
+	if (key == 57357) // Up Arrow
+	{
+		cannonPos.y -= 10.0f;
+	}
+	else if (key == 57359) // Down Arrow
+	{
+		cannonPos.y += 10.0f;
+	}
+	
+	
 }
 
 //--------------------------------------------------------------
@@ -38,8 +52,9 @@ void ofApp::mouseDragged(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
+void ofApp::mousePressed(int x, int y, int button)
+{
+	
 }
 
 //--------------------------------------------------------------

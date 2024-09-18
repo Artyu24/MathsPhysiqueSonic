@@ -3,6 +3,7 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
+
 template<typename T>
 struct Vector3
 {
@@ -55,11 +56,14 @@ struct Vector3
 	Vector3 Normalize();
 	float DotProduct(Vector3 v);
 	Vector3 CrossProduct(Vector3 v);
+	Vector3 Rotate(const Vector3& vec, float degrees);
 
 	/*std::string ToString() const
 	{
 		return std::format("({},{})\n", x, y);
 	}*/
+
+	
 
 };
 
@@ -215,19 +219,19 @@ Vector3<T> Vector3<T>::operator-() const
 template <typename T>
 float Vector3<T>::Length()
 {
-	return sqrt(pow(x) + pow(y) + pow(z));
+	return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 }
 
 template<typename T>
 float Vector3<T>::SquaredLength()
 {
-	return pow(x) + pow(y) + pow(z);
+	return pow(x,2) + pow(y, 2) + pow(z, 2);
 }
 
 template <typename T>
 Vector3<T> Vector3<T>::Normalize()
 {
-	float invMagnitude = 1 / Magnitude();
+	float invMagnitude = 1 / Length();
 	return Vector3(x * invMagnitude, y * invMagnitude, z * invMagnitude);
 }
 
@@ -242,8 +246,25 @@ inline Vector3<T> Vector3<T>::CrossProduct(Vector3 v)
 {
 	return Vector3(
 
-		y*v.z - z * v.y,
-		z*v.x - x*v.z,
-		x*v.y - y*v.x
+		y * v.z - z * v.y,
+		z * v.x - x * v.z,
+		x * v.y - y * v.x
 	);
+}
+
+
+
+template<typename T>
+inline Vector3<T> Vector3<T>::Rotate(const Vector3& vec, float degrees) // Rotate le vecteur en x et y
+{
+
+	float radRotation = degrees * 3.14159265358979323846f / 180.0f;
+	float s = std::sin(radRotation);
+	float c = std::cos(radRotation);
+
+	Vector3 rotatedVec;
+	rotatedVec.x = vec.x * c - vec.y * s;
+	rotatedVec.y = vec.x * s + vec.y * c;
+
+	return rotatedVec;
 }
