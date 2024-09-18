@@ -14,18 +14,20 @@ void ofApp::setup()
 	cannon.load("Cannon.png");
 	cannonPos = { -75, (ofGetWindowHeight() / 2), 0 };
 
-	m_particles.push_back(Particle({ 200.f, 200.f,0.f }, { 50.f, 0.f,0.f }, 100.f, 500.f));
+	m_particles.push_back(Particle({ 200.f, 200.f,0.f }, { 50.f, 0.f,0.f }, 100.f, 50.f));
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
+	
 	//std::cout << ofGetLastFrameTime() << std::endl;
-
-	for (size_t i = 0; i < m_particles.size(); i++)
-	{
-		m_particles[i].integrateurEuler(ofGetLastFrameTime());
+	for (auto& particule : m_particles) {
+		Vector3<float> gravity(0, 9.8, 0);
+		particule.applyForce(gravity);
+		particule.integrateurEuler(ofGetLastFrameTime());
 	}
+	
 }
 
 //--------------------------------------------------------------

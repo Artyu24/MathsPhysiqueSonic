@@ -23,6 +23,7 @@ class Particle
 
 	void SetSize(const float value);
 
+	void applyForce(Vector3<float> force);
 	void integrateurEuler(float deltaTime);
 	void integrateurVerlet(float deltaTime);
 

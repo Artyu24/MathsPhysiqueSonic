@@ -64,6 +64,13 @@ void Particle::SetSize(const float value)
 	m_size = value;
 }
 
+// Appliquer une force à la particule
+void Particle::applyForce(Vector3<float> force) {
+
+	Vector3<float> accel = force * m_invMass;  // F = m * a -> a = F / m
+	m_acceleration += accel;         // Ajout de l'accélération résultante
+}
+
 void Particle::integrateurEuler(float deltaTime) {
 	m_velocity += m_acceleration * deltaTime;
 	m_position += m_velocity * deltaTime;
