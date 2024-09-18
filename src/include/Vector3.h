@@ -3,6 +3,7 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
+
 template<typename T>
 struct Vector3
 {
@@ -55,11 +56,14 @@ struct Vector3
 	Vector3 Normalize();
 	float DotProduct(Vector3 v);
 	Vector3 CrossProduct(Vector3 v);
+	Vector3 Rotate(const Vector3& vec, float degrees);
 
 	/*std::string ToString() const
 	{
 		return std::format("({},{})\n", x, y);
 	}*/
+
+	
 
 };
 
@@ -246,4 +250,21 @@ inline Vector3<T> Vector3<T>::CrossProduct(Vector3 v)
 		z * v.x - x * v.z,
 		x * v.y - y * v.x
 	);
+}
+
+
+
+template<typename T>
+inline Vector3<T> Vector3<T>::Rotate(const Vector3& vec, float degrees) // Rotate le vecteur en x et y
+{
+
+	float radRotation = degrees * 3.14159265358979323846f / 180.0f;
+	float s = std::sin(radRotation);
+	float c = std::cos(radRotation);
+
+	Vector3 rotatedVec;
+	rotatedVec.x = vec.x * c - vec.y * s;
+	rotatedVec.y = vec.x * s + vec.y * c;
+
+	return rotatedVec;
 }

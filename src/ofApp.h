@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "include/Vector3.h"
 
 class ofApp : public ofBaseApp{
 
@@ -22,5 +23,6 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		ofImage cannon;
+		Vector3i cannonPos;
 		
 };
