@@ -7,24 +7,36 @@ void ofApp::setup()
 {
 	UnitTest unitTest;
 	unitTest.LaunchTest();
+
 	ofSetFrameRate(30);
 	ofSetVerticalSync(false);
 
 	cannon.load("Cannon.png");
 	cannonPos = { -75, (ofGetWindowHeight() / 2), 0 };
+
+	m_particles.push_back(Particle({ 200.f, 200.f,0.f }, { 50.f, 0.f,0.f }, 100.f, 500.f));
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-	std::cout << ofGetLastFrameTime() << std::endl;
+void ofApp::update()
+{
+	//std::cout << ofGetLastFrameTime() << std::endl;
 
+	for (size_t i = 0; i < m_particles.size(); i++)
+	{
+		m_particles[i].integrateurEuler(ofGetLastFrameTime());
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	
-	cannon.draw(cannonPos, cannon.getWidth() * 0.3f, cannon.getHeight() * 0.3f);
+	for (size_t i = 0; i < m_particles.size(); i++)
+	{
+		ofDrawCircle(m_particles[i].GetPosition(), 20);
+	}
+
+	//cannon.draw(cannonPos, cannon.getWidth() * 0.3f, cannon.getHeight() * 0.3f);
 }
 
 //--------------------------------------------------------------
