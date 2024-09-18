@@ -8,8 +8,7 @@ Le but de cette phase est de créer un moteur physique simple de gestion de part
 * Implémenter un intégrateur (intégration d'Euler et/ou intégration de Verlet) afin de mettre à jour la position et la vélocité de chaque particule à chaque frame.
 * Réaliser un petit jeu de tir balistique où on peut choisir entre différents projectiles (e.g. balles, boulets, laser, boule de feu) et effectuer un tir. Chaque projectile doit avoir sa propre vélocité initiale et sa propre masse. Le frottement doit être négligeable (près de 1). La trajectoire des projectiles doit être clairement visible à l'écran
 ### 📅 Semaine 1   
-Nous avons créé la classe template **Vector3** avec toutes les méthodes nécessaires, ce qui nous permet de considérer que nous avons atteint **1/5** des exigences requises pour la phase 1 au cours de cette semaine.   
-La mise en place de l'intégrateur et le développement de la classe test pour Vecteur3D a également commencé lors de cette semaine.
+Nous avons créé la classe template **Vector3** avec toutes les méthodes nécessaires, ce qui nous permet de considérer que nous avons atteint **1/5** des exigences requises pour la phase 1 au cours de cette semaine.
 
 ### 📅 Semaine 2
 
