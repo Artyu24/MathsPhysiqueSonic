@@ -5,8 +5,7 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	UnitTest unitTest;
-	unitTest.LaunchTest();
+	cannon.load("Cannon.png");
 }
 
 //--------------------------------------------------------------
@@ -17,7 +16,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	//Vector3i
+	cannon.draw({ -75, ofGetWindowHeight() / 2, 0.0f}, cannon.getWidth() * 0.3f, cannon.getHeight() * 0.3f);
 }
 
 //--------------------------------------------------------------
@@ -41,8 +40,9 @@ void ofApp::mouseDragged(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
+void ofApp::mousePressed(int x, int y, int button)
+{
+	
 }
 
 //--------------------------------------------------------------
