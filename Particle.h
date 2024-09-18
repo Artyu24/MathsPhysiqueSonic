@@ -5,7 +5,7 @@ class Particle
 {
 	public:
 		Particle(Vector3<float> position, float size);
-		~Particle();
+		~Particle() = default;
 
 	Vector3<float> GetPosition();
 	Vector3<float> GetVelocity();

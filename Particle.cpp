@@ -6,9 +6,6 @@ Particle::Particle(Vector3<float> position, float size) :
 {
 }
 
-Particle::~Particle()
-{
-}
 
 Vector3<float> Particle::GetPosition()
 {
