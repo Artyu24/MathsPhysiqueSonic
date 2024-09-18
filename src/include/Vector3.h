@@ -215,19 +215,19 @@ Vector3<T> Vector3<T>::operator-() const
 template <typename T>
 float Vector3<T>::Length()
 {
-	return sqrt(pow(x) + pow(y) + pow(z));
+	return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 }
 
 template<typename T>
 float Vector3<T>::SquaredLength()
 {
-	return pow(x) + pow(y) + pow(z);
+	return pow(x,2) + pow(y, 2) + pow(z, 2);
 }
 
 template <typename T>
 Vector3<T> Vector3<T>::Normalize()
 {
-	float invMagnitude = 1 / Magnitude();
+	float invMagnitude = 1 / Length();
 	return Vector3(x * invMagnitude, y * invMagnitude, z * invMagnitude);
 }
 
@@ -242,8 +242,8 @@ inline Vector3<T> Vector3<T>::CrossProduct(Vector3 v)
 {
 	return Vector3(
 
-		y*v.z - z * v.y,
-		z*v.x - x*v.z,
-		x*v.y - y*v.x
+		y * v.z - z * v.y,
+		z * v.x - x * v.z,
+		x * v.y - y * v.x
 	);
 }

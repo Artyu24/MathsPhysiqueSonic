@@ -109,6 +109,7 @@
     <ClCompile Include="src\UnitTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\include\UnitTest.h" />
     <ClInclude Include="src\include\Vector3.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\UnitTest.h" />

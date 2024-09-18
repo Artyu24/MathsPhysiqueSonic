@@ -1,9 +1,12 @@
 #include "ofApp.h"
 #include "include/Vector3.h"
+#include "include/UnitTest.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
-
+void ofApp::setup()
+{
+	UnitTest unitTest;
+	unitTest.LaunchTest();
 }
 
 //--------------------------------------------------------------
