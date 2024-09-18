@@ -7,6 +7,8 @@ void ofApp::setup()
 {
 	UnitTest unitTest;
 	unitTest.LaunchTest();
+	ofSetFrameRate(30);
+	ofSetVerticalSync(false);
 
 	cannon.load("Cannon.png");
 	cannonPos = { -75, (ofGetWindowHeight() / 2), 0 };
@@ -14,6 +16,7 @@ void ofApp::setup()
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	std::cout << ofGetLastFrameTime() << std::endl;
 
 }
 
