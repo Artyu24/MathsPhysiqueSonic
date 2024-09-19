@@ -36,12 +36,13 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	ofSetColor(255, 0, 0);
+	ofSetColor(255, 0, 0); // rouge pour Verlet
 	ofFill();
 	for (auto& particle : m_particlesVerlet) {
 		ofDrawCircle(particle.GetPosition(), particle.GetSize());
 	}
-	ofSetColor(0, 255, 0);
+
+	ofSetColor(0, 255, 0); // vert pour Euler
 	ofFill();
 	for (auto& particle : m_particlesEuler) {
 		ofDrawCircle(particle.GetPosition(), particle.GetSize());
@@ -60,10 +61,10 @@ void ofApp::keyPressed(int key)
 	{
 		cannonPos.y += 10.0f;
 	}
-	if (key == 'p') { 
+	if (key == 'v') { 
 		SpawnParticle(true); // Verlet 
 	}
-	if (key == 'o') {
+	if (key == 'e') {
 		SpawnParticle(false); // Euler
 	}
 }
