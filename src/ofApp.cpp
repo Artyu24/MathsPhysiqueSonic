@@ -131,8 +131,7 @@ void ofApp::SpawnParticle(bool Verlet) {
 	particle.SetAcceleration({ 0,0,0 });
 	Vector3<float> prevPos = pos;
 
-	float deltaTime = ofGetLastFrameTime();
-	particle.integrateurEuler(deltaTime);
+	particle.integrateurEuler(0.033f);
 
 	particle.SetPrevPosition(prevPos);
 
