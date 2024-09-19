@@ -1,4 +1,5 @@
 #include "Particle.h"
+#include <iostream>
 
 Particle::Particle(Vector3<float> position, Vector3<float> velocity, float size, float mass) :
 	m_position(position),
@@ -68,7 +69,7 @@ void Particle::SetSize(const float value)
 void Particle::applyForce(Vector3<float> force) {
 
 	Vector3<float> accel = force * m_invMass;  // F = m * a -> a = F / m
-	m_acceleration += accel;         // Ajout de l'accélération résultante
+	m_acceleration += accel;
 }
 
 void Particle::integrateurEuler(float deltaTime) {
@@ -81,5 +82,6 @@ void Particle::integrateurVerlet(float deltaTime) {
 	Vector3<float> newPosition = m_position * 2 - m_prevPosition + m_acceleration * deltaTime * deltaTime;
 	m_prevPosition = m_position;
 	m_position = newPosition;
-	m_acceleration = Vector3<float> (0, 0, 0);
+	m_acceleration = Vector3<float>(0, 0, 0);
 }
+

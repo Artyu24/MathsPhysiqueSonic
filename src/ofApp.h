@@ -22,9 +22,12 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+		void SpawnParticle(bool Verlet);
+		
 
 private:
-	std::vector<Particle> m_particles;
+	std::vector<Particle> m_particlesVerlet;
+	std::vector<Particle> m_particlesEuler;
 
 	ofImage cannon;
 	Vector3i cannonPos;
