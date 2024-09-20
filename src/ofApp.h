@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "include/Vector3.h"
+#include "../Particle.h"
 
 class ofApp : public ofBaseApp{
 
@@ -21,8 +22,13 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-
-		ofImage cannon;
-		Vector3i cannonPos;
+		void SpawnParticle(bool Verlet);
 		
+
+private:
+	std::vector<Particle> m_particlesVerlet;
+	std::vector<Particle> m_particlesEuler;
+
+	ofImage cannon;
+	Vector3i cannonPos;
 };

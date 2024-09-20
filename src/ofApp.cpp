@@ -5,20 +5,49 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+	UnitTest unitTest;
+	unitTest.LaunchTest();
+
+	ofSetFrameRate(30);
+	ofSetVerticalSync(false);
+
 	cannon.load("Cannon.png");
 	cannonPos = { -75, (ofGetWindowHeight() / 2), 0 };
+	
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-
+void ofApp::update()
+{
+	
+	//std::cout << ofGetLastFrameTime() << std::endl;
+	for (auto& particule : m_particlesVerlet) {
+		Vector3<float> gravity(0, 9.8, 0);
+		particule.applyForce(gravity);
+		particule.integrateurVerlet(ofGetLastFrameTime());
+	}
+	for (auto& particule : m_particlesEuler) {
+		Vector3<float> gravity(0, 9.8, 0);
+		particule.applyForce(gravity);
+		particule.integrateurEuler(ofGetLastFrameTime());
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	
-	cannon.draw(cannonPos, cannon.getWidth() * 0.3f, cannon.getHeight() * 0.3f);
+	ofSetColor(255, 0, 0); // rouge pour Verlet
+	ofFill();
+	for (auto& particle : m_particlesVerlet) {
+		ofDrawCircle(particle.GetPosition(), particle.GetSize());
+	}
+
+	ofSetColor(0, 255, 0); // vert pour Euler
+	ofFill();
+	for (auto& particle : m_particlesEuler) {
+		ofDrawCircle(particle.GetPosition(), particle.GetSize());
+	}
+	//cannon.draw(cannonPos, cannon.getWidth() * 0.3f, cannon.getHeight() * 0.3f);
 }
 
 //--------------------------------------------------------------
@@ -32,8 +61,12 @@ void ofApp::keyPressed(int key)
 	{
 		cannonPos.y += 10.0f;
 	}
-	
-	
+	if (key == 'v') { 
+		SpawnParticle(true); // Verlet 
+	}
+	if (key == 'e') {
+		SpawnParticle(false); // Euler
+	}
 }
 
 //--------------------------------------------------------------
@@ -85,4 +118,27 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void ofApp::SpawnParticle(bool Verlet) {
+	Vector3<float> pos(200.f, 200.f, 0.f);
+	Vector3<float> vel(100.f, 0.f, 0.f); 
+
+	float size =  20.f;
+	float mass = 2.f;
+
+	Particle particle(pos, vel, size, mass);
+	particle.SetAcceleration({ 0,0,0 });
+	Vector3<float> prevPos = pos;
+
+	particle.integrateurEuler(0.033f);
+
+	particle.SetPrevPosition(prevPos);
+
+	if (Verlet) {
+		m_particlesVerlet.push_back(particle);
+	}
+	else {
+		m_particlesEuler.push_back(particle);
+	}
 }
