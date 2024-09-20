@@ -29,7 +29,7 @@ x86/
 bld/
 bin/*
 !bin/*.dll
-!bin/data/
+!/bin/data/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
