@@ -5,49 +5,39 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+	//Launch Unit Test
 	UnitTest unitTest;
 	unitTest.LaunchTest();
 
+	//Set Frame Rate
 	ofSetFrameRate(30);
 	ofSetVerticalSync(false);
 
-	cannon.load("Cannon.png");
-	cannonPos = { -75, (ofGetWindowHeight() / 2), 0 };
-	
+	//Load canon
+	m_canon.GetImage().load("Cannon.png");
+	m_canon.SetPosition({ -75.f, ofGetWindowHeight() / 2.f, 0.f });
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	
-	//std::cout << ofGetLastFrameTime() << std::endl;
-	for (auto& particule : m_particlesVerlet) {
-		Vector3<float> gravity(0, 9.8, 0);
-		particule.applyForce(gravity);
-		particule.integrateurVerlet(ofGetLastFrameTime());
-	}
-	for (auto& particule : m_particlesEuler) {
-		Vector3<float> gravity(0, 9.8, 0);
-		particule.applyForce(gravity);
-		particule.integrateurEuler(ofGetLastFrameTime());
+	for (auto& particule : m_particles) {
+		Vector3f gravity(0, 9.8, 0);
+		particule.ApplyForce(gravity);
+		particule.Integrate(ofGetLastFrameTime());
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	ofSetColor(255, 0, 0); // rouge pour Verlet
-	ofFill();
-	for (auto& particle : m_particlesVerlet) {
-		ofDrawCircle(particle.GetPosition(), particle.GetSize());
-	}
+	m_canon.GetImage().draw(m_canon.GetPosition(), m_canon.GetImageWidth() * 0.3f, m_canon.GetImageHeight() * 0.3f);
 
-	ofSetColor(0, 255, 0); // vert pour Euler
-	ofFill();
-	for (auto& particle : m_particlesEuler) {
+	//ofSetColor(255, 0, 0);
+	//ofFill();
+	for (auto& particle : m_particles) {
 		ofDrawCircle(particle.GetPosition(), particle.GetSize());
 	}
-	//cannon.draw(cannonPos, cannon.getWidth() * 0.3f, cannon.getHeight() * 0.3f);
 }
 
 //--------------------------------------------------------------
@@ -55,12 +45,13 @@ void ofApp::keyPressed(int key)
 {
 	if (key == 57357) // Up Arrow
 	{
-		cannonPos.y -= 10.0f;
+		m_canon.SetPosition(Vector3f(m_canon.GetPosition().x, m_canon.GetPosition().y - 10.f, 0.f));
 	}
 	else if (key == 57359) // Down Arrow
 	{
-		cannonPos.y += 10.0f;
+		m_canon.SetPosition(Vector3f(m_canon.GetPosition().x, m_canon.GetPosition().y + 10.f, 0.f));
 	}
+
 	if (key == 'v') { 
 		SpawnParticle(true); // Verlet 
 	}
@@ -121,24 +112,19 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 }
 
 void ofApp::SpawnParticle(bool Verlet) {
-	Vector3<float> pos(200.f, 200.f, 0.f);
-	Vector3<float> vel(100.f, 0.f, 0.f); 
+	Vector3f pos(200.f, 200.f, 0.f);
+	Vector3f vel(100.f, 0.f, 0.f); 
 
 	float size =  20.f;
 	float mass = 2.f;
 
 	Particle particle(pos, vel, size, mass);
 	particle.SetAcceleration({ 0,0,0 });
-	Vector3<float> prevPos = pos;
+	Vector3f prevPos = pos;
 
-	particle.integrateurEuler(0.033f);
+	particle.Integrate(0.033f);
 
 	particle.SetPrevPosition(prevPos);
 
-	if (Verlet) {
-		m_particlesVerlet.push_back(particle);
-	}
-	else {
-		m_particlesEuler.push_back(particle);
-	}
+	m_particles.push_back(particle);
 }

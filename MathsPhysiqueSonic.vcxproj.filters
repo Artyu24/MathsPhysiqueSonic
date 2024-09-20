@@ -8,7 +8,8 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\UnitTest.cpp" />
-    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="src\Particle.cpp" />
+    <ClCompile Include="src\Object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -20,9 +21,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\include\Vector3.h" />
-    <ClInclude Include="src\UnitTest.h" />
-    <ClInclude Include="Particle.h" />
+    <ClInclude Include="src\include\Particle.h" />
     <ClInclude Include="src\include\UnitTest.h" />
+    <ClInclude Include="src\include\Object.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
