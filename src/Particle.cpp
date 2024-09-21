@@ -16,22 +16,22 @@ Particle::Particle(Vector3f position, Vector3f velocity, float mass, bool isInte
 }
 
 
-Vector3f Particle::GetPosition()
+Vector3f Particle::GetPosition() const
 {
 	return m_position;
 }
 
-Vector3f Particle::GetVelocity()
+Vector3f Particle::GetVelocity() const
 {
 	return m_velocity;
 }
 
-Vector3f Particle::GetAcceleration()
+Vector3f Particle::GetAcceleration() const
 {
 	return m_acceleration;
 }
 
-Vector3f Particle::GetPrevPosition()
+Vector3f Particle::GetPrevPosition() const
 {
 	return m_prevPosition;
 }
@@ -44,6 +44,11 @@ float Particle::GetSize() const
 float Particle::GetInverseMass() const
 {
 	return m_invMass;
+}
+
+bool Particle::GetIsIntegrateEuler() const
+{
+	return m_isIntegrateEuler;
 }
 
 void Particle::SetPosition(const Vector3f value)

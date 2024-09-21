@@ -8,12 +8,13 @@ public:
 	~Particle() = default;
 
 	//Getter
-	Vector3f GetPosition();
-	Vector3f GetVelocity();
-	Vector3f GetAcceleration();
-	Vector3f GetPrevPosition();
+	Vector3f GetPosition() const;
+	Vector3f GetVelocity() const;
+	Vector3f GetAcceleration() const;
+	Vector3f GetPrevPosition() const;
 	float GetSize() const;
 	float GetInverseMass() const;
+	bool GetIsIntegrateEuler() const;
 
 	//Setter
 	void SetPosition(const Vector3f value);

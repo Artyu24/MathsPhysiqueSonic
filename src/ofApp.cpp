@@ -35,22 +35,36 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	//Draw Information
-	ofDrawBitmapString("Delta Time : " + ofToString(ofGetLastFrameTime()), ofGetWidth() - 150.f, 30.f);
-	ofDrawBitmapString("Initial Velocity : " + ofToString(m_particlesData[m_particleDataIndex].initialVelocity.ToString()), ofGetWidth() - 350.f, 60.f);
-	ofDrawBitmapString("Mass : " + ofToString(m_particlesData[m_particleDataIndex].mass), ofGetWidth() - 150.f, 90.f);
-	ofDrawBitmapString("Is Euler : " + ofToString(m_isIntegrateEulerMode), ofGetWidth() - 150.f, 120.f);
-
 	//Draw Canon
 	m_canon.GetImage().draw(m_canon.GetPosition(), m_canon.GetImageWidth() * 0.3f, m_canon.GetImageHeight() * 0.3f);
 
-	//ofSetColor(255, 0, 0);
-	//ofFill();
+	//Draw Information
+	ofDrawBitmapString("Delta Time : " + ofToString(ofGetLastFrameTime()), ofGetWidth() - 200.f, 30.f);
+	ofDrawBitmapString("Initial Velocity : " + ofToString(m_particlesData[m_particleDataIndex].initialVelocity.ToString()), ofGetWidth() - 300.f, 60.f);
+	ofDrawBitmapString("Mass : " + ofToString(m_particlesData[m_particleDataIndex].mass), ofGetWidth() - 100.f, 90.f);
+	if(m_isIntegrateEulerMode)
+	{
+		ofSetColor(255, 120, 120);
+		ofDrawBitmapString("Euler Mode", ofGetWidth() - 100.f, 120.f);
+	}
+	else
+	{
+		ofSetColor(120, 219, 255);
+		ofDrawBitmapString("Verlet Mode", ofGetWidth() - 100.f, 120.f);
+	}
+
 	//Draw Particle
 	for (auto& particle : m_particles) 
 	{
+		if(particle.GetIsIntegrateEuler())
+			ofSetColor(255, 120, 120);
+		else
+			ofSetColor(120, 219, 255);
+
 		ofDrawCircle(particle.GetPosition(), particle.GetSize());
 	}
+
+	ofSetColor(255, 255, 255);
 }
 
 //--------------------------------------------------------------
