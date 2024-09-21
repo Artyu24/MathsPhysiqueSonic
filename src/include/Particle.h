@@ -4,8 +4,7 @@
 class Particle
 {
 public:
-	Particle(Vector3f position, Vector3f velocity, float mass, bool isIntegrateEuler);
-	~Particle() = default;
+	Particle(Vector3f position, Vector3f velocity, float mass, float damping, bool isIntegrateEuler);
 
 	//Getter
 	Vector3f GetPosition() const;
@@ -14,6 +13,7 @@ public:
 	Vector3f GetPrevPosition() const;
 	float GetSize() const;
 	float GetInverseMass() const;
+	float GetDamping() const;
 	bool GetIsIntegrateEuler() const;
 
 	//Setter
@@ -34,6 +34,7 @@ private:
 	Vector3f m_prevPosition; //For Verlet purpose
 	float m_invMass;
 	float m_size;
+	float m_damping;
 
 	bool m_isIntegrateEuler = false;
 

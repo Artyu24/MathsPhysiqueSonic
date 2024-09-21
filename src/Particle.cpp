@@ -1,12 +1,13 @@
 #include "include/Particle.h"
 
-Particle::Particle(Vector3f position, Vector3f velocity, float mass, bool isIntegrateEuler) :
+Particle::Particle(Vector3f position, Vector3f velocity, float mass, float damping, bool isIntegrateEuler) :
 	m_position(position),
 	m_velocity(velocity),
 	m_acceleration(),
 	m_prevPosition(position),
 	m_invMass(1.f / mass),
 	m_size(mass * 5.f),
+	m_damping(damping),
 	m_isIntegrateEuler(isIntegrateEuler)
 {
 
@@ -46,6 +47,11 @@ float Particle::GetInverseMass() const
 	return m_invMass;
 }
 
+float Particle::GetDamping() const
+{
+	return m_damping;
+}
+
 bool Particle::GetIsIntegrateEuler() const
 {
 	return m_isIntegrateEuler;
@@ -79,7 +85,7 @@ void Particle::SetSize(const float value)
 // Apply a force to the particle
 void Particle::ApplyForce(Vector3f force)
 {
-	Vector3<float> accel = force + m_velocity * m_invMass;  // F = m * a -> a = F / m
+	Vector3f accel = force + m_velocity * m_invMass - (m_velocity * (1 - m_damping)) * m_invMass;  // F = m * a -> a = F / m
 	m_acceleration += accel;
 }
 

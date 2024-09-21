@@ -28,7 +28,7 @@ void ofApp::update()
 	{
 		Vector3f gravity(0, 9.8f, 0);
 		particule.ApplyForce(gravity);
-		particule.Integrate(ofGetLastFrameTime());
+		particule.Integrate(ofGetLastFrameTime() * 10.f);
 	}
 }
 
@@ -104,7 +104,7 @@ void ofApp::keyPressed(int key)
 void ofApp::SpawnParticle()
 {
 	ParticleData data = m_particlesData[m_particleDataIndex];
-	Particle particle(m_canon.GetPosition() + Vector3f(200.f, 50.f, 0.f), data.initialVelocity, data.mass, m_isIntegrateEulerMode);
+	Particle particle(m_canon.GetPosition() + Vector3f(200.f, 50.f, 0.f), data.initialVelocity, data.mass, 0.05f, m_isIntegrateEulerMode);
 	m_particles.push_back(particle);
 }
 
