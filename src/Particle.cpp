@@ -6,7 +6,7 @@ Particle::Particle(Vector3f position, Vector3f velocity, float mass, bool isInte
 	m_acceleration(),
 	m_prevPosition(position),
 	m_invMass(1.f / mass),
-	m_size(mass * 0.5f),
+	m_size(mass * 5.f),
 	m_isIntegrateEuler(isIntegrateEuler)
 {
 
@@ -79,7 +79,7 @@ void Particle::SetSize(const float value)
 // Apply a force to the particle
 void Particle::ApplyForce(Vector3f force)
 {
-	Vector3f accel = force / m_invMass;  // F = m * a -> a = F / m
+	Vector3<float> accel = force + m_velocity * m_invMass;  // F = m * a -> a = F / m
 	m_acceleration += accel;
 }
 
@@ -94,7 +94,7 @@ void Particle::Integrate(float deltaTime)
 void Particle::IntegrateEuler(float deltaTime)
 {
 	m_velocity += m_acceleration * deltaTime;
-	m_position += m_velocity * deltaTime;
+	m_position += m_velocity * deltaTime + m_acceleration * 0.5f * pow(deltaTime, 2);
 	m_acceleration = Vector3f (0, 0, 0);
 }
 
@@ -105,4 +105,3 @@ void Particle::IntegrateVerlet(float deltaTime)
 	m_position = newPosition;
 	m_acceleration = Vector3f(0, 0, 0);
 }
-
