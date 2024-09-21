@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <glm/glm.hpp>
+#include "ofMain.h"
 
 
 template<typename T>
@@ -58,13 +59,10 @@ struct Vector3
 	Vector3 CrossProduct(Vector3 v);
 	Vector3 Rotate(const Vector3& vec, float degrees);
 
-	/*std::string ToString() const
+	std::string ToString() const
 	{
-		return std::format("({},{})\n", x, y);
-	}*/
-
-	
-
+		return "x: " + ofToString(x) + " y: " + ofToString(y) + " z: " + ofToString(z);
+	}
 };
 
 using Vector3f = Vector3<float>;

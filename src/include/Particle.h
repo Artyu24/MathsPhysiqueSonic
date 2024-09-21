@@ -4,7 +4,7 @@
 class Particle
 {
 public:
-	Particle(Vector3f position, Vector3f velocity, float size, float mass);
+	Particle(Vector3f position, Vector3f velocity, float mass, bool isIntegrateEuler);
 	~Particle() = default;
 
 	//Getter
@@ -34,7 +34,7 @@ private:
 	float m_invMass;
 	float m_size;
 
-	bool isIntegrateEuler = true;
+	bool m_isIntegrateEuler = false;
 
 	void IntegrateEuler(float deltaTime);
 	void IntegrateVerlet(float deltaTime);
