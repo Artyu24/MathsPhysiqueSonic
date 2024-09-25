@@ -42,10 +42,10 @@ private:
 		float mass;
 	};
 	std::array<ParticleData, 4> m_particlesData = {
-		ParticleData(Vector3f(50.f,-70.f,0.f), 1.f),
-		ParticleData(Vector3f(40.f,-50.f,0.f), 2.f ),
-		ParticleData(Vector3f(20.f,-60.f,0.f), 8.f ),
-		ParticleData(Vector3f(30.f,-100.f,0.f), 20.f)
+		ParticleData(Vector3f(50.f,-50.f,0.f), 1.f),
+		ParticleData(Vector3f(40.f,-40.f,0.f), 2.f ),
+		ParticleData(Vector3f(20.f,-30.f,0.f), 8.f ),
+		ParticleData(Vector3f(30.f,-10.f,0.f), 20.f)
 	};
 	size_t m_particleDataIndex = 0;
 };

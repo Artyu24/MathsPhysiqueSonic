@@ -12,10 +12,13 @@ Particle::Particle(Vector3f position, Vector3f velocity, float mass, float dampi
 {
 
 	//We integrate Euler at start to get a first previous position needed for integrate Verlet
-	if(!m_isIntegrateEuler)
-		IntegrateEuler(0.033f); //We set the deltaTime to get the same start for every Particle
+	if (!m_isIntegrateEuler) {
+		m_prevPosition = m_position;
+		Vector3f gravity(0, 9.8f, 0);
+		this->ApplyForce(gravity);
+		IntegrateEuler(0.033f * 10.f); //We set the deltaTime to get the same start for every Particle
+	}
 }
-
 
 Vector3f Particle::GetPosition() const
 {
@@ -107,6 +110,7 @@ void Particle::IntegrateEuler(float deltaTime)
 void Particle::IntegrateVerlet(float deltaTime)
 {
 	Vector3f newPosition = m_position * 2 - m_prevPosition + m_acceleration * pow(deltaTime, 2);
+	m_velocity += m_acceleration  * deltaTime;
 	m_prevPosition = m_position;
 	m_position = newPosition;
 	m_acceleration = Vector3f(0, 0, 0);
