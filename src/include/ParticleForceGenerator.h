@@ -1,9 +1,11 @@
 #pragma once
 #include <iostream>
+
+#include "Particle.h"
+
 class IParticleForceGenerator 
 {
-	class Particle;
 	public :
-		virtual void updateforce(Particle* particle, float duration) { std::cout << "lul"; };
+		virtual void UpdateForce(Particle* particle, float duration) { std::cout << "lul"; }
 };
 

@@ -108,12 +108,14 @@
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\ParticleForceRegistry.cpp" />
     <ClCompile Include="src\ParticleGravity.cpp" />
     <ClCompile Include="src\UnitTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\Object.h" />
     <ClInclude Include="src\include\Particle.h" />
+    <ClInclude Include="src\include\ParticleForceRegistry.h" />
     <ClInclude Include="src\include\ParticleGravity.h" />
     <ClInclude Include="src\include\ParticleForceGenerator.h" />
     <ClInclude Include="src\include\UnitTest.h" />
