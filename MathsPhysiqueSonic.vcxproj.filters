@@ -10,6 +10,7 @@
     <ClCompile Include="src\UnitTest.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Object.cpp" />
+    <ClCompile Include="src\ParticleGravity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -24,6 +25,8 @@
     <ClInclude Include="src\include\Particle.h" />
     <ClInclude Include="src\include\UnitTest.h" />
     <ClInclude Include="src\include\Object.h" />
+    <ClInclude Include="src\include\ParticuleForceGenerator.h" />
+    <ClInclude Include="src\include\ParticleGravity.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

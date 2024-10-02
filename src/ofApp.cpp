@@ -1,6 +1,7 @@
 #include "ofApp.h"
 #include "include/Vector3.h"
 #include "include/UnitTest.h"
+#include "include/ParticleGravity.h"
 
 //--------------------------------------------------------------
 void ofApp::setup()
@@ -19,6 +20,8 @@ void ofApp::setup()
 	//Load canon
 	m_canon.GetImage().load("Cannon.png");
 	m_canon.SetPosition({ -75.f, ofGetWindowHeight() / 2.f, 0.f });
+
+	
 }
 
 //--------------------------------------------------------------
@@ -30,6 +33,8 @@ void ofApp::update()
 		particule.ApplyForce(gravity);
 		particule.Integrate(ofGetLastFrameTime() * 10.f);
 	}
+
+	
 }
 
 //--------------------------------------------------------------
