@@ -25,7 +25,7 @@
     <ClInclude Include="src\include\Particle.h" />
     <ClInclude Include="src\include\UnitTest.h" />
     <ClInclude Include="src\include\Object.h" />
-    <ClInclude Include="src\include\ParticuleForceGenerator.h" />
+    <ClInclude Include="src\include\ParticleForceGenerator.h" />
     <ClInclude Include="src\include\ParticleGravity.h" />
   </ItemGroup>
   <ItemGroup>

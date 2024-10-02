@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-class IParticuleForceGenerator 
+class IParticleForceGenerator 
 {
 	class Particle;
 	public :
