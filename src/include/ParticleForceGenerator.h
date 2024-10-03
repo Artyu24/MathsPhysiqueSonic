@@ -6,6 +6,6 @@
 class IParticleForceGenerator 
 {
 	public :
-		virtual void UpdateForce(Particle* particle, float duration) { std::cout << "lul"; }
+		virtual void UpdateForce(Particle* particle, float duration) = 0;
 };
 

@@ -5,7 +5,7 @@ ParticleGravity::ParticleGravity(float gravity) : m_gravity(gravity)
 {
 }
 
-void ParticleGravity::updateForce(Particle* particle, float duration)
+void ParticleGravity::UpdateForce(Particle* particle, float duration)
 {
 
 }
