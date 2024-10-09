@@ -4,6 +4,8 @@
 
 #include "include/Object.h"
 #include "include/Particle.h"
+#include "include/ParticleData.h"
+#include "include/World.h"
 
 class ofApp : public ofBaseApp
 {
@@ -27,20 +29,13 @@ public:
 
 
 private:
+	World m_world;
+	void SpawnParticleInWorld();
+
 	Object m_canon;
 
-	std::vector<Particle> m_particles;
-	void SpawnParticle();
-
 	bool m_isIntegrateEulerMode = true;
-
-	//Temporary structure, just for the game and create different projectile
-	struct ParticleData
-	{
-		ParticleData(Vector3f vel, float mass) : initialVelocity(vel), mass(mass) {}
-		Vector3f initialVelocity;
-		float mass;
-	};
+	//Different Particle Data for the Game
 	std::array<ParticleData, 4> m_particlesData = {
 		ParticleData(Vector3f(50.f,-50.f,0.f), 1.f),
 		ParticleData(Vector3f(40.f,-40.f,0.f), 2.f ),

@@ -24,7 +24,7 @@ public:
 	void SetSize(const float value);
 
 	//Physics Method
-	void ApplyForce(Vector3f force);
+	void AddForce(Vector3f force);
 	void Integrate(float deltaTime);
 
 private:

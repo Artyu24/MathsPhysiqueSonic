@@ -7,19 +7,19 @@ class ParticleForceRegistry
 public:
 	struct ParticleForceRegistration
 	{
-		ParticleForceRegistration(Particle* p, IParticleForceGenerator* fg) : particle(p), forceGenerator(fg){};
-		Particle* particle;
-		IParticleForceGenerator* forceGenerator;
+		ParticleForceRegistration(std::shared_ptr<Particle> p, std::shared_ptr<IParticleForceGenerator> fg) : particle(p), forceGenerator(fg){};
+		std::shared_ptr<Particle> particle;
+		std::shared_ptr<IParticleForceGenerator> forceGenerator;
 	};
 
 
-	void Add(Particle* particle, IParticleForceGenerator* fG);
-	void Remove(Particle* particle, IParticleForceGenerator* fG);
+	void Add(std::shared_ptr<Particle> particle, std::shared_ptr<IParticleForceGenerator> fG);
+	void Remove(std::shared_ptr<Particle> particle, std::shared_ptr<IParticleForceGenerator> fG);
 	void Clear() const;
 
 	void UpdateForces(float duration);
 
 private :
-	std::vector<ParticleForceRegistration> m_registre;
+	std::vector<std::unique_ptr<ParticleForceRegistration>> m_registre;
 };
 

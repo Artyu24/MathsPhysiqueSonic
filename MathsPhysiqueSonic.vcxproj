@@ -109,17 +109,24 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\ParticleForceRegistry.cpp" />
+    <ClCompile Include="src\ParticleFrictionCinetique.cpp" />
+    <ClCompile Include="src\ParticleFrictionStatic.cpp" />
     <ClCompile Include="src\ParticleGravity.cpp" />
     <ClCompile Include="src\UnitTest.cpp" />
+    <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\Object.h" />
     <ClInclude Include="src\include\Particle.h" />
+    <ClInclude Include="src\include\ParticleData.h" />
     <ClInclude Include="src\include\ParticleForceRegistry.h" />
+    <ClInclude Include="src\include\ParticleFrictionCinetique.h" />
+    <ClInclude Include="src\include\ParticleFrictionStatic.h" />
     <ClInclude Include="src\include\ParticleGravity.h" />
     <ClInclude Include="src\include\ParticleForceGenerator.h" />
     <ClInclude Include="src\include\UnitTest.h" />
     <ClInclude Include="src\include\Vector3.h" />
+    <ClInclude Include="src\include\World.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>
   <ItemGroup>

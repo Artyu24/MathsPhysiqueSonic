@@ -12,6 +12,9 @@
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\ParticleGravity.cpp" />
     <ClCompile Include="src\ParticleForceRegistry.cpp" />
+    <ClCompile Include="src\World.cpp" />
+    <ClCompile Include="src\ParticleFrictionCinetique.cpp" />
+    <ClCompile Include="src\ParticleFrictionStatic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -29,6 +32,10 @@
     <ClInclude Include="src\include\ParticleForceGenerator.h" />
     <ClInclude Include="src\include\ParticleGravity.h" />
     <ClInclude Include="src\include\ParticleForceRegistry.h" />
+    <ClInclude Include="src\include\World.h" />
+    <ClInclude Include="src\include\ParticleData.h" />
+    <ClInclude Include="src\include\ParticleFrictionCinetique.h" />
+    <ClInclude Include="src\include\ParticleFrictionStatic.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

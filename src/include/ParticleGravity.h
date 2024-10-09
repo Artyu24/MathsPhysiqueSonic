@@ -3,14 +3,12 @@
 
 class ParticleGravity : public IParticleForceGenerator
 {
-	class Particle;
-
 	public :
-		ParticleGravity(float gravity);
+		ParticleGravity(Vector3f gravity);
 
-	virtual void UpdateForce(Particle* particle, float duration);
+	void UpdateForce(std::shared_ptr<Particle> particle, float duration) override;
 
 	private :
-		float m_gravity;
+		Vector3f m_gravity;
 };
 

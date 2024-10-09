@@ -15,7 +15,7 @@ Particle::Particle(Vector3f position, Vector3f velocity, float mass, float dampi
 	if (!m_isIntegrateEuler) {
 		m_prevPosition = m_position;
 		Vector3f gravity(0, 9.8f, 0);
-		this->ApplyForce(gravity);
+		this->AddForce(gravity);
 		IntegrateEuler(0.033f * 10.f); //We set the deltaTime to get the same start for every Particle
 	}
 }
@@ -86,7 +86,7 @@ void Particle::SetSize(const float value)
 }
 
 // Apply a force to the particle
-void Particle::ApplyForce(Vector3f force)
+void Particle::AddForce(Vector3f force)
 {
 	Vector3f accel = force + m_velocity * m_invMass - (m_velocity * (1 - m_damping)) * m_invMass;  // F = m * a -> a = F / m
 	m_acceleration += accel;

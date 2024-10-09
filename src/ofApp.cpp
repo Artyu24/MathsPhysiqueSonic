@@ -21,20 +21,13 @@ void ofApp::setup()
 	m_canon.GetImage().load("Cannon.png");
 	m_canon.SetPosition({ -75.f, ofGetWindowHeight() / 2.f, 0.f });
 
-	
+	m_world = World();
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	for (auto& particule : m_particles) 
-	{
-		Vector3f gravity(0, 9.8f, 0);
-		particule.ApplyForce(gravity);
-		particule.Integrate(ofGetLastFrameTime() * 10.f);
-	}
-
-	
+	m_world.UpdatePhysics(ofGetLastFrameTime() * 10.f);
 }
 
 //--------------------------------------------------------------
@@ -58,16 +51,7 @@ void ofApp::draw()
 		ofDrawBitmapString("Verlet Mode", ofGetWidth() - 100.f, 120.f);
 	}
 
-	//Draw Particle
-	for (auto& particle : m_particles) 
-	{
-		if(particle.GetIsIntegrateEuler())
-			ofSetColor(255, 120, 120);
-		else
-			ofSetColor(120, 219, 255);
-
-		ofDrawCircle(particle.GetPosition(), particle.GetSize());
-	}
+	m_world.Draw();
 
 	ofSetColor(255, 255, 255);
 }
@@ -97,7 +81,7 @@ void ofApp::keyPressed(int key)
 
 	//Spawn Projectile
 	if (key == ' ')
-		SpawnParticle();
+		SpawnParticleInWorld();
 
 	//Switch between Euler or Verlet Integrate
 	if (key == 'e') //For Euler
@@ -106,11 +90,9 @@ void ofApp::keyPressed(int key)
 		m_isIntegrateEulerMode = false;
 }
 
-void ofApp::SpawnParticle()
+void ofApp::SpawnParticleInWorld()
 {
-	ParticleData data = m_particlesData[m_particleDataIndex];
-	Particle particle(m_canon.GetPosition() + Vector3f(200.f, 50.f, 0.f), data.initialVelocity, data.mass, 0.05f, m_isIntegrateEulerMode);
-	m_particles.push_back(particle);
+	m_world.SpawnParticle(m_particlesData[m_particleDataIndex], m_canon.GetPosition() + Vector3f(200.f, 50.f, 0.f), m_isIntegrateEulerMode);
 }
 
 //--------------------------------------------------------------
