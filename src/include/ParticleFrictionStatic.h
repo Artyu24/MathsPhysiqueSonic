@@ -3,11 +3,14 @@
 
 class ParticleFrictionStatic : public IParticleForceGenerator
 {
-	class Particle;
 
 public:
-	ParticleFrictionStatic();
+	ParticleFrictionStatic(float CoefStaticForce);
 
-	virtual void UpdateForce(Particle* particle, float duration);
+	void UpdateForce(std::shared_ptr<Particle> particle, float duration) override;
+
+private :
+	float m_coefStaticForce;
+	Vector3f m_normalForce; // m_normalForce = masse * gravity
 };
 

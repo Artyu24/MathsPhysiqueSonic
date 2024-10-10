@@ -4,11 +4,12 @@
 
 class ParticleFrictionCinetique : public IParticleForceGenerator
 {
-	class Particle;
-
 public:
-	ParticleFrictionCinetique();
+	ParticleFrictionCinetique(Vector3f acceleration);
 
-	virtual void UpdateForce(Particle* particle, float duration);
+	void UpdateForce(std::shared_ptr<Particle> particle, float duration) override;
+
+private :
+	Vector3f m_acceleration;
 };
 

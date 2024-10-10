@@ -1,10 +1,14 @@
 #include "include/World.h"
 
 #include "include/ParticleGravity.h"
+#include "include/ParticleFrictionCinetique.h"
+#include "include/ParticleFrictionStatic.h"
 
 World::World() : m_particles(), m_forceRegistry(std::make_unique<ParticleForceRegistry>())
 {
 }
+
+Vector3f World::m_gravity = Vector3f(0.0, 9.81f, 0.0f);
 
 void World::SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode)
 {
@@ -14,7 +18,17 @@ void World::SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEuler
 
 	//TEMP
 	ParticleGravity gravity(Vector3f(0, 9.8f, 0));
-	std::shared_ptr<ParticleGravity> forceGeneratorShared = std::make_shared<ParticleGravity>(gravity);
+
+		//Gravity Force Test
+	//std::shared_ptr<ParticleGravity> forceGeneratorShared = std::make_shared<ParticleGravity>(gravity);
+	//m_forceRegistry->Add(particleShared, forceGeneratorShared);
+
+		//Static Force Test
+	/*std::shared_ptr<ParticleFrictionStatic> forceGeneratorShared = std::make_shared<ParticleFrictionStatic>(10.0f);
+	m_forceRegistry->Add(particleShared, forceGeneratorShared);*/
+
+		//Cinetique Force Test
+	std::shared_ptr<ParticleFrictionCinetique> forceGeneratorShared = std::make_shared<ParticleFrictionCinetique>(particle.GetAcceleration() + m_gravity);
 	m_forceRegistry->Add(particleShared, forceGeneratorShared);
 }
 
@@ -41,3 +55,15 @@ void World::Draw()
 		ofDrawCircle(particle->GetPosition(), particle->GetSize());
 	}
 }
+
+Vector3f World::GetGravity()
+{
+	return m_gravity;
+}
+
+void World::SetGravity(Vector3f gravity)
+{
+	m_gravity = gravity;
+}
+
+
