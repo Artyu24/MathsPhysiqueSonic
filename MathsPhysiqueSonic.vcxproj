@@ -116,6 +116,7 @@
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\include\ForceEnum.h" />
     <ClInclude Include="src\include\Object.h" />
     <ClInclude Include="src\include\Particle.h" />
     <ClInclude Include="src\include\ParticleData.h" />

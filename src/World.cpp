@@ -20,16 +20,18 @@ void World::SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEuler
 	ParticleGravity gravity(Vector3f(0, 9.8f, 0));
 
 		//Gravity Force Test
-	//std::shared_ptr<ParticleGravity> forceGeneratorShared = std::make_shared<ParticleGravity>(gravity);
-	//m_forceRegistry->Add(particleShared, forceGeneratorShared);
+	std::shared_ptr<ParticleGravity> forceGeneratorShared = std::make_shared<ParticleGravity>(gravity);
+	m_forceRegistry->Add(particleShared, forceGeneratorShared, GRAVITY);
 
 		//Static Force Test
 	/*std::shared_ptr<ParticleFrictionStatic> forceGeneratorShared = std::make_shared<ParticleFrictionStatic>(10.0f);
 	m_forceRegistry->Add(particleShared, forceGeneratorShared);*/
 
 		//Cinetique Force Test
-	std::shared_ptr<ParticleFrictionCinetique> forceGeneratorShared = std::make_shared<ParticleFrictionCinetique>(particle.GetAcceleration() + m_gravity);
-	m_forceRegistry->Add(particleShared, forceGeneratorShared);
+	/*std::shared_ptr<ParticleFrictionCinetique> forceGeneratorShared = std::make_shared<ParticleFrictionCinetique>(particle.GetAcceleration() + m_gravity);
+	m_forceRegistry->Add(particleShared, forceGeneratorShared);*/
+
+	m_forceRegistry->Remove(particleShared, GRAVITY);
 }
 
 void World::UpdatePhysics(float duration)

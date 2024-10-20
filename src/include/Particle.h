@@ -1,5 +1,8 @@
 #pragma once
+#include "ForceEnum.h"
 #include "Vector3.h"
+
+class IParticleForceGenerator;
 
 class Particle
 {
@@ -23,6 +26,11 @@ public:
 	void SetPrevPosition(const Vector3f value);
 	void SetSize(const float value);
 
+	//Force into the Particle
+	void AddForceGeneratorToMap(ForceEnum forceEnum, std::shared_ptr<IParticleForceGenerator> fG);
+	std::shared_ptr<IParticleForceGenerator> GetForceGenerator(ForceEnum forceEnum);
+	void RemoveForceGeneratorToMap(ForceEnum forceEnum);
+
 	//Physics Method
 	void AddForce(Vector3f force);
 	void Integrate(float deltaTime);
@@ -37,6 +45,8 @@ private:
 	float m_damping;
 
 	bool m_isIntegrateEuler = false;
+
+	std::unordered_map<ForceEnum, std::shared_ptr<IParticleForceGenerator>> m_forceMap;
 
 	void IntegrateEuler(float deltaTime);
 	void IntegrateVerlet(float deltaTime);

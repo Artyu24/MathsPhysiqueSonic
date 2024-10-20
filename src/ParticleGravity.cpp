@@ -9,5 +9,6 @@ ParticleGravity::ParticleGravity(Vector3f gravity) : m_gravity(gravity)
 
 void ParticleGravity::UpdateForce(std::shared_ptr<Particle> particle, float duration)
 {
-	particle->AddForce(m_gravity);
+	if(particle->GetInverseMass() != 0)
+		particle->AddForce(m_gravity);
 }

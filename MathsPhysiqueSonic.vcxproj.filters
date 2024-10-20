@@ -36,6 +36,7 @@
     <ClInclude Include="src\include\ParticleData.h" />
     <ClInclude Include="src\include\ParticleFrictionCinetique.h" />
     <ClInclude Include="src\include\ParticleFrictionStatic.h" />
+    <ClInclude Include="src\include\ForceEnum.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

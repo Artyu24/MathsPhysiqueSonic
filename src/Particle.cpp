@@ -85,6 +85,31 @@ void Particle::SetSize(const float value)
 	m_size = value;
 }
 
+void Particle::AddForceGeneratorToMap(ForceEnum forceEnum, std::shared_ptr<IParticleForceGenerator> fG)
+{
+	auto it = m_forceMap.find(forceEnum);
+	if (it != m_forceMap.end())
+		return;
+
+	m_forceMap.emplace(forceEnum, fG);
+}
+
+std::shared_ptr<IParticleForceGenerator> Particle::GetForceGenerator(ForceEnum forceEnum)
+{
+	auto it = m_forceMap.find(forceEnum);
+	if (it != m_forceMap.end())
+		return it->second;
+
+	return nullptr;
+}
+
+void Particle::RemoveForceGeneratorToMap(ForceEnum forceEnum)
+{
+	auto it = m_forceMap.find(forceEnum);
+	if (it != m_forceMap.end())
+		m_forceMap.erase(it);
+}
+
 // Apply a force to the particle
 void Particle::AddForce(Vector3f force)
 {
