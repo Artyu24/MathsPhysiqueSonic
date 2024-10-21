@@ -35,7 +35,7 @@ bool SphereCollider::CheckCollision(SphereCollider& col1, SphereCollider& col2, 
 	Vector3f distance = col2.m_particle->GetPosition() - col1.m_particle->GetPosition();
 	Vector3f norme = distance.Normalize();
 	
-	float d = distance.Length() - col1.GetRadius() + col2.GetRadius();
+	float d = distance.Length() - (col1.GetRadius() + col2.GetRadius());
 	*result = { norme, d };
 
 	if (distance.Length() < col2.GetRadius() + col1.GetRadius())
