@@ -5,6 +5,7 @@
 #include "include/ParticleFrictionStatic.h"
 #include "include/ParticleSpring.h"
 #include "include/ParticleSpringFixedPoint.h"
+#include "include/SphereCollider.h"
 
 World::World() : m_particles(), m_forceRegistry(std::make_unique<ParticleForceRegistry>())
 {
@@ -16,6 +17,8 @@ void World::SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEuler
 {
 	Particle particle(pos, data.initialVelocity, data.mass, 0.05f, isIntegrateEulerMode);
 	std::shared_ptr<Particle> particleShared = std::make_shared<Particle>(particle);
+
+	m_collisionSystem.AddCollider(particle.GetSize(), particleShared);
 	m_particles.push_back(particleShared);
 
 	//TEMP
@@ -45,7 +48,7 @@ void World::SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEuler
 
 	//SpringParticle
 
-	Vector3f anchorPosition(500.f, 500.f, 0.f);  
+	/*Vector3f anchorPosition(500.f, 500.f, 0.f);  
 	Vector3f anchorVelocity(0, 0, 0);
 	float anchorMass = 1.0f;  
 	bool anchorIsEulerMode = true;  
@@ -54,8 +57,8 @@ void World::SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEuler
 	std::shared_ptr<Particle> anchorParticle = std::make_shared<Particle>(anchor);
 	m_particles.push_back(anchorParticle);
 
-	std::shared_ptr<ParticleSpring> forceGeneratorShared = std::make_shared<ParticleSpring>(anchorParticle.get(), 5.f, 0.5f, 5.f, false);
-	m_forceRegistry->Add(particleShared, forceGeneratorShared);
+	std::shared_ptr<ParticleSpring> forceGeneratorSharedSpring = std::make_shared<ParticleSpring>(anchorParticle.get(), 5.f, 0.5f, 5.f, false);
+	m_forceRegistry->Add(particleShared, forceGeneratorSharedSpring, SPRING_PARTICULE);*/
 
 }
 
@@ -81,6 +84,11 @@ void World::Draw()
 
 		ofDrawCircle(particle->GetPosition(), particle->GetSize());
 	}
+}
+
+void World::ApplyCollisions()
+{
+	m_collisionSystem.ApplyCollisions();
 }
 
 Vector3f World::GetGravity()

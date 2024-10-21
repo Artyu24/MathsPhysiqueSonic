@@ -11,7 +11,7 @@ void ofApp::setup()
 	unitTest.LaunchTest();
 
 	//Set Frame Rate
-	ofSetFrameRate(30);
+	ofSetFrameRate(60);
 	ofSetVerticalSync(false);
 
 	//Set background in black
@@ -28,6 +28,7 @@ void ofApp::setup()
 void ofApp::update()
 {
 	m_world.UpdatePhysics(ofGetLastFrameTime() * 10.f);
+	m_world.ApplyCollisions();
 }
 
 //--------------------------------------------------------------
@@ -93,6 +94,7 @@ void ofApp::keyPressed(int key)
 void ofApp::SpawnParticleInWorld()
 {
 	m_world.SpawnParticle(m_particlesData[m_particleDataIndex], m_canon.GetPosition() + Vector3f(200.f, 50.f, 0.f), m_isIntegrateEulerMode);
+	m_world.SpawnParticle(ParticleData(Vector3f(-40.f, -20.f, 0.f), 2.f), m_canon.GetPosition() + Vector3f(300.f, 50.f, 0.f), m_isIntegrateEulerMode);
 }
 
 //--------------------------------------------------------------

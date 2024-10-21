@@ -15,6 +15,8 @@
     <ClCompile Include="src\World.cpp" />
     <ClCompile Include="src\ParticleFrictionCinetique.cpp" />
     <ClCompile Include="src\ParticleFrictionStatic.cpp" />
+    <ClCompile Include="src\CollisionSystem.cpp" />
+    <ClCompile Include="src\SphereCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -37,6 +39,8 @@
     <ClInclude Include="src\include\ParticleFrictionCinetique.h" />
     <ClInclude Include="src\include\ParticleFrictionStatic.h" />
     <ClInclude Include="src\include\ForceEnum.h" />
+    <ClInclude Include="src\include\CollisionSystem.h" />
+    <ClInclude Include="src\include\SphereCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
