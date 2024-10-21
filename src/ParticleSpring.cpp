@@ -2,7 +2,7 @@
 #include "include/ParticleSpring.h"
 #include "ofMain.h"
 
-ParticleSpring::ParticleSpring(Particle* particleA, float restLength, float springConstant, float maxStretch, bool isElastic)
+ParticleSpring::ParticleSpring(std::shared_ptr<Particle> particleA, float restLength, float springConstant, float maxStretch, bool isElastic)
     : particleA(particleA), 
     restLength(restLength),
     springConstant(springConstant),
@@ -35,7 +35,7 @@ void ParticleSpring::UpdateForce(std::shared_ptr<Particle> particle, float durat
 }
 
 // Getters
-Particle* ParticleSpring::GetParticleA() const {
+std::shared_ptr<Particle> ParticleSpring::GetParticleA() const {
     return particleA;
 }
 
@@ -57,7 +57,7 @@ bool ParticleSpring::GetIsElastic() const {
 }
 
 // Setters
-void ParticleSpring::SetParticleA(Particle* particle) {
+void ParticleSpring::SetParticleA(std::shared_ptr<Particle> particle) {
     particleA = particle;
 }
 

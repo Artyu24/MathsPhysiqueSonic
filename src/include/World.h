@@ -10,7 +10,8 @@ class World
 public:
 	World();
 
-	void SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode);
+	std::shared_ptr<Particle> SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode = true);
+	void SpawnBlob();
 
 	void UpdatePhysics(float duration);
 	void Draw();

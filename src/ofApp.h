@@ -31,16 +31,5 @@ public:
 private:
 	World m_world;
 	void SpawnParticleInWorld();
-
-	Object m_canon;
-
 	bool m_isIntegrateEulerMode = true;
-	//Different Particle Data for the Game
-	std::array<ParticleData, 4> m_particlesData = {
-		ParticleData(Vector3f(50.f,-50.f,0.f), 1.f),
-		ParticleData(Vector3f(40.f,-20.f,0.f), 2.f ),
-		ParticleData(Vector3f(20.f,-30.f,0.f), 8.f ),
-		ParticleData(Vector3f(30.f,-10.f,0.f), 20.f)
-	};
-	size_t m_particleDataIndex = 0;
 };

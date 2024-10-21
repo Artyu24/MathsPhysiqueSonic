@@ -6,18 +6,18 @@
 class ParticleSpring : public IParticleForceGenerator
 {
 public:
-    ParticleSpring(Particle* particleA, float restLength, float springConstant, float maxStretch, bool isElastic = false);
+    ParticleSpring(std::shared_ptr<Particle> particleA, float restLength, float springConstant, float maxStretch, bool isElastic = false);
 
     void UpdateForce(std::shared_ptr<Particle> particle, float duration) override;
     // Getters
-    Particle* GetParticleA() const;
+    std::shared_ptr<Particle> GetParticleA() const;
     float GetRestLength() const;
     float GetSpringConstant() const;
     float GetMaxStretch() const;
     bool GetIsElastic() const;
 
     // Setters
-    void SetParticleA(Particle* particle);
+    void SetParticleA(std::shared_ptr<Particle> particle);
     void SetRestLength(float length);
     void SetSpringConstant(float constant);
     void SetMaxStretch(float stretch);
@@ -25,7 +25,7 @@ public:
     
 
 private:
-    Particle* particleA;
+    std::shared_ptr<Particle> particleA;
     float restLength;
     float springConstant;
     float maxStretch;
