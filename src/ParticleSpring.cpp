@@ -1,9 +1,9 @@
 
 #include "include/ParticleSpring.h"
+#include "ofMain.h"
 
-ParticleSpring::ParticleSpring(Particle* particleA, const Vector3f& fixedPoint, float restLength, float springConstant, float maxStretch, bool isElastic)
-    : particleA(particleA ? particleA : nullptr), 
-    fixedPoint(fixedPoint),
+ParticleSpring::ParticleSpring(Particle* particleA, float restLength, float springConstant, float maxStretch, bool isElastic)
+    : particleA(particleA), 
     restLength(restLength),
     springConstant(springConstant),
     maxStretch(maxStretch),
@@ -12,17 +12,12 @@ ParticleSpring::ParticleSpring(Particle* particleA, const Vector3f& fixedPoint, 
 }
 
 
-void ParticleSpring::UpdateForce(Particle* particle, float duration)
+void ParticleSpring::UpdateForce(std::shared_ptr<Particle> particle, float duration)
 {
     Vector3<float> forceDirection;
-
-    // Si particleA est nullptr, on utilise le point fixe
-    if (particleA) {
-        forceDirection = particle->GetPosition() - particleA->GetPosition();
-    }
-    else {
-        forceDirection = particle->GetPosition() - fixedPoint;
-    }
+    
+    forceDirection = particle->GetPosition() - particleA->GetPosition();
+    
 
     float length = forceDirection.Length();
     float deltaLength = length - restLength;
@@ -30,15 +25,13 @@ void ParticleSpring::UpdateForce(Particle* particle, float duration)
     if (isElastic && length > maxStretch) {
         length = maxStretch;  
     }
-
+   
     // Loi de Hooke : F = -k * deltaX
     Vector3<float> force = forceDirection.Normalize() * (-springConstant * deltaLength);
 
-    particle->ApplyForce(force);
-
-    if (particleA) {
-        particleA->ApplyForce(-force);
-    }
+    particle->AddForce(force);
+    particleA->AddForce(-force);
+   
 }
 
 // Getters
@@ -46,9 +39,6 @@ Particle* ParticleSpring::GetParticleA() const {
     return particleA;
 }
 
-const Vector3f& ParticleSpring::GetFixedPoint() const {
-    return fixedPoint;
-}
 
 float ParticleSpring::GetRestLength() const {
     return restLength;
@@ -71,9 +61,6 @@ void ParticleSpring::SetParticleA(Particle* particle) {
     particleA = particle;
 }
 
-void ParticleSpring::SetFixedPoint(const Vector3f& point) {
-    fixedPoint = point;
-}
 
 void ParticleSpring::SetRestLength(float length) {
     restLength = length;
@@ -90,3 +77,4 @@ void ParticleSpring::SetMaxStretch(float stretch) {
 void ParticleSpring::SetIsElastic(bool elastic) {
     isElastic = elastic;
 }
+

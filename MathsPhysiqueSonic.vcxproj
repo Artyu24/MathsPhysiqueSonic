@@ -112,6 +112,8 @@
     <ClCompile Include="src\ParticleFrictionCinetique.cpp" />
     <ClCompile Include="src\ParticleFrictionStatic.cpp" />
     <ClCompile Include="src\ParticleGravity.cpp" />
+	<ClCompile Include="src\ParticleSpring.cpp" />
+	<ClCompile Include="src\ParticleSpringFixedPoint.cpp" />
     <ClCompile Include="src\UnitTest.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
@@ -124,6 +126,8 @@
     <ClInclude Include="src\include\ParticleFrictionCinetique.h" />
     <ClInclude Include="src\include\ParticleFrictionStatic.h" />
     <ClInclude Include="src\include\ParticleGravity.h" />
+	<ClInclude Include="src\include\ParticleSpring.h" />
+	<ClInclude Include="src\include\ParticleSpringFixedPoint.h" />
     <ClInclude Include="src\include\ParticleForceGenerator.h" />
     <ClInclude Include="src\include\UnitTest.h" />
     <ClInclude Include="src\include\Vector3.h" />
