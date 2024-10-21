@@ -27,7 +27,7 @@ void SphereCollider::ColliderCallBack(Particle* particule) const
 	}
 }
 
-bool SphereCollider::CheckCollision(SphereCollider& col1, SphereCollider& col2, std::tuple<Vector3f, float>* result)
+bool SphereCollider::CheckCollision(SphereCollider& col1, SphereCollider& col2, std::tuple<Vector3f, double>* result)
 {
 	if (!col1.IsEnabled() || !col2.IsEnabled())
 		return false;
@@ -35,12 +35,12 @@ bool SphereCollider::CheckCollision(SphereCollider& col1, SphereCollider& col2, 
 	Vector3f distance = col2.m_particle->GetPosition() - col1.m_particle->GetPosition();
 	Vector3f norme = distance.Normalize();
 	
-	float d = distance.Length() - (col1.GetRadius() + col2.GetRadius());
-	*result = { norme, d };
-
-	if (distance.Length() < col2.GetRadius() + col1.GetRadius())
+	double distSquared = distance.DotProduct(distance);
+	double radiusSum = col1.GetRadius() + col2.GetRadius();
+	if (distSquared < radiusSum * radiusSum) {
+		*result = { norme, std::sqrt(distSquared) - radiusSum };
 		return true;
-
+	}
 	return false;
 }
 

@@ -4,7 +4,8 @@
 #include "SphereCollider.h"
 #include "Particle.h"
 
-constexpr float e = 0.9f;
+constexpr float e = 1.f;
+constexpr float yFloor = 600.f;
 
 class CollisionSystem
 {

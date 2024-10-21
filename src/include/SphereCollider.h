@@ -22,7 +22,7 @@ class SphereCollider
 		inline void Enable() { m_isEnabled = true; };
 		inline void Disable() {	m_isEnabled = false; };
 
-		static bool CheckCollision(SphereCollider& col1, SphereCollider& col2, std::tuple<Vector3f, float>* result);
+		static bool CheckCollision(SphereCollider& col1, SphereCollider& col2, std::tuple<Vector3f, double>* result);
 
 		Particle* GetParticle() const;
 	

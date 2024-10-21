@@ -14,19 +14,19 @@ void CollisionSystem::ApplyCollisions()
 		for (auto j = std::next(i); j != m_colliders.end(); ++j)
 		{
 			SphereCollider c2 = *j;
-			std::tuple<Vector3f, float> result;
+			double masse1 = 1 / c1.GetParticle()->GetInverseMass();
+			std::tuple<Vector3f, double> result;
 			if (SphereCollider::CheckCollision(c1, c2, &result))
 			{
 				//Calculer la nouvelle velocite avec K 
 				Vector3f Vrel = c1.GetParticle()->GetVelocity() - c2.GetParticle()->GetVelocity();
-				float K = (e + 1) * Vrel.DotProduct(std::get<0>(result)) / (c1.GetParticle()->GetInverseMass() + c2.GetParticle()->GetInverseMass());
+				double K = (e + 1) * Vrel.DotProduct(std::get<0>(result)) / (c1.GetParticle()->GetInverseMass() + c2.GetParticle()->GetInverseMass());
 
 				//Masses
-				float masse1 = 1 / c1.GetParticle()->GetInverseMass();
-				float masse2 = 1 / c2.GetParticle()->GetInverseMass();
+				double masse2 = 1 / c2.GetParticle()->GetInverseMass();
 
 				//Separation de la position post-collision
-				float overlap = std::max(0.0f, -std::get<1>(result));
+				double overlap = std::max(0.0, -std::get<1>(result)) * 1.01;
 				Vector3f correction1 = std::get<0>(result) * overlap * (masse2 / (masse2 + masse1));
 				Vector3f correction2 = std::get<0>(result) * overlap * (masse1 / (masse2 + masse1));
 
@@ -43,11 +43,24 @@ void CollisionSystem::ApplyCollisions()
 				m_callbacksToCall[&c2] = c1.GetParticle();
 			}
 		}
+
+		//Verification du sol
+		if (c1.GetParticle()->GetPosition().y >= yFloor)
+		{
+			Vector3f normale = { 0.f, 1.f, 0.f };
+			double K = (e + 1) * c1.GetParticle()->GetVelocity().DotProduct(normale) / c1.GetParticle()->GetInverseMass();
+			Vector3f impulse = normale * K;
+			c1.GetParticle()->SetVelocity(c1.GetParticle()->GetVelocity() - impulse * c1.GetParticle()->GetInverseMass());
+		}
+
+		if (c1.GetParticle()->GetPosition().y > yFloor)
+			c1.GetParticle()->SetPosition(Vector3f(c1.GetParticle()->GetPosition().x, yFloor, 0));
 	}
 
 	for (auto& i : m_callbacksToCall)
 	{
-		i.first->ColliderCallBack(i.second);
+		if(i.second)
+			i.first->ColliderCallBack(i.second);
 	}
 
 }
