@@ -27,6 +27,7 @@ void ofApp::update()
 {
 	m_world.UpdatePhysics(ofGetLastFrameTime() * 10.f);
 	m_world.ApplyCollisions();
+	m_world.ApplyGroundCollisions();
 }
 
 //--------------------------------------------------------------

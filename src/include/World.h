@@ -22,6 +22,7 @@ public:
 	//Physics
 	void UpdatePhysics(float duration);
 	void ApplyCollisions();
+	void ApplyGroundCollisions();
 
 	//Draw
 	void Draw();

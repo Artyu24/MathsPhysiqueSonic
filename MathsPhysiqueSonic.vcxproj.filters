@@ -17,6 +17,9 @@
     <ClCompile Include="src\ParticleFrictionStatic.cpp" />
     <ClCompile Include="src\CollisionSystem.cpp" />
     <ClCompile Include="src\SphereCollider.cpp" />
+    <ClCompile Include="src\ParticleSpring.cpp" />
+    <ClCompile Include="src\ParticleSpringFixedPoint.cpp" />
+    <ClCompile Include="src\ParticuleCollision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -41,6 +44,9 @@
     <ClInclude Include="src\include\ForceEnum.h" />
     <ClInclude Include="src\include\CollisionSystem.h" />
     <ClInclude Include="src\include\SphereCollider.h" />
+    <ClInclude Include="src\include\ParticleSpring.h" />
+    <ClInclude Include="src\include\ParticleSpringFixedPoint.h" />
+    <ClInclude Include="src\include\ParticuleCollision.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

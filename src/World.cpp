@@ -84,6 +84,11 @@ void World::ApplyCollisions()
 	m_collisionSystem.ApplyCollisions();
 }
 
+void World::ApplyGroundCollisions()
+{
+	m_collisionSystem.ApplyGroundCollisions();
+}
+
 Vector3f World::GetGravity()
 {
 	return m_gravity;

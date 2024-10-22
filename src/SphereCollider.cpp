@@ -1,4 +1,5 @@
 #include "include/SphereCollider.h"
+#include "include/ParticuleCollision.h"
 #include "include/Vector3.h"
 
 SphereCollider::SphereCollider(float r, std::shared_ptr<Particle> particle, bool enabled) :
@@ -32,7 +33,7 @@ bool SphereCollider::CheckCollision(SphereCollider& col1, SphereCollider& col2, 
 	if (!col1.IsEnabled() || !col2.IsEnabled())
 		return false;
 
-	Vector3f distance = col2.m_particle->GetPosition() - col1.m_particle->GetPosition();
+	Vector3f distance = col1.m_particle->GetPosition() - col2.m_particle->GetPosition();
 	Vector3f norme = distance.Normalize();
 	
 	double distSquared = distance.DotProduct(distance);
@@ -42,5 +43,32 @@ bool SphereCollider::CheckCollision(SphereCollider& col1, SphereCollider& col2, 
 		return true;
 	}
 	return false;
+}
+
+bool SphereCollider::CheckCollisionGround(SphereCollider& col1, float groundY, std::tuple<Vector3f, double>* result)
+{
+	if (!col1.IsEnabled())
+		return false;
+
+	if (col1.GetParticle()->GetPosition().y >= groundY)
+	{
+		Vector3f distance = col1.m_particle->GetPosition() - Vector3{ 0.f, groundY, 0.f };
+		*result = { Vector3f{}, distance.Length() - col1.GetRadius() };
+		return true;
+	}
+
+	return false;
+}
+
+void SphereCollider::ResolveCollision(SphereCollider& col1, SphereCollider& col2, float restitution, std::tuple<Vector3f, double> info)
+{
+	ParticuleCollision collision(col1.GetParticle(), col2.GetParticle(), restitution, std::get<1>(info));
+	collision.ApplyCollision();
+}
+
+void SphereCollider::ResolveCollision(SphereCollider& col1, float restitution, std::tuple<Vector3f, double> info)
+{
+	ParticuleCollision collision(col1.GetParticle(), restitution, std::get<1>(info));
+	collision.ApplyCollision();
 }
 
