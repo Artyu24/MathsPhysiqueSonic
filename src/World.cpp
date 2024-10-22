@@ -58,6 +58,19 @@ void World::UpdatePhysics(float duration)
 	{
 		particule->Integrate(duration);
 	}
+
+	if (m_firstBlobParticle->GetVelocity().Length() >= 25.f) //Limite la vitesse
+	{
+		if (m_firstBlobParticle->GetVelocity().x > 0.f)
+		{
+			m_firstBlobParticle->SetVelocity({ 25.f,0.f,0.f });
+		}
+		else if (m_firstBlobParticle->GetVelocity().x < 0.f)
+		{
+			m_firstBlobParticle->SetVelocity({ -25.f,0.f,0.f });
+		}
+
+	}
 }
 
 void World::Draw()
@@ -77,6 +90,10 @@ void World::Draw()
 		}
 
 	}
+
+	ofDrawBitmapString("Nb Particles : " + ofToString(m_particleInsideBlob), ofGetWidth() - 220.f, 60.f);
+	ofDrawBitmapString("Nb Attached Particles : " + ofToString((m_particleInsideBlob - 7)*( - 1)), ofGetWidth() - 220.f, 90.f);
+
 }
 
 void World::ApplyCollisions()
@@ -121,7 +138,7 @@ void World::DivideBlob()
 		std::shared_ptr<Particle> particleShared = SpawnParticle(m_defaultParticleData, m_firstBlobParticle->GetPosition() + Vector3f(20.f + i * 20.f, 0.f, 0.f));
 
 		//Create Spring Force for every divided particle with the main blob particle
-		std::shared_ptr<ParticleSpring> forceGeneratorSharedSpring = std::make_shared<ParticleSpring>(m_firstBlobParticle, 5.f, 0.5f, 100.f, false);
+		std::shared_ptr<ParticleSpring> forceGeneratorSharedSpring = std::make_shared<ParticleSpring>(m_firstBlobParticle, 50.f, 0.1f, 100.f, false);
 		m_forceRegistry->Add(particleShared, forceGeneratorSharedSpring, SPRING_PARTICULE);
 	}
 
@@ -137,8 +154,8 @@ void World::GatherBlobParticle(std::shared_ptr<Particle> particle)
 	if (it == m_particles.end())
 		return;
 
-	m_forceRegistry->RemoveAll(*it);
-	(*it)->RemoveAllForceGeneratorToMap();
+	m_forceRegistry->RemoveAll(particle);
+	(particle)->RemoveAllForceGeneratorToMap();
 	m_particles.erase(it);
 
 	m_particleInsideBlob++;

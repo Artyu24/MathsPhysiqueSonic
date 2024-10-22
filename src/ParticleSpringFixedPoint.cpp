@@ -16,9 +16,7 @@ void ParticleSpringFixedPoint::UpdateForce(std::shared_ptr<Particle> particle, f
 {
     Vector3<float> forceDirection;
 
-    // Si particleA est nullptr, on utilise le point fixe
     forceDirection = particle->GetPosition() - fixedPoint;
-
 
     float length = forceDirection.Length();
     float deltaLength = length - restLength;

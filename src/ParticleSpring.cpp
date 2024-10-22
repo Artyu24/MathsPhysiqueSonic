@@ -30,7 +30,7 @@ void ParticleSpring::UpdateForce(std::shared_ptr<Particle> particle, float durat
     Vector3<float> force = forceDirection.Normalize() * (-springConstant * deltaLength);
 
     particle->AddForce(force);
-    particleA->AddForce(-force);
+    //particleA->AddForce(-force);
    
 }
 

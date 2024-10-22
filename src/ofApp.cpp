@@ -34,7 +34,7 @@ void ofApp::update()
 void ofApp::draw()
 {
 	//Draw Information
-	ofDrawBitmapString("Delta Time : " + ofToString(ofGetLastFrameTime()), ofGetWidth() - 200.f, 30.f);
+	ofDrawBitmapString("Delta Time : " + ofToString(ofGetLastFrameTime()), ofGetWidth() - 220.f, 30.f);
 	ofSetColor(255, 120, 120);
 
 	m_world.Draw();
