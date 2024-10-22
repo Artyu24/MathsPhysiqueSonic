@@ -49,13 +49,19 @@ void ofApp::keyPressed(int key)
 	if (key == ' ')
 		m_world.SpacePressed();
 
+
 	if (key == 57356) // Left Arrow
 	{
-		m_world.Movement({-50.f,0.f,0.f});
+		m_world.Movement({-25.f,0.f,0.f});
 	}
-	else if (key == 57358) // Right Arrow
+	if (key == 57358) // Right Arrow
 	{
-		m_world.Movement({ 50.f,0.f,0.f });
+		m_world.Movement({ 25.f,0.f,0.f });
+	}
+
+	if (key == 57357)
+	{
+		m_world.Movement({ 0.f,-100.f,0.f });
 	}
 }
 

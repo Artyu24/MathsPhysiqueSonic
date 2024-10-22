@@ -58,6 +58,20 @@ void World::UpdatePhysics(float duration)
 	{
 		particule->Integrate(duration);
 	}
+
+	if (m_firstBlobParticle->GetVelocity().Length() >= 25.f) //Limite la vitesse X
+	{
+		if (m_firstBlobParticle->GetVelocity().x > 0.f)
+		{
+			m_firstBlobParticle->SetVelocity({ 25.f, m_firstBlobParticle->GetVelocity().y, m_firstBlobParticle->GetVelocity().z });
+		}
+		else if (m_firstBlobParticle->GetVelocity().x < 0.f)
+		{
+			m_firstBlobParticle->SetVelocity({ -25.f, m_firstBlobParticle->GetVelocity().y,m_firstBlobParticle->GetVelocity().z });
+		}	
+		
+	}
+
 }
 
 void World::Draw()
