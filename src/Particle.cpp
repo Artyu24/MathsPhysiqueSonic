@@ -6,7 +6,7 @@ Particle::Particle(Vector3f position, Vector3f velocity, float mass, float dampi
 	m_acceleration(),
 	m_prevPosition(position),
 	m_invMass(1.f / mass),
-	m_size(mass * 5.f),
+	m_size(mass / 50),
 	m_damping(damping),
 	m_isIntegrateEuler(isIntegrateEuler)
 {
@@ -108,6 +108,11 @@ void Particle::RemoveForceGeneratorToMap(ForceEnum forceEnum)
 	auto it = m_forceMap.find(forceEnum);
 	if (it != m_forceMap.end())
 		m_forceMap.erase(it);
+}
+
+void Particle::RemoveAllForceGeneratorToMap()
+{
+	m_forceMap.clear();
 }
 
 // Apply a force to the particle

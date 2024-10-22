@@ -30,6 +30,7 @@ public:
 	void AddForceGeneratorToMap(ForceEnum forceEnum, std::shared_ptr<IParticleForceGenerator> fG);
 	std::shared_ptr<IParticleForceGenerator> GetForceGenerator(ForceEnum forceEnum);
 	void RemoveForceGeneratorToMap(ForceEnum forceEnum);
+	void RemoveAllForceGeneratorToMap();
 
 	//Physics Method
 	void AddForce(Vector3f force);

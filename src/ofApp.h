@@ -30,6 +30,4 @@ public:
 
 private:
 	World m_world;
-	void SpawnParticleInWorld();
-	bool m_isIntegrateEulerMode = true;
 };

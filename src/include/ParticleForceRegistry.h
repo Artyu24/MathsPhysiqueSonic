@@ -15,6 +15,7 @@ public:
 
 	void Add(std::shared_ptr<Particle> particle, std::shared_ptr<IParticleForceGenerator> fG, ForceEnum forceEnum);
 	void Remove(std::shared_ptr<Particle> particle, ForceEnum forceEnum);
+	void RemoveAll(std::shared_ptr<Particle> particle);
 	void Clear() const;
 
 	void UpdateForces(float duration);

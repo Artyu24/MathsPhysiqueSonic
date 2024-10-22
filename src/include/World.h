@@ -10,22 +10,38 @@ class World
 public:
 	World();
 
-	std::shared_ptr<Particle> SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode = true);
-	void SpawnBlob();
+	//Game
+	void LaunchGame();
 
+	//Game Temp
+	void SpacePressed();
+
+	std::shared_ptr<Particle> SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode = true);
+
+	//Physics
 	void UpdatePhysics(float duration);
-	void Draw();
 	void ApplyCollisions();
+
+	//Draw
+	void Draw();
 
 	static Vector3f GetGravity();
 	static void SetGravity(Vector3f gravity);
 
 private:
 	std::vector<std::shared_ptr<Particle>> m_particles;
-
 	std::unique_ptr<ParticleForceRegistry> m_forceRegistry;
 
 	CollisionSystem m_collisionSystem;
 
 	static Vector3f m_gravity;
+
+	//Game Temp
+	int m_particleInsideBlob = 7;
+	ParticleData m_defaultParticleData = { Vector3f(0.f,0.f,0.f), 200 };
+	std::shared_ptr<Particle> m_firstBlobParticle;
+
+	void SpawnBlob();
+	void DivideBlob();
+	void GatherBlobParticle(Particle* particle);
 };

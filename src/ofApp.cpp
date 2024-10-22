@@ -17,7 +17,9 @@ void ofApp::setup()
 	//Set background in black
 	ofBackground(0, 0, 0);
 
+	//Create World class and Launch game
 	m_world = World();
+	m_world.LaunchGame();
 }
 
 //--------------------------------------------------------------
@@ -32,16 +34,7 @@ void ofApp::draw()
 {
 	//Draw Information
 	ofDrawBitmapString("Delta Time : " + ofToString(ofGetLastFrameTime()), ofGetWidth() - 200.f, 30.f);
-	if(m_isIntegrateEulerMode)
-	{
-		ofSetColor(255, 120, 120);
-		ofDrawBitmapString("Euler Mode", ofGetWidth() - 100.f, 120.f);
-	}
-	/*else
-	{
-		ofSetColor(120, 219, 255);
-		ofDrawBitmapString("Verlet Mode", ofGetWidth() - 100.f, 120.f);
-	}*/
+	ofSetColor(255, 120, 120);
 
 	m_world.Draw();
 
@@ -51,20 +44,9 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	//Spawn Projectile
+	//Divide Blob in the game
 	if (key == ' ')
-		SpawnParticleInWorld();
-
-	////Switch between Euler or Verlet Integrate
-	//if (key == 'e') //For Euler
-	//	m_isIntegrateEulerMode = true;
-	//else if (key == 'v') //For Verlet
-	//	m_isIntegrateEulerMode = false;
-}
-
-void ofApp::SpawnParticleInWorld()
-{
-	m_world.SpawnBlob();
+		m_world.SpacePressed();
 }
 
 //--------------------------------------------------------------

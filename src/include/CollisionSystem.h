@@ -13,6 +13,7 @@ class CollisionSystem
 		void ApplyCollisions();
 		void AddCollider(float r, std::shared_ptr<Particle> particle);
 
+		std::vector<SphereCollider>& GetAllColliders() { return m_colliders;}
 	private:
 		std::vector<SphereCollider> m_colliders;
 		std::unordered_map<SphereCollider*, Particle*> m_callbacksToCall;
