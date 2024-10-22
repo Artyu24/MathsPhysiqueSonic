@@ -43,7 +43,10 @@ private:
 	ParticleData m_defaultParticleData = { Vector3f(0.f,0.f,0.f), 200 };
 	std::shared_ptr<Particle> m_firstBlobParticle;
 
+	
+
 	void SpawnBlob();
 	void DivideBlob();
 	void GatherBlobParticle(std::shared_ptr<Particle> particle);
+
 };
