@@ -106,7 +106,10 @@ void World::SpawnBlob()
 	std::shared_ptr<Particle> particleShared = SpawnParticle(m_defaultParticleData, Vector3f(200.f, 570.f, 0.f));
 	m_firstBlobParticle = particleShared;
 
-	m_collisionSystem.GetAllColliders()[0].AddCollisionFunction([&](std::shared_ptr<Particle> particle) { GatherBlobParticle(particle); });
+	m_collisionSystem.GetAllColliders()[0].AddCollisionFunction([&](std::shared_ptr<Particle> particle) 
+		{ 
+			GatherBlobParticle(particle); 
+		});
 }
 
 void World::DivideBlob()

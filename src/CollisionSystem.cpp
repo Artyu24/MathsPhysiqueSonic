@@ -10,18 +10,16 @@ void CollisionSystem::ApplyCollisions()
 	m_callbacksToCall.clear();
 	for (auto i = m_colliders.begin(); i != m_colliders.end(); ++i)
 	{
-		SphereCollider c1 = *i;
 		for (auto j = std::next(i); j != m_colliders.end(); ++j)
 		{
-			SphereCollider c2 = *j;
 			std::tuple<Vector3f, double> result;
-			if (SphereCollider::CheckCollision(c1, c2, &result))
+			if (SphereCollider::CheckCollision((*i), (*j), &result))
 			{
-				SphereCollider::ResolveCollision(c1, c2, e, result);
+				SphereCollider::ResolveCollision((*i), (*j), e, result);
 
 				//Ajout a la liste d'appel
-				m_callbacksToCall[&c1] = c2.GetParticle();
-				m_callbacksToCall[&c2] = c1.GetParticle();
+				m_callbacksToCall[&(*i)] = (*j).GetParticle();
+				m_callbacksToCall[&(*j)] = (*i).GetParticle();
 			}
 		}
 	}
