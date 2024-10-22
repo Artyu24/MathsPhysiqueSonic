@@ -24,7 +24,7 @@ class SphereCollider
 
 		static bool CheckCollision(SphereCollider& col1, SphereCollider& col2, std::tuple<Vector3f, double>* result);
 
-		Particle* GetParticle() const;
+		std::shared_ptr<Particle> GetParticle() const;
 	
 	private:
 		float m_radius;

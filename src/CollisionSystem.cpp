@@ -26,7 +26,7 @@ void CollisionSystem::ApplyCollisions()
 				double masse2 = 1 / c2.GetParticle()->GetInverseMass();
 
 				//Separation de la position post-collision
-				double overlap = std::max(0.0, -std::get<1>(result)) * 1.01;
+				double overlap = std::max(0.0, -std::get<1>(result));
 				Vector3f correction1 = std::get<0>(result) * overlap * (masse2 / (masse2 + masse1));
 				Vector3f correction2 = std::get<0>(result) * overlap * (masse1 / (masse2 + masse1));
 

@@ -16,6 +16,6 @@ class CollisionSystem
 		std::vector<SphereCollider>& GetAllColliders() { return m_colliders;}
 	private:
 		std::vector<SphereCollider> m_colliders;
-		std::unordered_map<SphereCollider*, Particle*> m_callbacksToCall;
+		std::unordered_map<SphereCollider*, std::shared_ptr<Particle>> m_callbacksToCall;
 };
 
