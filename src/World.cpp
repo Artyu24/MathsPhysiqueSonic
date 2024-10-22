@@ -23,6 +23,11 @@ void World::SpacePressed()
 	DivideBlob();
 }
 
+void World::Movement(Vector3f force)
+{
+	m_firstBlobParticle->AddForce(force);
+}
+
 Vector3f World::m_gravity = Vector3f(0.0, 9.81f, 0.0f);
 
 std::shared_ptr<Particle>  World::SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode)

@@ -47,6 +47,15 @@ void ofApp::keyPressed(int key)
 	//Divide Blob in the game
 	if (key == ' ')
 		m_world.SpacePressed();
+
+	if (key == 57356) // Left Arrow
+	{
+		m_world.Movement({-50.f,0.f,0.f});
+	}
+	else if (key == 57358) // Right Arrow
+	{
+		m_world.Movement({ 50.f,0.f,0.f });
+	}
 }
 
 //--------------------------------------------------------------
