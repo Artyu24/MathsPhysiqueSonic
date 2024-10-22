@@ -14,12 +14,12 @@ std::shared_ptr<Particle> SphereCollider::GetParticle() const {	return m_particl
 
 bool SphereCollider::IsEnabled() const { return m_isEnabled; }
 
-void SphereCollider::AddCollisionFunction(std::function<void(Particle*)> func)
+void SphereCollider::AddCollisionFunction(std::function<void(std::shared_ptr<Particle>)> func)
 {
 	m_delegates.push_back(std::move(func));
 }
 
-void SphereCollider::ColliderCallBack(Particle* particule) const
+void SphereCollider::ColliderCallBack(std::shared_ptr<Particle> particule) const
 {
 	for (auto& i : m_delegates)
 	{

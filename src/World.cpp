@@ -101,7 +101,7 @@ void World::SpawnBlob()
 	std::shared_ptr<Particle> particleShared = SpawnParticle(m_defaultParticleData, Vector3f(200.f, 570.f, 0.f));
 	m_firstBlobParticle = particleShared;
 
-	//m_collisionSystem.GetAllColliders()[0].AddCollisionFunction(GatherBlobParticle);
+	m_collisionSystem.GetAllColliders()[0].AddCollisionFunction([&](std::shared_ptr<Particle> particle) { GatherBlobParticle(particle); });
 }
 
 void World::DivideBlob()
@@ -111,29 +111,25 @@ void World::DivideBlob()
 		std::shared_ptr<Particle> particleShared = SpawnParticle(m_defaultParticleData, m_firstBlobParticle->GetPosition() + Vector3f(20.f + i * 20.f, 0.f, 0.f));
 
 		//Create Spring Force for every divided particle with the main blob particle
-		std::shared_ptr<ParticleSpring> forceGeneratorSharedSpring = std::make_shared<ParticleSpring>(m_firstBlobParticle, 50.f, 0.5f, 100.f, false);
+		std::shared_ptr<ParticleSpring> forceGeneratorSharedSpring = std::make_shared<ParticleSpring>(m_firstBlobParticle, 5.f, 0.5f, 100.f, false);
 		m_forceRegistry->Add(particleShared, forceGeneratorSharedSpring, SPRING_PARTICULE);
 	}
 
 	m_particleInsideBlob = 0;
 }
 
-void World::GatherBlobParticle(Particle* particle)
+void World::GatherBlobParticle(std::shared_ptr<Particle> particle)
 {
-	std::shared_ptr<Particle> particleShared;
+	if (particle == nullptr)
+		return;
 
-	for (size_t i = 0; i < m_particles.size(); i++)
-	{
-		if (m_particles[i].get() == particle)
-		{
-			particleShared = m_particles[i];
-			break;
-		}
-	}
+	auto it = std::find(m_particles.begin(), m_particles.end(), particle);
+	if (it == m_particles.end())
+		return;
 
-	m_forceRegistry->RemoveAll(particleShared);
-	particleShared->RemoveAllForceGeneratorToMap();
-	//m_particles.erase(particleShared);
+	m_forceRegistry->RemoveAll(*it);
+	(*it)->RemoveAllForceGeneratorToMap();
+	m_particles.erase(it);
 
 	m_particleInsideBlob++;
 }

@@ -44,5 +44,5 @@ private:
 
 	void SpawnBlob();
 	void DivideBlob();
-	void GatherBlobParticle(Particle* particle);
+	void GatherBlobParticle(std::shared_ptr<Particle> particle);
 };

@@ -16,8 +16,8 @@ class SphereCollider
 		float GetRadius() const;
 		bool IsEnabled() const;
 
-		void AddCollisionFunction(std::function<void(Particle*)> func);
-		void ColliderCallBack(Particle* particule) const;
+		void AddCollisionFunction(std::function<void(std::shared_ptr<Particle>)> func);
+		void ColliderCallBack(std::shared_ptr<Particle> particule) const;
 
 		inline void Enable() { m_isEnabled = true; };
 		inline void Disable() {	m_isEnabled = false; };
@@ -30,6 +30,6 @@ class SphereCollider
 		float m_radius;
 		bool m_isEnabled;
 		std::shared_ptr<Particle> m_particle;
-		std::vector<std::function<void(Particle*)>> m_delegates;
+		std::vector<std::function<void(std::shared_ptr<Particle>)>> m_delegates;
 };
 
