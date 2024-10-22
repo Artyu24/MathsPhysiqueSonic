@@ -14,11 +14,11 @@ class CollisionSystem
 		void ApplyGroundCollisions();
 		void AddCollider(float r, std::shared_ptr<Particle> particle);
 		//void AddCable();
+		void EraseCollider(SphereCollider* collider);
 
 		std::vector<SphereCollider>& GetAllColliders() { return m_colliders;}
 	private:
 		std::vector<SphereCollider> m_colliders;
-		std::vector<SphereCollider> m_groundSensors;
-		std::unordered_map<SphereCollider*, std::shared_ptr<Particle>> m_callbacksToCall;
+		std::unordered_map<SphereCollider*, CollisionCallback> m_callbacksToCall;
 };
 

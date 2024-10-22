@@ -106,9 +106,11 @@ void World::SpawnBlob()
 	std::shared_ptr<Particle> particleShared = SpawnParticle(m_defaultParticleData, Vector3f(200.f, 570.f, 0.f));
 	m_firstBlobParticle = particleShared;
 
-	m_collisionSystem.GetAllColliders()[0].AddCollisionFunction([&](std::shared_ptr<Particle> particle) 
+	m_collisionSystem.GetAllColliders()[0].AddCollisionFunction([&](CollisionCallback callback) 
 		{ 
-			GatherBlobParticle(particle); 
+			GatherBlobParticle(callback.collider->GetParticle());
+			auto it = std::find_if(m_collisionSystem.GetAllColliders().begin(), m_collisionSystem.GetAllColliders().end(), [callback](const SphereCollider c) -> bool {return c.GetParticle() == callback.collider->GetParticle(); });
+			m_collisionSystem.GetAllColliders().erase(it);
 		});
 }
 

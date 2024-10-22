@@ -15,16 +15,16 @@ std::shared_ptr<Particle> SphereCollider::GetParticle() const {	return m_particl
 
 bool SphereCollider::IsEnabled() const { return m_isEnabled; }
 
-void SphereCollider::AddCollisionFunction(std::function<void(std::shared_ptr<Particle>)> func)
+void SphereCollider::AddCollisionFunction(std::function<void(CollisionCallback)> func)
 {
 	m_delegates.push_back(std::move(func));
 }
 
-void SphereCollider::ColliderCallBack(std::shared_ptr<Particle> particule) const
+void SphereCollider::ColliderCallBack(CollisionCallback callback) const
 {
 	for (auto& i : m_delegates)
 	{
-		i(particule);
+		i(callback);
 	}
 }
 
@@ -53,7 +53,7 @@ bool SphereCollider::CheckCollisionGround(SphereCollider& col1, float groundY, s
 	if (col1.GetParticle()->GetPosition().y >= groundY)
 	{
 		Vector3f distance = col1.m_particle->GetPosition() - Vector3{ 0.f, groundY, 0.f };
-		*result = { Vector3f{}, distance.Length() - col1.GetRadius() };
+		*result = { Vector3f{0.f, 1.0f, 0.f}, distance.Length() - col1.GetRadius() };
 		return true;
 	}
 

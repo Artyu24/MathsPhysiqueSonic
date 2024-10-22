@@ -7,6 +7,12 @@
 
 template<typename T> struct Vector3;
 using Vector3f = Vector3<float>;
+class SphereCollider;
+
+struct CollisionCallback
+{
+	SphereCollider* collider;
+};
 
 class SphereCollider
 {
@@ -16,8 +22,8 @@ class SphereCollider
 		float GetRadius() const;
 		bool IsEnabled() const;
 
-		void AddCollisionFunction(std::function<void(std::shared_ptr<Particle>)> func);
-		void ColliderCallBack(std::shared_ptr<Particle> particule) const;
+		void AddCollisionFunction(std::function<void(CollisionCallback)> func);
+		void ColliderCallBack(CollisionCallback callback) const;
 
 		inline void Enable() { m_isEnabled = true; };
 		inline void Disable() {	m_isEnabled = false; };
@@ -34,6 +40,6 @@ class SphereCollider
 		float m_radius;
 		bool m_isEnabled;
 		std::shared_ptr<Particle> m_particle;
-		std::vector<std::function<void(std::shared_ptr<Particle>)>> m_delegates;
+		std::vector<std::function<void(CollisionCallback)>> m_delegates;
 };
 

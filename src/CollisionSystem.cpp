@@ -1,7 +1,5 @@
 #include "include/CollisionSystem.h"
 #include "include/SphereCollider.h"
-#include "include/Vector3.h"
-#include "include/Particle.h"
 #include <tuple>
 #include <cmath>
 
@@ -18,15 +16,15 @@ void CollisionSystem::ApplyCollisions()
 				SphereCollider::ResolveCollision((*i), (*j), e, result);
 
 				//Ajout a la liste d'appel
-				m_callbacksToCall[&(*i)] = (*j).GetParticle();
-				m_callbacksToCall[&(*j)] = (*i).GetParticle();
+				m_callbacksToCall[&(*i)] = CollisionCallback{ (&(*j)) };
+				m_callbacksToCall[&(*j)] = CollisionCallback{ (&(*i)) };
 			}
 		}
 	}
 
 	for (auto& i : m_callbacksToCall)
 	{
-		if(i.second)
+		if(i.first)
 			i.first->ColliderCallBack(i.second);
 	}
 
@@ -52,8 +50,8 @@ void CollisionSystem::ApplyGroundCollisions()
 	
 	for (auto& i : m_callbacksToCall)
 	{
-		if (i.second)
-			i.first->ColliderCallBack(nullptr);
+		if (i.first)
+			i.first->ColliderCallBack(CollisionCallback{ nullptr });
 	}
 }
 
