@@ -15,6 +15,7 @@ public:
 
 	//Game Temp
 	void SpacePressed();
+	void Movement(Vector3f force);
 
 	std::shared_ptr<Particle> SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode = true);
 
