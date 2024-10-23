@@ -11,6 +11,11 @@ m_isEnabled(enabled)
 
 float SphereCollider::GetRadius() const { return m_radius; }
 
+void SphereCollider::SetRadius(float radius)
+{
+	m_radius = radius;
+}
+
 std::shared_ptr<Particle> SphereCollider::GetParticle() const {	return m_particle; }
 
 bool SphereCollider::IsEnabled() const { return m_isEnabled; }

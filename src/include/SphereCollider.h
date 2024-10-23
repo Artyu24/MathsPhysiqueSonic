@@ -20,6 +20,7 @@ class SphereCollider
 		SphereCollider(float r, std::shared_ptr<Particle> particle, bool enabled = true);
 
 		float GetRadius() const;
+		void SetRadius(float radius);
 		bool IsEnabled() const;
 
 		void AddCollisionFunction(std::function<void(CollisionCallback)> func);

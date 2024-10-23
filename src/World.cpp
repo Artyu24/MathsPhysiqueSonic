@@ -126,7 +126,8 @@ void World::SpawnBlob()
 	m_collisionSystem.GetAllColliders()[0].AddCollisionFunction([&](CollisionCallback callback) 
 		{ 
 			GatherBlobParticle(callback.collider->GetParticle());
-			auto it = std::find_if(m_collisionSystem.GetAllColliders().begin(), m_collisionSystem.GetAllColliders().end(), [callback](const SphereCollider c) -> bool {return c.GetParticle() == callback.collider->GetParticle(); });
+
+			auto it = std::find_if(m_collisionSystem.GetAllColliders().begin(), m_collisionSystem.GetAllColliders().end(), [callback](const SphereCollider c) -> bool { return c.GetParticle() == callback.collider->GetParticle(); });
 			m_collisionSystem.GetAllColliders().erase(it);
 		});
 }
@@ -135,7 +136,7 @@ void World::DivideBlob()
 {
 	for (int i = 0; i < m_particleInsideBlob; i++)
 	{
-		std::shared_ptr<Particle> particleShared = SpawnParticle(m_defaultParticleData, m_firstBlobParticle->GetPosition() + Vector3f(20.f + i * 20.f, 0.f, 0.f));
+		std::shared_ptr<Particle> particleShared = SpawnParticle(m_defaultParticleData, m_firstBlobParticle->GetPosition() + Vector3f(20.f + (i + 1) * 20.f, 0.f, 0.f));
 
 		//Create Spring Force for every divided particle with the main blob particle
 		std::shared_ptr<ParticleSpring> forceGeneratorSharedSpring = std::make_shared<ParticleSpring>(m_firstBlobParticle, 50.f, 0.1f, 100.f, false);
@@ -159,4 +160,5 @@ void World::GatherBlobParticle(std::shared_ptr<Particle> particle)
 	m_particles.erase(it);
 
 	m_particleInsideBlob++;
+	m_collisionSystem.GetAllColliders()[0].SetRadius(m_particles[0]->GetSize() * (m_particleInsideBlob + 1));
 }
