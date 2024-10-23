@@ -67,7 +67,7 @@ bool SphereCollider::CheckCollisionGround(SphereCollider& col1, float groundY, s
 
 void SphereCollider::ResolveCollision(SphereCollider& col1, SphereCollider& col2, float restitution, std::tuple<Vector3f, double> info)
 {
-	ParticuleCollision collision(col1.GetParticle(), col2.GetParticle(), restitution, std::get<1>(info));
+	ParticuleCollision collision(col1.GetParticle(), col2.GetParticle(), restitution, std::get<1>(info), std::get<0>(info));
 	collision.ApplyCollision();
 }
 

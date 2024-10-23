@@ -6,7 +6,7 @@ class ParticuleCollision
 {
 	public:
 		ParticuleCollision(std::shared_ptr<Particle> particle1, float restitution, float overlap);
-		ParticuleCollision(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float restitution, float overlap);
+		ParticuleCollision(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float restitution, float overlap, Vector3f normal);
 
 		float GetRestitution() const;
 		float GetOverlap() const;

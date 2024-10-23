@@ -55,7 +55,42 @@ void CollisionSystem::ApplyGroundCollisions()
 	}
 }
 
+void CollisionSystem::ApplyCableCollisions()
+{
+	for (auto i = m_cables.begin(); i != m_cables.end(); ++i)
+	{
+		std::tuple<Vector3f, float> result;
+		if (ParticleCable::CheckStretch((*i), &result))
+		{
+			ParticleCable::ResolveStretch((*i), e, std::get<1>(result), std::get<0>(result));
+		}
+	}
+}
+
+void CollisionSystem::ApplyStickCollisions()
+{
+	for (auto i = m_sticks.begin(); i != m_sticks.end(); ++i)
+	{
+		std::tuple<Vector3f, float> result;
+		if (ParticleStick::CheckStretch((*i), &result))
+		{
+			ParticleStick::ResolveStretch((*i), e, std::get<1>(result), std::get<0>(result));
+		}
+	}
+}
+
 void CollisionSystem::AddCollider(float r, std::shared_ptr<Particle> particle)
 {
 	m_colliders.push_back(SphereCollider(r, particle));
 }
+
+void CollisionSystem::AddCable(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float cableLength)
+{
+	m_cables.push_back(ParticleCable(particle1, particle2, cableLength));
+}
+
+void CollisionSystem::AddStick(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float sticklength)
+{
+	m_sticks.push_back(ParticleStick(particle1, particle2, sticklength));
+}
+

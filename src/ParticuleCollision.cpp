@@ -10,14 +10,13 @@ m_collisionNormal(Vector3f{0.f, 1.0f, 0.0f})
 	m_particles[1] = nullptr;
 }
 
-ParticuleCollision::ParticuleCollision(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float restitution, float overlap) :
+ParticuleCollision::ParticuleCollision(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float restitution, float overlap, Vector3f normal) :
 	m_restitution(restitution),
-	m_overlap(overlap)
+	m_overlap(overlap),
+	m_collisionNormal(normal)
 {
 	m_particles[0] = particle1;
 	m_particles[1] = particle2;
-
-	m_collisionNormal = (m_particles[1]->GetPosition() - m_particles[0]->GetPosition()).Normalize();
 }
 
 float ParticuleCollision::GetRestitution() const

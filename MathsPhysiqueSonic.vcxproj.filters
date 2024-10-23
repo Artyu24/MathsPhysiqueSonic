@@ -20,6 +20,9 @@
     <ClCompile Include="src\ParticleSpring.cpp" />
     <ClCompile Include="src\ParticleSpringFixedPoint.cpp" />
     <ClCompile Include="src\ParticuleCollision.cpp" />
+    <ClCompile Include="src\ParticleLink.cpp" />
+    <ClCompile Include="src\ParticleCable.cpp" />
+    <ClCompile Include="src\ParticleStick.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -47,6 +50,9 @@
     <ClInclude Include="src\include\ParticleSpring.h" />
     <ClInclude Include="src\include\ParticleSpringFixedPoint.h" />
     <ClInclude Include="src\include\ParticuleCollision.h" />
+    <ClInclude Include="src\include\ParticleLink.h" />
+    <ClInclude Include="src\include\ParticleCable.h" />
+    <ClInclude Include="src\include\ParticleStick.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
