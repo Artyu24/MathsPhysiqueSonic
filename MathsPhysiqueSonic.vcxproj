@@ -119,6 +119,7 @@
     <ClCompile Include="src\ParticleSpringFixedPoint.cpp" />
     <ClCompile Include="src\ParticleStick.cpp" />
     <ClCompile Include="src\ParticuleCollision.cpp" />
+    <ClCompile Include="src\Quaternion.cpp" />
     <ClCompile Include="src\SphereCollider.cpp" />
     <ClCompile Include="src\UnitTest.cpp" />
     <ClCompile Include="src\World.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="src\include\ParticleForceGenerator.h" />
     <ClInclude Include="src\include\ParticleStick.h" />
     <ClInclude Include="src\include\ParticuleCollision.h" />
+    <ClInclude Include="src\include\Quaternion.h" />
     <ClInclude Include="src\include\SphereCollider.h" />
     <ClInclude Include="src\include\UnitTest.h" />
     <ClInclude Include="src\include\Vector3.h" />
