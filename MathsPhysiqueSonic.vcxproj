@@ -105,6 +105,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\CollisionSystem.cpp" />
+    <ClCompile Include="src\Matrix.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -127,6 +128,7 @@
   <ItemGroup>
     <ClInclude Include="src\include\CollisionSystem.h" />
     <ClInclude Include="src\include\ForceEnum.h" />
+    <ClInclude Include="src\include\Matrix.h" />
     <ClInclude Include="src\include\Object.h" />
     <ClInclude Include="src\include\Particle.h" />
     <ClInclude Include="src\include\ParticleCable.h" />

@@ -24,6 +24,7 @@
     <ClCompile Include="src\ParticleCable.cpp" />
     <ClCompile Include="src\ParticleStick.cpp" />
     <ClCompile Include="src\Quaternion.cpp" />
+    <ClCompile Include="src\Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -55,6 +56,7 @@
     <ClInclude Include="src\include\ParticleCable.h" />
     <ClInclude Include="src\include\ParticleStick.h" />
     <ClInclude Include="src\include\Quaternion.h" />
+    <ClInclude Include="src\include\Matrix.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
