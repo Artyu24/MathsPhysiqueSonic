@@ -10,5 +10,6 @@ public:
 
 private:
 	void Vector3Test() const;
+	void MatrixTest() const;
 };
 
