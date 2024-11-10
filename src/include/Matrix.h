@@ -26,9 +26,12 @@ public:
 	static Matrix Identity(const size_t& size);
 	bool IsIdentity();
 
-	static Matrix Rotate(float degreeAngle);
-	static Matrix Scale(const Vector3f& scale);
-	static Matrix Translate(const Vector3f& translation);
+	static Matrix RotateXMatrix(float degreeAngle);
+	static Matrix RotateYMatrix(float degreeAngle);
+	static Matrix RotateZMatrix(float degreeAngle);
+	static Matrix RotateMatrix(float XDegreeAngle, float YDegreeAngle, float ZDegreeAngle);
+	static Matrix ScaleMatrix(const Vector3f& scale);
+	static Matrix TranslateMatrix(const Vector3f& translation);
 	
 	void Add(const Matrix& m);
 	void Multiply(const float& v);

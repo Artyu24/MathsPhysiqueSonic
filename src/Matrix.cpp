@@ -109,39 +109,78 @@ bool Matrix::IsIdentity()
 	return true;
 }
 
-//TODO REMAKE THIS FUNCTION WITH VECTOR 3
-Matrix Matrix::Rotate(float degreeAngle)
+Matrix Matrix::RotateXMatrix(float degreeAngle)
 {
 	// Subtilité : on inverse la rotation car notre repère n'est pas mathématique: notre Y pointe vers le bas
 	// ce qui rend nos rotations en sens horaire plutôt que anti-horaire
 	float sinAngle = std::sin(-degreeAngle * DEG_TO_RAD);
 	float cosAngle = std::cos(-degreeAngle * DEG_TO_RAD);
 
-	return Matrix(3,3,{
-		cosAngle, -sinAngle, 0.0f,
-		sinAngle,  cosAngle, 0.0f,
-		0.0f,          0.0f, 1.0f
-		});
+	Matrix m = Identity(4);
+	m.Get(1, 1) = cosAngle;
+	m.Get(1, 2) = -sinAngle;
+	m.Get(2, 1) = sinAngle;
+	m.Get(2, 2) = cosAngle;
+
+	return m;
 }
 
-Matrix Matrix::Scale(const Vector3f& scale)
+Matrix Matrix::RotateYMatrix(float degreeAngle)
 {
-	return Matrix(3,3,{
-		scale.x, 0.0f,    0.0f,
-		0.0f,    scale.y, 0.0f,
-		0.f,     0.0f,    1.0f
-		});
+	// Subtilité : on inverse la rotation car notre repère n'est pas mathématique: notre Y pointe vers le bas
+	// ce qui rend nos rotations en sens horaire plutôt que anti-horaire
+	float sinAngle = std::sin(-degreeAngle * DEG_TO_RAD);
+	float cosAngle = std::cos(-degreeAngle * DEG_TO_RAD);
+
+	Matrix m = Identity(4);
+	m.Get(0, 0) = cosAngle;
+	m.Get(0, 2) = sinAngle;
+	m.Get(2, 0) = -sinAngle;
+	m.Get(2, 2) = cosAngle;
+
+	return m;
 }
 
-Matrix Matrix::Translate(const Vector3f& translation)
+Matrix Matrix::RotateZMatrix(float degreeAngle)
 {
-	return Matrix(3,3,{
-		1.0f, 0.0f, translation.x,
-		0.0f, 1.0f, translation.y,
-		0.0f, 0.0f, 1.0f,
-		});
+	// Subtilité : on inverse la rotation car notre repère n'est pas mathématique: notre Y pointe vers le bas
+	// ce qui rend nos rotations en sens horaire plutôt que anti-horaire
+	float sinAngle = std::sin(-degreeAngle * DEG_TO_RAD);
+	float cosAngle = std::cos(-degreeAngle * DEG_TO_RAD);
+
+	Matrix m = Identity(4);
+	m.Get(0, 0) = cosAngle;
+	m.Get(0, 1) = -sinAngle;
+	m.Get(1, 0) = sinAngle;
+	m.Get(1, 1) = cosAngle;
+
+	return m;
 }
-//TODO END HERE
+
+Matrix Matrix::RotateMatrix(float XDegreeAngle, float YDegreeAngle, float ZDegreeAngle)
+{
+	return RotateYMatrix(YDegreeAngle) * RotateXMatrix(XDegreeAngle) * RotateZMatrix(ZDegreeAngle);
+}
+
+Matrix Matrix::ScaleMatrix(const Vector3f& scale)
+{
+	Matrix m = Identity(4);
+	m.Get(0, 0) = scale.x;
+	m.Get(1, 1) = scale.y;
+	m.Get(2, 2) = scale.z;
+
+	return m;
+}
+
+Matrix Matrix::TranslateMatrix(const Vector3f& translation)
+{
+	Matrix m = Identity(4);
+	m.Get(0, 3) = translation.x;
+	m.Get(1, 3) = translation.y;
+	m.Get(2, 3) = translation.z;
+
+	return m;
+}
 
 void Matrix::Add(const Matrix& m)
 {
@@ -504,23 +543,24 @@ Matrix operator*(const Matrix& m1, const Matrix& m2)
 	return Matrix::Multiply(m1, m2);
 }
 
-//TODO REMAKE THIS FUNCTION WITH VECTOR 3
 Vector3f operator*(const Vector3f& v, const Matrix& m)
 {
-	Matrix mVec = Matrix::Identity(3);
-	mVec.Get(0, 2) = v.x;
-	mVec.Get(1, 2) = v.y;
+	Matrix mVec = Matrix::Identity(4);
+	mVec.Get(0, 3) = v.x;
+	mVec.Get(1, 3) = v.y;
+	mVec.Get(2, 3) = v.z;
 
 	mVec = mVec * m;
-	return {mVec.Get(0, 2), mVec.Get(1, 2), 0};
+	return {mVec.Get(0, 3), mVec.Get(1, 3), mVec.Get(2, 3) };
 }
 Vector3f operator*(const Matrix& m, const Vector3f& v)
 {
-	Matrix mVec = Matrix::Identity(3);
-	mVec.Get(0, 2) = v.x;
-	mVec.Get(1, 2) = v.y;
+	Matrix mVec = Matrix::Identity(4);
+	mVec.Get(0, 3) = v.x;
+	mVec.Get(1, 3) = v.y;
+	mVec.Get(2, 3) = v.z;
 
-	mVec = m * mVec;
-	return { mVec.Get(0, 2), mVec.Get(1, 2), 0 };
+	mVec = mVec * m;
+	return { mVec.Get(0, 3), mVec.Get(1, 3), mVec.Get(2, 3) };
 }
 
