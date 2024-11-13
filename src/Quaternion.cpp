@@ -12,7 +12,7 @@ Quaternion::Quaternion(Vector3f vec) : w(0), x(vec.x), y(vec.y), z(vec.z)
 {
 }
 
-Quaternion Quaternion::RotateAround(float angle, Vector3f axis)
+Quaternion Quaternion::GetRotationQuaternion(float angle, Vector3f axis)
 {
     axis = axis.Normalize();
 
@@ -34,7 +34,21 @@ Quaternion Quaternion::Multiply(Quaternion q1, Quaternion q2)
         q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w);
 }
 
-Quaternion Quaternion::Normalize()
+float Quaternion::GetMagnitudeSquared()
+{
+    return 0.0f;
+}
+
+float Quaternion::GetMagnitude()
+{
+    return 0.0f;
+}
+
+void Quaternion::Normalize()
+{
+}
+
+Quaternion Quaternion::GetNormalize()
 {
     float t = (float)sqrt(pow(w, 2) + pow(x, 2) + pow(y, 2) + pow(z, 2));
     return Quaternion(w / t, x / t, y / t, z / t);
