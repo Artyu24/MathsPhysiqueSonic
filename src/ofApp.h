@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 
+
 #include "include/Object.h"
 #include "include/Particle.h"
 #include "include/ParticleData.h"
@@ -30,4 +31,7 @@ public:
 
 private:
 	World m_world;
+	ofEasyCam camera;
+
+	ofPlanePrimitive plane;
 };

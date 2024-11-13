@@ -1,64 +1,231 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <ClCompile Include="src\ofApp.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UnitTest.cpp" />
-    <ClCompile Include="src\Particle.cpp" />
-    <ClCompile Include="src\Object.cpp" />
-    <ClCompile Include="src\ParticleGravity.cpp" />
-    <ClCompile Include="src\ParticleForceRegistry.cpp" />
-    <ClCompile Include="src\World.cpp" />
-    <ClCompile Include="src\ParticleFrictionCinetique.cpp" />
-    <ClCompile Include="src\ParticleFrictionStatic.cpp" />
-    <ClCompile Include="src\CollisionSystem.cpp" />
-    <ClCompile Include="src\SphereCollider.cpp" />
-    <ClCompile Include="src\ParticleSpring.cpp" />
-    <ClCompile Include="src\ParticleSpringFixedPoint.cpp" />
-    <ClCompile Include="src\ParticuleCollision.cpp" />
-    <ClCompile Include="src\ParticleLink.cpp" />
-    <ClCompile Include="src\ParticleCable.cpp" />
-    <ClCompile Include="src\ParticleStick.cpp" />
-    <ClCompile Include="src\Quaternion.cpp" />
-    <ClCompile Include="src\Matrix.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\ofApp.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\Vector3.h" />
-    <ClInclude Include="src\include\Particle.h" />
-    <ClInclude Include="src\include\UnitTest.h" />
-    <ClInclude Include="src\include\Object.h" />
-    <ClInclude Include="src\include\ParticleForceGenerator.h" />
-    <ClInclude Include="src\include\ParticleGravity.h" />
-    <ClInclude Include="src\include\ParticleForceRegistry.h" />
-    <ClInclude Include="src\include\World.h" />
-    <ClInclude Include="src\include\ParticleData.h" />
-    <ClInclude Include="src\include\ParticleFrictionCinetique.h" />
-    <ClInclude Include="src\include\ParticleFrictionStatic.h" />
-    <ClInclude Include="src\include\ForceEnum.h" />
-    <ClInclude Include="src\include\CollisionSystem.h" />
-    <ClInclude Include="src\include\SphereCollider.h" />
-    <ClInclude Include="src\include\ParticleSpring.h" />
-    <ClInclude Include="src\include\ParticleSpringFixedPoint.h" />
-    <ClInclude Include="src\include\ParticuleCollision.h" />
-    <ClInclude Include="src\include\ParticleLink.h" />
-    <ClInclude Include="src\include\ParticleCable.h" />
-    <ClInclude Include="src\include\ParticleStick.h" />
-    <ClInclude Include="src\include\Quaternion.h" />
-    <ClInclude Include="src\include\Matrix.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="icon.rc" />
-  </ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="src\ofApp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\CollisionSystem.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Matrix.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Object.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Particle.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleCable.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleForceRegistry.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleFrictionCinetique.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleFrictionStatic.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleGravity.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleLink.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleSpring.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleSpringFixedPoint.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleStick.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticuleCollision.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Quaternion.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\SphereCollider.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\UnitTest.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\World.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ofApp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxButton.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxColorPicker.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxInputField.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxLabel.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxPanel.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxSlider.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\include">
+			<UniqueIdentifier>{DD1FE819--A50-D-43-15-9-DBC-7848FC65B93C}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons">
+			<UniqueIdentifier>{FA86C241--D83-7-48-FB-B-EAA-D99B12EBEFBC}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGui">
+			<UniqueIdentifier>{352C9D25--F53-4-46-8C-8-1E7-076943F38CBB}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGui\src">
+			<UniqueIdentifier>{B271B791--A76-B-4B-9F-B-11E-B856AAC1C183}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="src\ofApp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\CollisionSystem.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ForceEnum.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\Matrix.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\Object.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\Particle.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleCable.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleData.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleForceGenerator.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleForceRegistry.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleFrictionCinetique.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleFrictionStatic.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleGravity.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleLink.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleSpring.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleSpringFixedPoint.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticleStick.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\ParticuleCollision.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\Quaternion.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\SphereCollider.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\UnitTest.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\Vector3.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\include\World.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ofApp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxButton.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxColorPicker.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxGui.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxGuiGroup.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxGuiUtils.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxInputField.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxLabel.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxPanel.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="icon.rc" />
+	</ItemGroup>
 </Project>
