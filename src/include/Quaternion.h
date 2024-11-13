@@ -9,7 +9,7 @@ public:
     Quaternion(Vector3f vec);
 
     static Quaternion Identity() { return Quaternion(0,0,0,1); }
-    static Quaternion AngleAxis(float angle, Vector3f axis);
+    static Quaternion RotateAround(float angle, Vector3f axis);
     static Quaternion Multiply(Quaternion q1, Quaternion q2);
     Quaternion Normalize();
     Quaternion Conjugaison(Quaternion q);

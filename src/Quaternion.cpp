@@ -12,7 +12,7 @@ Quaternion::Quaternion(Vector3f vec) : w(0), x(vec.x), y(vec.y), z(vec.z)
 {
 }
 
-Quaternion Quaternion::AngleAxis(float angle, Vector3f axis)
+Quaternion Quaternion::RotateAround(float angle, Vector3f axis)
 {
     axis = axis.Normalize();
 
