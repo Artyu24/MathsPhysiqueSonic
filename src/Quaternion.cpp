@@ -42,5 +42,5 @@ Quaternion Quaternion::Normalize()
 
 Quaternion Quaternion::Conjugaison(Quaternion q)
 {
-    return Quaternion(-q.z, q.w, -q.x, -q.y);
+    return Quaternion(q.w, -q.x, -q.y, -q.z);
 }
