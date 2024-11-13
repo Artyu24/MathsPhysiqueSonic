@@ -10,6 +10,7 @@ void UnitTest::LaunchTest() const
 {
 	Vector3Test();
 	MatrixTest();
+	QuaternionTest();
 }
 
 //Because our Vector3 class is a template, we will test it with float Vector
@@ -364,11 +365,46 @@ void UnitTest::QuaternionTest() const
 	assert(q.Y() == 3.f);
 	assert(q.Z() == 4.f);
 
-	q = Vector3f(1.f, 2.f, 3.f);
+	q = Quaternion(Vector3f(1.f, 2.f, 3.f));
 	assert(q.W() == 0.f);
 	assert(q.X() == 1.f);
 	assert(q.Y() == 2.f);
 	assert(q.Z() == 3.f);
+
+	//Identity
+	q = Quaternion::Identity();
+	assert(q.W() == 1.f);
+	assert(q.X() == 0.f);
+	assert(q.Y() == 0.f);
+	assert(q.Z() == 0.f);
+
+	//Rotation Quaternion
+	//Quaternion rotationXAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(1.f, 0.f, 0.f));
+	//assert(q.W() == 0.71f);
+	//assert(q.X() == 0.71f);
+	//assert(q.Y() == 0f);
+	//assert(q.Z() == 0f);
+
+	//Quaternion rotationYAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(0.f, 1.f, 0.f));
+	//assert(q.W() == 0.71f);
+	//assert(q.X() == 0f);
+	//assert(q.Y() == 0.71f);
+	//assert(q.Z() == 0f);
+
+	//Quaternion rotationZAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(0.f, 0.f, 1.f));
+	//assert(q.W() == 0.71f);
+	//assert(q.X() == 0f);
+	//assert(q.Y() == 0f);
+	//assert(q.Z() == 0.71f);
+
+	//Multiplication
+	//Quaternion rotationXAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(1.f, 0.f, 0.f));
+	//Quaternion rotationYAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(0.f, 1.f, 0.f));
+	//q = rotationYAxis * rotationXAxis;
+	//assert(q.W() == 0.5f);
+	//assert(q.X() == 0.5f);
+	//assert(q.Y() == 0.5f);
+	//assert(q.Z() == 0.5f);
 
 	std::cout << "Unit Test Quaternion : Confirm" << std::endl;
 }
