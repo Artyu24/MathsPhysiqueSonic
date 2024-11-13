@@ -6,6 +6,11 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+	ofEnableDepthTest();
+	ofSetVerticalSync(true);
+
+	camera.setDistance(160);
+
 	//Launch Unit Test
 	UnitTest unitTest;
 	unitTest.LaunchTest();
@@ -15,11 +20,18 @@ void ofApp::setup()
 	ofSetVerticalSync(false);
 
 	//Set background in black
-	ofBackground(0, 0, 0);
+	ofBackground(25);
 
 	//Create World class and Launch game
 	m_world = World();
 	m_world.LaunchGame();
+
+	plane.set(1920, 1920);   ///dimensions for width and height in pixels
+	plane.setPosition(0, -200, 0); /// position in x y z
+	plane.setOrientation({ 90,0,0 });
+	plane.setResolution(8, 8);
+
+	
 }
 
 //--------------------------------------------------------------
@@ -33,6 +45,7 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+	camera.begin();
 	//Draw Information
 	ofDrawBitmapString("Delta Time : " + ofToString(ofGetLastFrameTime()), ofGetWidth() - 220.f, 30.f);
 	ofSetColor(255, 120, 120);
@@ -40,6 +53,18 @@ void ofApp::draw()
 	m_world.Draw();
 
 	ofSetColor(255, 255, 255);
+
+	ofNoFill();
+	ofDrawBox(30.f);
+
+	ofSetColor(255.f, 0., 0.);
+	ofDrawSphere(5.f);
+
+	ofSetColor(100.f);
+	plane.draw();
+
+	camera.end();
+
 }
 
 //--------------------------------------------------------------
@@ -71,7 +96,8 @@ void ofApp::keyReleased(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y )
+{
 
 }
 
@@ -83,6 +109,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
+	
 	
 }
 
