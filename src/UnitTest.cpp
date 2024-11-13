@@ -4,6 +4,7 @@
 #include "include/Matrix.h"
 #include "iostream"
 #include "cassert"
+#include "include/Quaternion.h"
 
 void UnitTest::LaunchTest() const
 {
@@ -350,4 +351,24 @@ void UnitTest::MatrixTest() const
 	assert(m1.ToArray2D() == vTest);*/
 
 	std::cout << "Unit Test Matrix : Confirm" << std::endl;
+}
+
+void UnitTest::QuaternionTest() const
+{
+	std::cout << "Unit Test Quaternion : Start" << std::endl;
+
+	//Constructor Test
+	Quaternion  q(1.f, 2.f, 3.f, 4.f);
+	assert(q.W() == 1.f);
+	assert(q.X() == 2.f);
+	assert(q.Y() == 3.f);
+	assert(q.Z() == 4.f);
+
+	q = Vector3f(1.f, 2.f, 3.f);
+	assert(q.W() == 0.f);
+	assert(q.X() == 1.f);
+	assert(q.Y() == 2.f);
+	assert(q.Z() == 3.f);
+
+	std::cout << "Unit Test Quaternion : Confirm" << std::endl;
 }
