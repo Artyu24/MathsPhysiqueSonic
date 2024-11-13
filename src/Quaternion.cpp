@@ -37,7 +37,7 @@ Quaternion Quaternion::Multiply(Quaternion q1, Quaternion q2)
 Quaternion Quaternion::Normalize()
 {
     float t = (float)sqrt(pow(w, 2) + pow(x, 2) + pow(y, 2) + pow(z, 2));
-    return Quaternion(x / t, y / t, z / t, w / t);
+    return Quaternion(w / t, x / t, y / t, z / t);
 }
 
 Quaternion Quaternion::Conjugaison(Quaternion q)
