@@ -30,7 +30,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
@@ -121,6 +121,7 @@
     <ClCompile Include="src\ParticleStick.cpp" />
     <ClCompile Include="src\ParticuleCollision.cpp" />
     <ClCompile Include="src\Quaternion.cpp" />
+    <ClCompile Include="src\RigidBody.cpp" />
     <ClCompile Include="src\SphereCollider.cpp" />
     <ClCompile Include="src\UnitTest.cpp" />
     <ClCompile Include="src\World.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="src\include\ParticleStick.h" />
     <ClInclude Include="src\include\ParticuleCollision.h" />
     <ClInclude Include="src\include\Quaternion.h" />
+    <ClInclude Include="src\include\RigidBody.h" />
     <ClInclude Include="src\include\SphereCollider.h" />
     <ClInclude Include="src\include\UnitTest.h" />
     <ClInclude Include="src\include\Vector3.h" />
