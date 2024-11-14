@@ -31,7 +31,11 @@ void RigidBody::UpdatePosition(double deltaTime)
 
 void RigidBody::UpdateOrientation(double deltaTime)
 {
-    
+    float angle = angularVelocity.Length() * deltaTime;
+    Vector3f axis = angularVelocity.Normalize();
+
+    Quaternion deltaOrientation = Quaternion::GetRotationQuaternion(angle, axis);
+    orientation = (deltaOrientation * orientation).GetNormalize();
 }
 
 void RigidBody::UpdateLinearVelocity(double deltaTime) 
