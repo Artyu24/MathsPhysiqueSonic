@@ -67,6 +67,7 @@ void World::UpdatePhysics(float duration)
 	
 	for (auto& rb : m_rigidBody) 
 	{
+		rb->ApplyTorque({10,0,0});
 		rb->UpdateState(duration);
 	}
 
@@ -105,12 +106,31 @@ void World::Draw()
 			ofDrawCircle(particle->GetPosition(), particle->GetSize());
 		}*/
 
+		ofPushMatrix();
+
+		ofTranslate(rb->GetPosition());
+
+		rb->ApplyTorque({ 10,0,0 });
+		
+		glm::mat4 rotationMat = glm::toMat4(glm::quat(rb->GetOrientation().GetNormalize()));
+		ofMultMatrix(rotationMat);
+
+
+
 		ofNoFill();
 		ofSetColor(255);
-		ofDrawBox(rb->GetPosition(), 100);
+
+		ofDrawBox(rb->GetPosition(), 50);
 
 		ofSetColor(255.f, 0., 0.);
-		ofDrawSphere(rb->GetPosition(), 10.f);
+		ofDrawSphere(rb->GetPosition(), 5.f);
+
+		ofPopMatrix();
+
+		
+
+		std::cout << "Position: " << rb->GetPosition().ToString() << std::endl;
+		std::cout << "Rotation: " << rb->GetOrientation().W() << " " << rb->GetOrientation().X() << " " << rb->GetOrientation().Y() << " " << rb->GetOrientation().Z() << std::endl;
 
 	}
 

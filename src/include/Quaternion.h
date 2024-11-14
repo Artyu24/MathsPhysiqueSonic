@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Matrix.h"
+#include <glm/glm.hpp>
 
 class Quaternion
 {
@@ -30,6 +31,8 @@ class Quaternion
         Quaternion operator+(Quaternion b);
         Quaternion operator*(Quaternion b) { return Multiply((*this), b); };
         Quaternion operator*(float scalar);
+
+        operator glm::quat() const { return glm::quat(w, x, y, z); }
 
     private:
         float w;

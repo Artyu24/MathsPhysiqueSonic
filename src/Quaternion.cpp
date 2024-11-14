@@ -61,6 +61,11 @@ float Quaternion::DotProduct(Quaternion b)
 Quaternion Quaternion::GetNormalize()
 {
     float t = (float)sqrt(pow(w, 2) + pow(x, 2) + pow(y, 2) + pow(z, 2));
+
+    if (t == 0.f)
+    {
+        return Quaternion();
+    }
     return Quaternion(w / t, x / t, y / t, z / t);
 }
 

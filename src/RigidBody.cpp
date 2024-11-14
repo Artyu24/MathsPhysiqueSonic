@@ -71,13 +71,14 @@ void RigidBody::ApplyTorque(const Vector3f& appliedTorque)
 void RigidBody::UpdateState(double deltaTime) 
 {
     UpdatePosition(deltaTime);
+    UpdateAngularVelocity(deltaTime);
     UpdateOrientation(deltaTime);
     UpdateLinearVelocity(deltaTime);
-    UpdateAngularVelocity(deltaTime);
+    
 
     // reset du vecteur force et torque
     //force = Vector3f();
-    torque = Vector3f();
+   // torque = Vector3f();
 }
 
 // Getters
