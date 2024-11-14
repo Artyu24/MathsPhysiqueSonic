@@ -83,3 +83,8 @@ Quaternion Quaternion::operator+(Quaternion b)
 {
     return Quaternion(w + b.w, x + b.x, y + b.y, z + b.z);
 }
+
+Quaternion Quaternion::operator*(float scalar)
+{
+    return Quaternion(w * scalar, x * scalar, y * scalar, z * scalar);
+}

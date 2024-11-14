@@ -29,6 +29,7 @@ class Quaternion
 
         Quaternion operator+(Quaternion b);
         Quaternion operator*(Quaternion b) { return Multiply((*this), b); };
+        Quaternion operator*(float scalar);
 
     private:
         float w;
@@ -37,4 +38,5 @@ class Quaternion
         float z;
 };
 
-inline Quaternion operator*(Quaternion a, Quaternion b) { return Quaternion::Multiply(a, b); };
+//inline Quaternion operator*(Quaternion a, Quaternion b) { return Quaternion::Multiply(a, b); };
+
