@@ -173,6 +173,9 @@
 		<ClInclude Include="src\include\Quaternion.h">
 			<Filter>src\include</Filter>
 		</ClInclude>
+		<ClInclude Include="src\include\RigidBody.h">
+			<Filter>src\include</Filter>
+		</ClInclude>
 		<ClInclude Include="src\include\SphereCollider.h">
 			<Filter>src\include</Filter>
 		</ClInclude>
