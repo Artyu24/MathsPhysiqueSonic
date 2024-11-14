@@ -46,10 +46,11 @@ void RigidBody::UpdateLinearVelocity(double deltaTime)
 
 void RigidBody::UpdateAngularVelocity(double deltaTime) 
 {
-    Matrix extendedTorque(4, 1, { torque.x, torque.y, torque.z, 1.0f });
+    /*Matrix extendedTorque(4, 1, { torque.x, torque.y, torque.z, 1.0f });
     Matrix angularAccelerationMatrix = inverseInertiaTensor * extendedTorque;
 
-    Vector3f angularAcceleration(angularAccelerationMatrix.Get(0, 0), angularAccelerationMatrix.Get(1, 0), angularAccelerationMatrix.Get(2, 0));
+    Vector3f angularAcceleration(angularAccelerationMatrix.Get(0, 0), angularAccelerationMatrix.Get(1, 0), angularAccelerationMatrix.Get(2, 0));*/
+    Vector3f angularAcceleration = inverseInertiaTensor * torque;
     angularVelocity += angularAcceleration * deltaTime;
 }
 
