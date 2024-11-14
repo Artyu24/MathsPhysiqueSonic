@@ -3,6 +3,7 @@
 #include "include/Matrix.h"
 #include "include/Quaternion.h"
 #include "include/Vector3.h"
+#include "include/Particle.h"
 
 class RigidBody {
 public:
@@ -33,7 +34,8 @@ public:
 private:
     // Attributes
     double mass;
-    Vector3f position;
+    Particle centerOfMass;
+    //Vector3f position;
     Quaternion orientation;
     Vector3f linearVelocity;
     Vector3f angularVelocity;
