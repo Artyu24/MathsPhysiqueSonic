@@ -5,11 +5,11 @@ RigidBody::RigidBody(double mass, const Vector3f& initialPosition)
     linearVelocity(Vector3f()), angularVelocity(Vector3f()),
     force(Vector3f()), torque(Vector3f()) 
 {
-    computeInertiaTensor();
+    ComputeInertiaTensor();
     inverseInertiaTensor = inertiaTensor.InvertByRowReduction();
 }
 
-void RigidBody::computeInertiaTensor() 
+void RigidBody::ComputeInertiaTensor() 
 {
     // exemple avec cube 
     float sideLength = 1.0f; 
@@ -24,44 +24,44 @@ void RigidBody::computeInertiaTensor()
     inverseInertiaTensor = inertiaTensor.InvertByRowReduction();
 }
 
-void RigidBody::updatePosition(double deltaTime) 
+void RigidBody::UpdatePosition(double deltaTime) 
 {
     position += linearVelocity * deltaTime;
 }
 
-void RigidBody::updateOrientation(double deltaTime)
+void RigidBody::UpdateOrientation(double deltaTime)
 {
     
 }
 
-void RigidBody::updateLinearVelocity(double deltaTime) 
+void RigidBody::UpdateLinearVelocity(double deltaTime) 
 {
     Vector3f acceleration = force / mass;
     linearVelocity += acceleration * deltaTime;
 }
 
-void RigidBody::updateAngularVelocity(double deltaTime) 
+void RigidBody::UpdateAngularVelocity(double deltaTime) 
 {
     Vector3f angularAcceleration = inverseInertiaTensor * torque;
     angularVelocity += angularAcceleration * deltaTime;
 }
 
-void RigidBody::applyForce(const Vector3f& appliedForce)
+void RigidBody::ApplyForce(const Vector3f& appliedForce)
 {
     force += appliedForce;
 }
 
-void RigidBody::applyTorque(const Vector3f& appliedTorque)
+void RigidBody::ApplyTorque(const Vector3f& appliedTorque)
 {
     torque += appliedTorque;
 }
 
-void RigidBody::updateState(double deltaTime) 
+void RigidBody::UpdateState(double deltaTime) 
 {
-    updatePosition(deltaTime);
-    updateOrientation(deltaTime);
-    updateLinearVelocity(deltaTime);
-    updateAngularVelocity(deltaTime);
+    UpdatePosition(deltaTime);
+    UpdateOrientation(deltaTime);
+    UpdateLinearVelocity(deltaTime);
+    UpdateAngularVelocity(deltaTime);
 
     // reset du vecteur force et torque
     force = Vector3f();
@@ -69,27 +69,27 @@ void RigidBody::updateState(double deltaTime)
 }
 
 // Getters
-double RigidBody::getMass() const 
+double RigidBody::GetMass() const 
 {
     return mass;
 }
 
-Vector3f RigidBody::getPosition() const 
+Vector3f RigidBody::GetPosition() const 
 {
     return position;
 }
 
-Quaternion RigidBody::getOrientation() const 
+Quaternion RigidBody::GetOrientation() const 
 {
     return orientation;
 }
 
-Vector3f RigidBody::getLinearVelocity() const 
+Vector3f RigidBody::GetLinearVelocity() const 
 {
     return linearVelocity;
 }
 
-Vector3f RigidBody::getAngularVelocity() const 
+Vector3f RigidBody::GetAngularVelocity() const 
 {
     return angularVelocity;
 }
