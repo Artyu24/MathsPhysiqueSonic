@@ -13,6 +13,22 @@ void UnitTest::LaunchTest() const
 	QuaternionTest();
 }
 
+bool UnitTest::FloatingPointTolerance(float testValue, float refValue, float tolerance) const
+{
+	return testValue <= refValue + tolerance && testValue >= refValue - tolerance;
+}
+
+bool UnitTest::FloatingPointTolerance(std::vector<float> testValue, std::vector<float> refValue, float tolerance) const
+{
+	for (size_t i = 0; i < testValue.size(); i++)
+	{
+		if (!(testValue[i] <= refValue[i] + tolerance && testValue[i] >= refValue[i] - tolerance))
+			return false;
+	}
+
+	return true;
+}
+
 //Because our Vector3 class is a template, we will test it with float Vector
 void UnitTest::Vector3Test() const
 {
@@ -319,28 +335,28 @@ void UnitTest::MatrixTest() const
 	assert(std::get<1>(mtuple).ToArray2D() == vTest);
 
 	//Apply Row Reduction
-	//m1 = Matrix(3, 3, std::vector<float>
-	//{
-	//	3, 2, -3,
-	//	4, -3, 6,
-	//	1, 0, -1
-	//});
-	//m2 = Matrix(3, 1, std::vector<float>
-	//{
-	//	-13,
-	//	7,
-	//	-5
-	//});
-	//mtuple = Matrix::ApplyMatrixRowReduction(m1, m2);
+	m1 = Matrix(3, 3, std::vector<float>
+	{
+		3, 2, -3,
+		4, -3, 6,
+		1, 0, -1
+	});
+	m2 = Matrix(3, 1, std::vector<float>
+	{
+		-13,
+		7,
+		-5
+	});
+	mtuple = Matrix::ApplyMatrixRowReduction(m1, m2);
 
-	/*vTest = { 1.f,0.f,0.f,0.f,1.f,0.f,0.f,0.f,1.f };
-	assert(std::get<0>(mtuple).ToArray2D() == vTest);*/
+	vTest = { 1.f,0.f,0.f,0.f,1.f,0.f,0.f,0.f,1.f };
+	assert(FloatingPointTolerance(std::get<0>(mtuple).ToArray2D(), vTest, 0.001f));
 
-	//vTest = { -2,1,3 };
-	//assert(std::get<1>(mtuple).ToArray2D() == vTest);
+	vTest = { -2,1,3 };
+	assert(FloatingPointTolerance(std::get<1>(mtuple).ToArray2D(), vTest, 0.001f));
 
 	//Invert Matrix
-	/*m1 = Matrix(2, 2, std::vector<float>
+	m1 = Matrix(2, 2, std::vector<float>
 	{
 		1, 2,
 		3, 4
@@ -349,7 +365,69 @@ void UnitTest::MatrixTest() const
 	m1 = Matrix::InvertByRowReduction(m1);
 	vTest = { -2.f, 1.f, 1.5f, -0.5f };
 
-	assert(m1.ToArray2D() == vTest);*/
+	assert(FloatingPointTolerance(m1.ToArray2D(), vTest, 0.001f));
+
+	//Sub Matrix
+	m1 = Matrix(3, 3, std::vector<float>
+	{
+		1, 2, 3,
+		4, 5, 6,
+		7, 8, 9
+	});
+	m2 = m1.SubMatrix(0, 0);
+	vTest = { 5, 6, 8, 9 };
+
+	assert(m2.ToArray2D() == vTest);
+
+	m2 = m1.SubMatrix(1, 2);
+	vTest = { 1, 2, 7, 8 };
+
+	assert(m2.ToArray2D() == vTest);
+
+	//Determinant
+	m1 = Matrix(2, 2, std::vector<float>
+	{
+		1, 2,
+		3, 4
+	});
+	float det = Matrix::Determinant(m1);
+	assert(FloatingPointTolerance(det, -2.f, 0.001f));
+
+	m1 = Matrix::Identity(3);
+	det = Matrix::Determinant(m1);
+	assert(FloatingPointTolerance(det, 1.f, 0.001f));
+
+	//Adjugate
+	m1 = Matrix(2, 2, std::vector<float>
+	{
+		1, 2,
+		3, 4
+	});
+	m2 = m1.Adjugate();
+	vTest = { 4.f, -2.f, -3.f, 1.f };
+	assert(FloatingPointTolerance(m2.ToArray2D(), vTest, 0.001f));
+
+	m1 = Matrix(3, 3, std::vector<float>
+	{
+		1, 0, 5,
+		2, 1, 6,
+		3, 4, 0
+	});
+	m2 = m1.Adjugate();
+	vTest = { -24.f, 20.f, -5.f, 18.f, -15.f, 4.f, 5.f, -4.f, 1.f };
+	assert(FloatingPointTolerance(m2.ToArray2D(), vTest, 0.001f));
+
+	//Invert Matrix by Determinant
+	m1 = Matrix(2, 2, std::vector<float>
+	{
+		1, 2,
+		3, 4
+	});
+
+	m1 = Matrix::InvertByDeterminant(m1);
+	vTest = { -2.f, 1.f, 1.5f, -0.5f };
+
+	assert(FloatingPointTolerance(m1.ToArray2D(), vTest, 0.001f));
 
 	std::cout << "Unit Test Matrix : Confirm" << std::endl;
 }
@@ -379,32 +457,38 @@ void UnitTest::QuaternionTest() const
 	assert(q.Z() == 0.f);
 
 	//Rotation Quaternion
-	//Quaternion rotationXAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(1.f, 0.f, 0.f));
-	//assert(q.W() == 0.71f);
-	//assert(q.X() == 0.71f);
-	//assert(q.Y() == 0f);
-	//assert(q.Z() == 0f);
-
-	//Quaternion rotationYAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(0.f, 1.f, 0.f));
-	//assert(q.W() == 0.71f);
-	//assert(q.X() == 0f);
-	//assert(q.Y() == 0.71f);
-	//assert(q.Z() == 0f);
-
-	//Quaternion rotationZAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(0.f, 0.f, 1.f));
-	//assert(q.W() == 0.71f);
-	//assert(q.X() == 0f);
-	//assert(q.Y() == 0f);
-	//assert(q.Z() == 0.71f);
+	//X Axis
+	q = Quaternion::GetRotationQuaternion(90.f, Vector3f(1.f, 0.f, 0.f));
+	assert(FloatingPointTolerance(q.W(), 0.71f, 0.01f));
+	assert(FloatingPointTolerance(q.X(), 0.71f, 0.01f));
+	assert(FloatingPointTolerance(q.Y(), 0.f, 0.01f));
+	assert(FloatingPointTolerance(q.Z(), 0.f, 0.01f));
+	//Y Axis
+	q = Quaternion::GetRotationQuaternion(90.f, Vector3f(0.f, 1.f, 0.f));
+	assert(FloatingPointTolerance(q.W(), 0.71f, 0.01f));
+	assert(FloatingPointTolerance(q.X(), 0.f, 0.01f));
+	assert(FloatingPointTolerance(q.Y(), 0.71f, 0.01f));
+	assert(FloatingPointTolerance(q.Z(), 0.f, 0.01f));
+	//Z Axis
+	q = Quaternion::GetRotationQuaternion(90.f, Vector3f(0.f, 0.f, 1.f));
+	assert(FloatingPointTolerance(q.W(), 0.71f, 0.01f));
+	assert(FloatingPointTolerance(q.X(), 0.f, 0.01f));
+	assert(FloatingPointTolerance(q.Y(), 0.f, 0.01f));
+	assert(FloatingPointTolerance(q.Z(), 0.71f, 0.01f));
 
 	//Multiplication
-	//Quaternion rotationXAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(1.f, 0.f, 0.f));
-	//Quaternion rotationYAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(0.f, 1.f, 0.f));
-	//q = rotationYAxis * rotationXAxis;
-	//assert(q.W() == 0.5f);
-	//assert(q.X() == 0.5f);
-	//assert(q.Y() == 0.5f);
-	//assert(q.Z() == 0.5f);
+	Quaternion rotationXAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(1.f, 0.f, 0.f));
+	Quaternion rotationYAxis = Quaternion::GetRotationQuaternion(90.f, Vector3f(0.f, 1.f, 0.f));
+	q = rotationXAxis * rotationYAxis;
+	assert(FloatingPointTolerance(q.W(), 0.5f, 0.01f));
+	assert(FloatingPointTolerance(q.X(), 0.5f, 0.01f));
+	assert(FloatingPointTolerance(q.Y(), 0.5f, 0.01f));
+	assert(FloatingPointTolerance(q.Z(), 0.5f, 0.01f));
+	q = rotationYAxis * rotationXAxis;
+	assert(FloatingPointTolerance(q.W(), 0.5f, 0.01f));
+	assert(FloatingPointTolerance(q.X(), 0.5f, 0.01f));
+	assert(FloatingPointTolerance(q.Y(), 0.5f, 0.01f));
+	assert(FloatingPointTolerance(q.Z(), -0.5f, 0.01f));
 
 	std::cout << "Unit Test Quaternion : Confirm" << std::endl;
 }
