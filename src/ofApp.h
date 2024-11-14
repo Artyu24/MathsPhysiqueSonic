@@ -53,7 +53,7 @@ private:
 	float yaw;   
 	float pitch; 
 	
-	std::vector<shared_ptr<Particle>> projectiles; // Liste des projectiles
+	std::vector<shared_ptr<RigidBody>> projectiles; // Liste des projectiles
 
 	shared_ptr<RigidBody> rb;
 

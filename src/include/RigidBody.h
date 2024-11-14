@@ -4,11 +4,12 @@
 #include "include/Quaternion.h"
 #include "include/Vector3.h"
 #include "include/Particle.h"
+#include <memory>
 
 class RigidBody {
 public:
     // Constructor
-    RigidBody(double mass, const Vector3f& initialPosition);
+    RigidBody(std::shared_ptr<Particle> particle);
 
     // Public methods
     void ComputeInertiaTensor();
@@ -33,9 +34,9 @@ public:
 
 private:
     // Attributes
-    double mass;
-    Particle centerOfMass;
-    //Vector3f position;
+    float mass;
+    std::shared_ptr<Particle> centerOfMass;
+    /*Vector3f position;*/
     Quaternion orientation;
     Vector3f linearVelocity;
     Vector3f angularVelocity;

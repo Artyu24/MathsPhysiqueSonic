@@ -35,7 +35,7 @@ std::shared_ptr<Particle>  World::SpawnParticle(ParticleData data, Vector3f pos,
 	//Create Particle
 	Particle particle(pos, data.initialVelocity, data.mass, 0.05f, isIntegrateEulerMode);
 	std::shared_ptr<Particle> particleShared = std::make_shared<Particle>(particle);
-
+	 
 	//Add Gravity
 	ParticleGravity gravity(m_gravity);
 	std::shared_ptr<ParticleGravity> forceGeneratorGravity = std::make_shared<ParticleGravity>(gravity);
@@ -50,9 +50,25 @@ std::shared_ptr<Particle>  World::SpawnParticle(ParticleData data, Vector3f pos,
 	return particleShared;
 }
 
+std::shared_ptr<RigidBody>  World::SpawnRigidBody(ParticleData data, Vector3f pos, float duration)
+{
+	std::shared_ptr<Particle> particleShared = SpawnParticle(data, pos);
+	
+	RigidBody rb(particleShared);
+	std::shared_ptr<RigidBody> rigidBodyShared = std::make_shared<RigidBody>(rb);
+	m_rigidBody.push_back(rigidBodyShared);
+
+	return rigidBodyShared;
+}
+
 void World::UpdatePhysics(float duration)
 {
 	m_forceRegistry->UpdateForces(duration);
+	
+	for (auto& rb : m_rigidBody) 
+	{
+		rb->UpdateState(duration);
+	}
 
 	for (auto& particule : m_particles)
 	{
@@ -76,7 +92,7 @@ void World::UpdatePhysics(float duration)
 void World::Draw()
 {
 	//Draw Particle
-	for (auto& particle : m_particles)
+	for (auto& rb : m_rigidBody)
 	{
 		/*if(particle == m_firstBlobParticle)
 		{
@@ -91,10 +107,10 @@ void World::Draw()
 
 		ofNoFill();
 		ofSetColor(255);
-		ofDrawBox(particle->GetPosition(), particle->GetSize());
+		ofDrawBox(rb->GetPosition(), 100);
 
 		ofSetColor(255.f, 0., 0.);
-		ofDrawSphere(particle->GetPosition(), particle->GetSize()/10.f);
+		ofDrawSphere(rb->GetPosition(), 10.f);
 
 	}
 

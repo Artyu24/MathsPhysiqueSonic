@@ -1,8 +1,8 @@
 #include "RigidBody.h"
 
-RigidBody::RigidBody(double mass, const Vector3f& initialPosition)
-    : mass(mass),
-    centerOfMass(initialPosition, Vector3f(), mass, 0.98f, true),
+RigidBody::RigidBody(std::shared_ptr<Particle> particle)
+    : mass(1/particle->GetInverseMass()),
+    centerOfMass(particle),
     //position(initialPosition), 
     orientation(Quaternion()),
     linearVelocity(Vector3f()), 
@@ -32,7 +32,7 @@ void RigidBody::ComputeInertiaTensor()
 void RigidBody::UpdatePosition(double deltaTime) 
 {
     //position += linearVelocity * deltaTime;
-    centerOfMass.Integrate(deltaTime);
+    centerOfMass->Integrate(deltaTime);
 }
 
 void RigidBody::UpdateOrientation(double deltaTime)
@@ -48,7 +48,7 @@ void RigidBody::UpdateLinearVelocity(double deltaTime)
 {
     /*Vector3f acceleration = force / mass;
     linearVelocity += acceleration * deltaTime;*/
-    linearVelocity = centerOfMass.GetVelocity();
+    linearVelocity = centerOfMass->GetVelocity();
 }
 
 void RigidBody::UpdateAngularVelocity(double deltaTime) 
@@ -59,7 +59,7 @@ void RigidBody::UpdateAngularVelocity(double deltaTime)
 
 void RigidBody::ApplyForce(const Vector3f& appliedForce)
 {
-    centerOfMass.AddForce(force);
+    centerOfMass->AddForce(force);
     //force += appliedForce;
 }
 
@@ -88,7 +88,7 @@ double RigidBody::GetMass() const
 
 Vector3f RigidBody::GetPosition() const 
 {
-    return centerOfMass.GetPosition();
+    return centerOfMass->GetPosition();
 }
 
 Quaternion RigidBody::GetOrientation() const 
