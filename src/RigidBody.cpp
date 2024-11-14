@@ -4,7 +4,7 @@ RigidBody::RigidBody(std::shared_ptr<Particle> particle)
     : mass(1/particle->GetInverseMass()),
     centerOfMass(particle),
     //position(initialPosition), 
-    orientation(Quaternion()),
+    orientation(Quaternion({1.0f, 0.f, 0.f, 0.f})),
     linearVelocity(Vector3f()), 
     angularVelocity(Vector3f()),
     force(Vector3f()), 
