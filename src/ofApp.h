@@ -6,6 +6,8 @@
 #include "include/Object.h"
 #include "include/Particle.h"
 #include "include/ParticleData.h"
+#include "include/RigidBody.h"
+
 #include "include/World.h"
 
 
@@ -53,5 +55,6 @@ private:
 	
 	std::vector<shared_ptr<Particle>> projectiles; // Liste des projectiles
 
+	shared_ptr<RigidBody> rb;
 
 };

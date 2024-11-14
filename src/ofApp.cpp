@@ -25,6 +25,8 @@ void ofApp::setup()
 	yaw = 0.0f;
 	pitch = 0.0f;
 
+	rb = make_shared<RigidBody>(100, Vector3f(0.f,0.f,0.f));
+
 	///dimensions for width and height in pixels
 	plane.setPosition(0, -300, 0); /// position in x y z
 	plane.setOrientation({ 90,0,0 });
@@ -61,6 +63,10 @@ void ofApp::update()
 	m_world.UpdatePhysics(ofGetLastFrameTime() * 10.f);
 	//m_world.ApplyCollisions();
 	//m_world.ApplyGroundCollisions();
+
+	rb->ApplyForce(World::GetGravity() * rb->GetMass());
+	rb->UpdateState(ofGetLastFrameTime() * 10.f);
+
 
 	float yawRad = glm::radians(yaw);
 	float pitchRad = glm::radians(pitch);
@@ -153,7 +159,7 @@ void ofApp::keyPressed(int key)
 		
 		Vector3f velocity = cannonDirection * speed;
 
-		auto newProjectile = m_world.SpawnParticle({velocity, 100.f}, cannonDirection);
+		auto newProjectile = m_world.SpawnParticle({velocity, 1000.f}, cannonDirection);
 		
 
 		projectiles.push_back(newProjectile);

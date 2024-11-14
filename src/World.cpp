@@ -94,7 +94,7 @@ void World::Draw()
 		ofDrawBox(particle->GetPosition(), particle->GetSize());
 
 		ofSetColor(255.f, 0., 0.);
-		ofDrawSphere(particle->GetPosition(), particle->GetSize()/2.f);
+		ofDrawSphere(particle->GetPosition(), particle->GetSize()/10.f);
 
 	}
 
