@@ -23,8 +23,6 @@ class Quaternion
         Quaternion GetNormalize();
         Quaternion Conjugaison(Quaternion q);
 
-        Quaternion operator*(Quaternion b) { return Multiply((*this), b); };
-
     private:
         float w;
 	    float x;
