@@ -1,8 +1,8 @@
 #pragma once
 
-#include "src/include/Matrix.h"
-#include "src/include/Quaternion.h"
-#include "src/include/Vector3.h"
+#include "include/Matrix.h"
+#include "include/Quaternion.h"
+#include "include/Vector3.h"
 
 class RigidBody {
 public:
@@ -25,10 +25,10 @@ public:
 
     // Getters
     double getMass() const;
-    Vector3 getPosition() const;
+    Vector3f getPosition() const;
     Quaternion getOrientation() const;
-    Vector3 getLinearVelocity() const;
-    Vector3 getAngularVelocity() const;
+    Vector3f getLinearVelocity() const;
+    Vector3f getAngularVelocity() const;
 
 private:
     // Attributes

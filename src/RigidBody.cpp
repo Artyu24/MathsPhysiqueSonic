@@ -12,8 +12,8 @@ RigidBody::RigidBody(double mass, const Vector3f& initialPosition)
 void RigidBody::computeInertiaTensor() 
 {
     // exemple avec cube 
-    double sideLength = 1.0; 
-    double inertiaValue = (1.0 / 6.0) * mass * (sideLength * sideLength);
+    float sideLength = 1.0f; 
+    float inertiaValue = (1.0 / 6.0) * mass * (sideLength * sideLength);
 
     inertiaTensor = Matrix(3, 3, {
         inertiaValue, 0.0, 0.0,
