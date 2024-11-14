@@ -545,22 +545,24 @@ Matrix operator*(const Matrix& m1, const Matrix& m2)
 
 Vector3f operator*(const Vector3f& v, const Matrix& m)
 {
-	Matrix mVec = Matrix::Identity(4);
-	mVec.Get(0, 3) = v.x;
-	mVec.Get(1, 3) = v.y;
-	mVec.Get(2, 3) = v.z;
+	Matrix mVec = Matrix::Identity(m.NbLines());
+	int lastColumn = mVec.NbColumns() - 1;
+	mVec.Get(0, lastColumn) = v.x;
+	mVec.Get(1, lastColumn) = v.y;
+	mVec.Get(2, lastColumn) = v.z;
 
 	mVec = mVec * m;
-	return {mVec.Get(0, 3), mVec.Get(1, 3), mVec.Get(2, 3) };
+	return {mVec.Get(0, lastColumn), mVec.Get(1, lastColumn), mVec.Get(2, lastColumn) };
 }
 Vector3f operator*(const Matrix& m, const Vector3f& v)
 {
-	Matrix mVec = Matrix::Identity(4);
-	mVec.Get(0, 3) = v.x;
-	mVec.Get(1, 3) = v.y;
-	mVec.Get(2, 3) = v.z;
+	Matrix mVec = Matrix::Identity(m.NbLines());
+	int lastColumn = mVec.NbColumns() - 1;
+	mVec.Get(0, lastColumn) = v.x;
+	mVec.Get(1, lastColumn) = v.y;
+	mVec.Get(2, lastColumn) = v.z;
 
 	mVec = mVec * m;
-	return { mVec.Get(0, 3), mVec.Get(1, 3), mVec.Get(2, 3) };
+	return { mVec.Get(0, lastColumn), mVec.Get(1, lastColumn), mVec.Get(2, lastColumn) };
 }
 
