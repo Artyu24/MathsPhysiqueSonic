@@ -10,25 +10,25 @@ public:
     RigidBody(double mass, const Vector3f& initialPosition);
 
     // Public methods
-    void computeInertiaTensor();
+    void ComputeInertiaTensor();
     
-    void updatePosition(double deltaTime);
-    void updateOrientation(double deltaTime);
+    void UpdatePosition(double deltaTime);
+    void UpdateOrientation(double deltaTime);
     
-    void updateLinearVelocity(double deltaTime);
-    void updateAngularVelocity(double deltaTime);
+    void UpdateLinearVelocity(double deltaTime);
+    void UpdateAngularVelocity(double deltaTime);
 
-    void applyForce(const Vector3f& appliedForce);
-    void applyTorque(const Vector3f& appliedTorque);
+    void ApplyForce(const Vector3f& appliedForce);
+    void ApplyTorque(const Vector3f& appliedTorque);
     
-    void updateState(double deltaTime);
+    void UpdateState(double deltaTime);
 
     // Getters
-    double getMass() const;
-    Vector3f getPosition() const;
-    Quaternion getOrientation() const;
-    Vector3f getLinearVelocity() const;
-    Vector3f getAngularVelocity() const;
+    double GetMass() const;
+    Vector3f GetPosition() const;
+    Quaternion GetOrientation() const;
+    Vector3f GetLinearVelocity() const;
+    Vector3f GetAngularVelocity() const;
 
 private:
     // Attributes
