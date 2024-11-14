@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-
+#include "ofxGui.h"
 
 #include "include/Object.h"
 #include "include/Particle.h"
@@ -34,4 +34,20 @@ private:
 	ofEasyCam camera;
 
 	ofPlanePrimitive plane;
+
+	
+
+	ofxPanel gui;
+
+	ofxIntSlider intSlider;
+	ofxFloatSlider floatSlider;
+
+	ofxToggle toggle;
+	ofxButton button;
+	ofxLabel label;
+
+	ofxIntField intField;
+	ofxFloatField floatField;
+	
+	ofxVec3Slider vec3Slider;
 };
