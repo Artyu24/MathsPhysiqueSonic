@@ -36,16 +36,26 @@ Quaternion Quaternion::Multiply(Quaternion q1, Quaternion q2)
 
 float Quaternion::GetMagnitudeSquared()
 {
-    return 0.0f;
+    return pow(w, 2) + pow(x, 2) + pow(y, 2) + pow(z, 2);
 }
 
 float Quaternion::GetMagnitude()
 {
-    return 0.0f;
+    return sqrt(GetMagnitudeSquared());
 }
 
 void Quaternion::Normalize()
 {
+    float norm = GetMagnitude();
+    w /= norm;
+    x /= norm;
+    y /= norm;
+    z /= norm;
+}
+
+float Quaternion::DotProduct(Quaternion b)
+{
+    return w * b.w + x * b.x + y * b.y + z * b.z;
 }
 
 Quaternion Quaternion::GetNormalize()
@@ -54,7 +64,27 @@ Quaternion Quaternion::GetNormalize()
     return Quaternion(w / t, x / t, y / t, z / t);
 }
 
-Quaternion Quaternion::Conjugaison(Quaternion q)
+Quaternion Quaternion::GetConjugaison()
 {
-    return Quaternion(q.w, -q.x, -q.y, -q.z);
+    return Quaternion(w, -x, -y, -z);
+}
+
+Matrix Quaternion::GetRotationMatrix()
+{
+    Matrix rotation(3, 3, std::vector<float>{
+        1 - 2 * (y * y + z * z), 2 * (x * y + z * w),     2 * (x * z - y * w),
+        2 * (x * y - z * w)    , 1 - 2 * (x * x + z * z), 2 * (y * z + x * w),
+        2 * (x * y + y * w)    , 2 * (y * z - x * w)    , 1 - 2 * (x * x + y * y)
+    });
+    return rotation;
+}
+
+Quaternion Quaternion::operator+(Quaternion b)
+{
+    return Quaternion(w + b.w, x + b.x, y + b.y, z + b.z);
+}
+
+Quaternion Quaternion::operator*(float scalar)
+{
+    return Quaternion(w * scalar, x * scalar, y * scalar, z * scalar);
 }

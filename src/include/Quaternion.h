@@ -1,5 +1,6 @@
 #pragma once
-#include "Vector3.h"
+
+#include "Matrix.h"
 
 class Quaternion
 {
@@ -17,11 +18,18 @@ class Quaternion
         static Quaternion GetRotationQuaternion(float angle, Vector3f axis);
         static Quaternion Multiply(Quaternion q1, Quaternion q2);
         
+        void Normalize();
         float GetMagnitudeSquared();
         float GetMagnitude();
-        void Normalize();
+        float DotProduct(Quaternion b);
         Quaternion GetNormalize();
-        Quaternion Conjugaison(Quaternion q);
+        Quaternion GetConjugaison();
+
+        Matrix GetRotationMatrix();
+
+        Quaternion operator+(Quaternion b);
+        Quaternion operator*(Quaternion b) { return Multiply((*this), b); };
+        Quaternion operator*(float scalar);
 
     private:
         float w;
@@ -30,4 +38,5 @@ class Quaternion
         float z;
 };
 
-inline Quaternion operator*(Quaternion a, Quaternion b) { return Quaternion::Multiply(a, b); };
+//inline Quaternion operator*(Quaternion a, Quaternion b) { return Quaternion::Multiply(a, b); };
+

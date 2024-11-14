@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<group>
+	<Gray_Value_Box>125</Gray_Value_Box>
+	<Box_Size>30</Box_Size>
+	<toggle>0</toggle>
+	<Plane_Size>1920</Plane_Size>
+	<Sphere_Size>5</Sphere_Size>
+	<Box_Position>0, 0, 0</Box_Position>
+</group>

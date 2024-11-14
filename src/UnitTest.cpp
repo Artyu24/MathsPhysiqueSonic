@@ -437,7 +437,7 @@ void UnitTest::QuaternionTest() const
 	std::cout << "Unit Test Quaternion : Start" << std::endl;
 
 	//Constructor Test
-	Quaternion  q(1.f, 2.f, 3.f, 4.f);
+	Quaternion q(1.f, 2.f, 3.f, 4.f);
 	assert(q.W() == 1.f);
 	assert(q.X() == 2.f);
 	assert(q.Y() == 3.f);

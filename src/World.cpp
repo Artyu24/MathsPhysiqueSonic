@@ -28,7 +28,7 @@ void World::Movement(Vector3f force)
 	m_firstBlobParticle->AddForce(force);
 }
 
-Vector3f World::m_gravity = Vector3f(0.0, 9.81f, 0.0f);
+Vector3f World::m_gravity = Vector3f(0.0, -9.81f, 0.0f);
 
 std::shared_ptr<Particle>  World::SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode)
 {
@@ -37,7 +37,7 @@ std::shared_ptr<Particle>  World::SpawnParticle(ParticleData data, Vector3f pos,
 	std::shared_ptr<Particle> particleShared = std::make_shared<Particle>(particle);
 
 	//Add Gravity
-	ParticleGravity gravity(Vector3f(0, 9.8f, 0));
+	ParticleGravity gravity(m_gravity);
 	std::shared_ptr<ParticleGravity> forceGeneratorGravity = std::make_shared<ParticleGravity>(gravity);
 	m_forceRegistry->Add(particleShared, forceGeneratorGravity, GRAVITY);
 
@@ -78,7 +78,7 @@ void World::Draw()
 	//Draw Particle
 	for (auto& particle : m_particles)
 	{
-		if(particle == m_firstBlobParticle)
+		/*if(particle == m_firstBlobParticle)
 		{
 			ofSetColor(41, 227, 177);
 			ofDrawCircle(particle->GetPosition(), particle->GetSize() * (m_particleInsideBlob + 1));
@@ -87,7 +87,14 @@ void World::Draw()
 		{
 			ofSetColor(51, 161, 79);
 			ofDrawCircle(particle->GetPosition(), particle->GetSize());
-		}
+		}*/
+
+		ofNoFill();
+		ofSetColor(255);
+		ofDrawBox(particle->GetPosition(), particle->GetSize());
+
+		ofSetColor(255.f, 0., 0.);
+		ofDrawSphere(particle->GetPosition(), particle->GetSize()/2.f);
 
 	}
 
