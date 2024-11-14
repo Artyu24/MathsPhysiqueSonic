@@ -15,17 +15,25 @@ void ofApp::setup()
 
 	ofxGuiSetTextColor(ofColor::white);	
 
-	gui.add(intSlider.setup("Gray Value Box", 125, 0, 255));
-	gui.add(floatSlider.setup("Box Size", 30.f, 1.f, 100.f));
 
-	gui.add(toggle.setup("toggle", false));
-	gui.add(button.setup("button"));
-	gui.add(label.setup("Artyu", "Pikachu"));
+	gui.add(planeSizeField.setup("Plane Size", 1920, 1, 3840));
+	gui.add(speedSlider.setup("Launch Speed", 25.f, 10.0f, 100.0f));
 
-	gui.add(intField.setup("Plane Size", 1920, 1, 3840));
-	gui.add(floatField.setup("Sphere Size", 5.f, 1.f, 10.f));
+	gui.add(yawSlider.setup("Yaw", yaw, -180.0f, 180.0f));
+	gui.add(pitchSlider.setup("Pitch", pitch, -90.0f, 90.0f));
 
-	gui.add(vec3Slider.setup("Box Position", {0,0,0}, { 0,0,0 }, { 255,255,255 }));
+	yaw = 0.0f;
+	pitch = 0.0f;
+
+	///dimensions for width and height in pixels
+	plane.setPosition(0, -300, 0); /// position in x y z
+	plane.setOrientation({ 90,0,0 });
+	plane.setResolution(8, 8);
+
+	canon.setPosition(0, 0, 0);
+	cannonDirection = glm::vec3(1, 0, 0);
+
+	
 
 	//Launch Unit Test
 	UnitTest unitTest;
@@ -42,10 +50,7 @@ void ofApp::setup()
 	m_world = World();
 	m_world.LaunchGame();
 
-	   ///dimensions for width and height in pixels
-	plane.setPosition(0, -200, 0); /// position in x y z
-	plane.setOrientation({ 90,0,0 });
-	plane.setResolution(8, 8);
+	
 
 	
 }
@@ -54,8 +59,22 @@ void ofApp::setup()
 void ofApp::update()
 {
 	m_world.UpdatePhysics(ofGetLastFrameTime() * 10.f);
-	m_world.ApplyCollisions();
-	m_world.ApplyGroundCollisions();
+	//m_world.ApplyCollisions();
+	//m_world.ApplyGroundCollisions();
+
+	float yawRad = glm::radians(yaw);
+	float pitchRad = glm::radians(pitch);
+
+	yaw = yawSlider;
+	pitch = pitchSlider;
+
+	cannonDirection = glm::vec3(
+		cos(pitchRad) * cos(yawRad),
+		sin(pitchRad),
+		cos(pitchRad) * sin(yawRad)
+	);
+
+	
 }
 
 //--------------------------------------------------------------
@@ -67,22 +86,36 @@ void ofApp::draw()
 	ofDrawBitmapString("Delta Time : " + ofToString(ofGetLastFrameTime()), ofGetWidth() - 220.f, 30.f);
 	ofSetColor(255, 120, 120);
 
-	m_world.Draw();
+	
 	ofSetColor(255, 255, 255);
 	camera.begin();
 
 	
 
-	ofNoFill();
-	ofSetColor(intSlider);
-	ofDrawBox(vec3Slider, floatSlider);
+	// Dessin des projectiles
+	for (const auto& projectile : projectiles) {
+		if (projectile->GetPosition().y > -300) {
 
-	ofSetColor(255.f, 0., 0.);
-	ofDrawSphere(vec3Slider, floatField);
+			m_world.Draw();
+		}
+	}
 
 	ofSetColor(100.f);
-	plane.set(intField, intField);
+	plane.set(planeSizeField, planeSizeField);
 	plane.draw();
+
+	{
+		ofPushMatrix();
+		ofTranslate(0,0,0);
+		ofRotateYDeg(yaw);
+		ofRotateXDeg(-pitch);
+		ofSetColor(255);
+		canon.set(20);
+		canon.draw();
+		ofPopMatrix();
+
+		
+	}
 
 	camera.end();
 
@@ -95,23 +128,35 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	//Divide Blob in the game
-	if (key == ' ')
-		m_world.SpacePressed();
+	////Divide Blob in the game
+	//if (key == ' ')
+	//	m_world.SpacePressed();
 
 
-	if (key == 57356) // Left Arrow
-	{
-		m_world.Movement({-25.f,0.f,0.f});
-	}
-	if (key == 57358) // Right Arrow
-	{
-		m_world.Movement({ 25.f,0.f,0.f });
-	}
+	//if (key == 57356) // Left Arrow
+	//{
+	//	m_world.Movement({-25.f,0.f,0.f});
+	//}
+	//if (key == 57358) // Right Arrow
+	//{
+	//	m_world.Movement({ 25.f,0.f,0.f });
+	//}
 
-	if (key == 57357)
+	//if (key == 57357)
+	//{
+	//	m_world.Movement({ 0.f,-100.f,0.f });
+	//}
+
+	if (key == 'a')
 	{
-		m_world.Movement({ 0.f,-100.f,0.f });
+		float speed = speedSlider;
+		
+		Vector3f velocity = cannonDirection * speed;
+
+		auto newProjectile = m_world.SpawnParticle({velocity, 100.f}, cannonDirection);
+		
+
+		projectiles.push_back(newProjectile);
 	}
 }
 

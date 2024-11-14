@@ -8,6 +8,7 @@
 #include "include/ParticleData.h"
 #include "include/World.h"
 
+
 class ofApp : public ofBaseApp
 {
 
@@ -35,19 +36,22 @@ private:
 
 	ofPlanePrimitive plane;
 
-	
+	ofBoxPrimitive canon;
+	glm::vec3 cannonDirection;
 
 	ofxPanel gui;
 
-	ofxIntSlider intSlider;
-	ofxFloatSlider floatSlider;
 
-	ofxToggle toggle;
-	ofxButton button;
-	ofxLabel label;
+	ofxIntField planeSizeField;
 
-	ofxIntField intField;
-	ofxFloatField floatField;
+	ofxFloatSlider speedSlider;
+	ofxFloatSlider yawSlider;
+	ofxFloatSlider pitchSlider;
+
+	float yaw;   
+	float pitch; 
 	
-	ofxVec3Slider vec3Slider;
+	std::vector<shared_ptr<Particle>> projectiles; // Liste des projectiles
+
+
 };
