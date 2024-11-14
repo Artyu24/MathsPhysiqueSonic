@@ -1,9 +1,14 @@
 #include "RigidBody.h"
 
 RigidBody::RigidBody(double mass, const Vector3f& initialPosition)
-    : mass(mass), position(initialPosition), orientation(Quaternion()),
-    linearVelocity(Vector3f()), angularVelocity(Vector3f()),
-    force(Vector3f()), torque(Vector3f()) 
+    : mass(mass),
+    centerOfMass(initialPosition, Vector3f(), mass, 0.98f, true),
+    //position(initialPosition), 
+    orientation(Quaternion()),
+    linearVelocity(Vector3f()), 
+    angularVelocity(Vector3f()),
+    force(Vector3f()), 
+    torque(Vector3f()) 
 {
     ComputeInertiaTensor();
     inverseInertiaTensor = inertiaTensor.InvertByRowReduction();
@@ -26,7 +31,8 @@ void RigidBody::ComputeInertiaTensor()
 
 void RigidBody::UpdatePosition(double deltaTime) 
 {
-    position += linearVelocity * deltaTime;
+    //position += linearVelocity * deltaTime;
+    centerOfMass.Integrate(deltaTime);
 }
 
 void RigidBody::UpdateOrientation(double deltaTime)
@@ -40,23 +46,21 @@ void RigidBody::UpdateOrientation(double deltaTime)
 
 void RigidBody::UpdateLinearVelocity(double deltaTime) 
 {
-    Vector3f acceleration = force / mass;
-    linearVelocity += acceleration * deltaTime;
+    /*Vector3f acceleration = force / mass;
+    linearVelocity += acceleration * deltaTime;*/
+    linearVelocity = centerOfMass.GetVelocity();
 }
 
 void RigidBody::UpdateAngularVelocity(double deltaTime) 
 {
-    /*Matrix extendedTorque(4, 1, { torque.x, torque.y, torque.z, 1.0f });
-    Matrix angularAccelerationMatrix = inverseInertiaTensor * extendedTorque;
-
-    Vector3f angularAcceleration(angularAccelerationMatrix.Get(0, 0), angularAccelerationMatrix.Get(1, 0), angularAccelerationMatrix.Get(2, 0));*/
     Vector3f angularAcceleration = inverseInertiaTensor * torque;
     angularVelocity += angularAcceleration * deltaTime;
 }
 
 void RigidBody::ApplyForce(const Vector3f& appliedForce)
 {
-    force += appliedForce;
+    centerOfMass.AddForce(force);
+    //force += appliedForce;
 }
 
 void RigidBody::ApplyTorque(const Vector3f& appliedTorque)
@@ -72,7 +76,7 @@ void RigidBody::UpdateState(double deltaTime)
     UpdateAngularVelocity(deltaTime);
 
     // reset du vecteur force et torque
-    force = Vector3f();
+    //force = Vector3f();
     torque = Vector3f();
 }
 
@@ -84,7 +88,7 @@ double RigidBody::GetMass() const
 
 Vector3f RigidBody::GetPosition() const 
 {
-    return position;
+    return centerOfMass.GetPosition();
 }
 
 Quaternion RigidBody::GetOrientation() const 
