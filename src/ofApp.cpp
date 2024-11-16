@@ -59,7 +59,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	m_world.UpdatePhysics(ofGetLastFrameTime() * 10.f);
+	m_world.UpdatePhysics(ofGetLastFrameTime());
 	//m_world.ApplyCollisions();
 	//m_world.ApplyGroundCollisions();
 
@@ -156,7 +156,7 @@ void ofApp::keyPressed(int key)
 		
 		Vector3f velocity = cannonDirection * speed;
 
-		auto newProjectile = m_world.SpawnRigidBody({velocity, 1000.f}, cannonDirection, ofGetLastFrameTime() * 10.f);
+		auto newProjectile = m_world.SpawnRigidBody({velocity, 10.f}, cannonDirection, ofGetLastFrameTime() * 10.f);
 		
 		projectiles.push_back(newProjectile);
 	}

@@ -37,9 +37,9 @@ std::shared_ptr<Particle>  World::SpawnParticle(ParticleData data, Vector3f pos,
 	std::shared_ptr<Particle> particleShared = std::make_shared<Particle>(particle);
 	 
 	//Add Gravity
-	ParticleGravity gravity(m_gravity);
+	/*ParticleGravity gravity(m_gravity);
 	std::shared_ptr<ParticleGravity> forceGeneratorGravity = std::make_shared<ParticleGravity>(gravity);
-	m_forceRegistry->Add(particleShared, forceGeneratorGravity, GRAVITY);
+	m_forceRegistry->Add(particleShared, forceGeneratorGravity, GRAVITY);*/
 
 	//Add Collider
 	m_collisionSystem.AddCollider(particle.GetSize(), particleShared);
@@ -67,7 +67,7 @@ void World::UpdatePhysics(float duration)
 	
 	for (auto& rb : m_rigidBody) 
 	{
-		rb->ApplyTorque({10,0,0});
+		rb->ApplyTorque({ 100.f,0.f,0.f });
 		rb->UpdateState(duration);
 	}
 
@@ -110,7 +110,7 @@ void World::Draw()
 
 		ofTranslate(rb->GetPosition());
 
-		rb->ApplyTorque({ 10,0,0 });
+		//rb->ApplyTorque({ 10,0,0 });
 		
 		glm::mat4 rotationMat = glm::toMat4(glm::quat(rb->GetOrientation().GetNormalize()));
 		ofMultMatrix(rotationMat);

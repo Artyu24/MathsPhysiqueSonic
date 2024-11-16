@@ -77,8 +77,7 @@ void RigidBody::UpdateState(double deltaTime)
     
 
     // reset du vecteur force et torque
-    //force = Vector3f();
-   // torque = Vector3f();
+    torque = { 0.f,0.f,0.f };
 }
 
 // Getters
