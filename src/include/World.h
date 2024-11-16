@@ -5,18 +5,20 @@
 #include "ParticleForceRegistry.h"
 #include "CollisionSystem.h"
 #include "RigidBody.h"
+#include "ofxGui.h"
 
 class World
 {
 public:
+	
 	World();
 
 	//Game
-	void LaunchGame();
+	void Setup();
+	void UpdateGame();
 
 	//Game Temp
 	void SpacePressed();
-	void Movement(Vector3f force);
 
 	std::shared_ptr<Particle> SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode = true);
 	std::shared_ptr<RigidBody> SpawnRigidBody(ParticleData data, Vector3f pos, float duration);
@@ -44,7 +46,32 @@ private:
 	//Game Temp
 	int m_particleInsideBlob = 7;
 	ParticleData m_defaultParticleData = { Vector3f(0.f,0.f,0.f), 200 };
-	std::shared_ptr<Particle> m_firstBlobParticle;
+
+
+	//Phase 3 Game
+	ofEasyCam camera;
+
+	ofPlanePrimitive plane;
+
+	ofBoxPrimitive canon;
+	Vector3f cannonDirection;
+
+	ofxPanel gui;
+
+
+	ofxIntField planeSizeField;
+
+	ofxFloatSlider speedSlider;
+	ofxFloatSlider yawSlider;
+	ofxFloatSlider pitchSlider;
+	ofxFloatField massField;
+
+	ofxFloatField xTorqueField;
+	ofxFloatField yTorqueField;
+	ofxFloatField zTorqueField;
+
+	float yaw;
+	float pitch;
 
 	
 

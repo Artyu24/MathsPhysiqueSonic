@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxGui.h"
 
 #include "include/Object.h"
 #include "include/Particle.h"
@@ -33,26 +32,9 @@ public:
 
 
 private:
-	World m_world;
-	ofEasyCam camera;
 
-	ofPlanePrimitive plane;
-
-	ofBoxPrimitive canon;
-	glm::vec3 cannonDirection;
-
-	ofxPanel gui;
-
-
-	ofxIntField planeSizeField;
-
-	ofxFloatSlider speedSlider;
-	ofxFloatSlider yawSlider;
-	ofxFloatSlider pitchSlider;
-	ofxFloatField massField;
-
-	float yaw;   
-	float pitch; 
+	std::unique_ptr<World> m_world;
+	
 	
 	std::vector<shared_ptr<RigidBody>> projectiles; // Liste des projectiles
 

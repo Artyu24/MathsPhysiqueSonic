@@ -11,22 +11,72 @@ World::World() :
 m_particles(),
 m_forceRegistry(std::make_unique<ParticleForceRegistry>()) //Create Force Registry
 {
+	cannonDirection = Vector3f(1.f,0.f,0.f);
+	yaw = 0.0f;
+	pitch = 0.0f;
+
 }
 
-void World::LaunchGame()
+void World::Setup()
 {
-	
+	ofEnableDepthTest();
+	ofSetVerticalSync(true);
+
+	camera.setDistance(160);
+
+	gui.setup();
+
+	ofxGuiSetTextColor(ofColor::white);
+
+
+	gui.add(planeSizeField.setup("Plane Size", 1920, 1, 3840));
+	gui.add(speedSlider.setup("Launch Speed", 25.f, 10.0f, 100.0f));
+
+	gui.add(yawSlider.setup("Canon Yaw", yaw, -180.0f, 180.0f));
+	gui.add(pitchSlider.setup("Canon Pitch", pitch, -90.0f, 90.0f));
+
+	gui.add(massField.setup("Projectile Mass", 100.f, 1.0f, 100000.f));
+
+	gui.add(xTorqueField.setup("X Torque", 0.f, -1000.0f, 1000.f));
+	gui.add(yTorqueField.setup("Y Torque", 0.f, -1000.0f, 1000.f));
+	gui.add(zTorqueField.setup("Z Torque", -100.f, -1000.0f, 1000.f));
+
+
+
+	///dimensions for width and height in pixels
+	plane.setPosition(0, -300, 0); /// position in x y z
+	plane.setOrientation({ 90,0,0 });
+	plane.setResolution(8, 8);
+
+	canon.setPosition(0, 0, 0);
+}
+
+void World::UpdateGame()
+{
+	float yawRad = glm::radians(yaw);
+	float pitchRad = glm::radians(pitch);
+
+	yaw = yawSlider;
+	pitch = pitchSlider;
+
+	cannonDirection = glm::vec3(
+		cos(pitchRad) * cos(yawRad),
+		sin(pitchRad),
+		cos(pitchRad) * sin(yawRad)
+	);
 }
 
 void World::SpacePressed()
 {
-	
+	float speed = speedSlider;
+
+	Vector3f velocity = cannonDirection * speed;
+
+	auto newProjectile = SpawnRigidBody({ velocity, massField }, cannonDirection, ofGetLastFrameTime() * 10.f);
+
 }
 
-void World::Movement(Vector3f force)
-{
-	m_firstBlobParticle->AddForce(force);
-}
+
 
 Vector3f World::m_gravity = Vector3f(0.0, -9.81f, 0.0f);
 
@@ -67,7 +117,7 @@ void World::UpdatePhysics(float duration)
 	
 	for (auto& rb : m_rigidBody) 
 	{
-		rb->ApplyTorque({ 0.f,0.f, -100.f });
+		rb->ApplyTorque({ xTorqueField,yTorqueField, zTorqueField });
 		rb->UpdateState(duration);
 	}
 
@@ -81,35 +131,67 @@ void World::UpdatePhysics(float duration)
 
 void World::Draw()
 {
+	ofEnableDepthTest();
+
+	//Draw Information
+	ofDrawBitmapString("Delta Time : " + ofToString(ofGetLastFrameTime()), ofGetWidth() - 220.f, 30.f);
+	ofSetColor(255, 120, 120);
+
+
+	ofSetColor(255, 255, 255);
+	camera.begin();
+
+
+
+	//Draw Canon
+	ofSetColor(100.f);
+	plane.set(planeSizeField, planeSizeField);
+	plane.draw();
+
+	{
+		ofPushMatrix();
+		ofTranslate(0, 0, 0);
+		ofRotateYDeg(yaw);
+		ofRotateXDeg(-pitch);
+		ofSetColor(255);
+		canon.set(20);
+		canon.draw();
+		ofPopMatrix();
+
+
+	}
+		
 	//Draw Particle
 	for (auto& rb : m_rigidBody)
 	{
-		
+		if (rb->GetPosition().y > -300) {
 
-		ofPushMatrix();
+			ofPushMatrix();
 
-		ofTranslate(rb->GetPosition());
+			ofTranslate(rb->GetPosition());
 
-		
-		
-		glm::quat orientation = glm::quat(rb->GetOrientation().GetNormalize());
-		glm::mat4 rotationMat = glm::toMat4(orientation);
-		ofMultMatrix(rotationMat);
+			glm::quat orientation = glm::quat(rb->GetOrientation().GetNormalize());
+			glm::mat4 rotationMat = glm::toMat4(orientation);
+			ofMultMatrix(rotationMat);
 
 
+			ofNoFill();
+			ofSetColor(255);
+			ofDrawBox(0, 0, 0, 50);
 
-		ofNoFill();
-		ofSetColor(255);
-		ofDrawBox(0, 0, 0, 50);
+			ofSetColor(255.f, 0.f, 0.f);
+			ofDrawSphere(0, 0, 0, 5.f);
 
-		ofSetColor(255.f, 0.f, 0.f);
-		ofDrawSphere(0, 0, 0, 5.f);
-
-		ofPopMatrix();
+			ofPopMatrix();
+		}
 
 	}
 
+	camera.end();
 
+	ofDisableDepthTest();
+	gui.draw();
+	
 }
 
 void World::ApplyCollisions()
