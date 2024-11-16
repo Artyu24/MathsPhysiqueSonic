@@ -49,6 +49,7 @@ private:
 	ofxFloatSlider speedSlider;
 	ofxFloatSlider yawSlider;
 	ofxFloatSlider pitchSlider;
+	ofxFloatField massField;
 
 	float yaw;   
 	float pitch; 

@@ -19,8 +19,10 @@ void ofApp::setup()
 	gui.add(planeSizeField.setup("Plane Size", 1920, 1, 3840));
 	gui.add(speedSlider.setup("Launch Speed", 25.f, 10.0f, 100.0f));
 
-	gui.add(yawSlider.setup("Yaw", yaw, -180.0f, 180.0f));
-	gui.add(pitchSlider.setup("Pitch", pitch, -90.0f, 90.0f));
+	gui.add(yawSlider.setup("Canon Yaw", yaw, -180.0f, 180.0f));
+	gui.add(pitchSlider.setup("Canon Pitch", pitch, -90.0f, 90.0f));
+
+	gui.add(massField.setup("Projectile Mass", 100.f, 1.0f, 100000.f));
 
 	yaw = 0.0f;
 	pitch = 0.0f;
@@ -59,7 +61,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	m_world.UpdatePhysics(ofGetLastFrameTime());
+	m_world.UpdatePhysics(ofGetLastFrameTime() * 10.f);
 	//m_world.ApplyCollisions();
 	//m_world.ApplyGroundCollisions();
 
@@ -131,32 +133,14 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	////Divide Blob in the game
-	//if (key == ' ')
-	//	m_world.SpacePressed();
-
-
-	//if (key == 57356) // Left Arrow
-	//{
-	//	m_world.Movement({-25.f,0.f,0.f});
-	//}
-	//if (key == 57358) // Right Arrow
-	//{
-	//	m_world.Movement({ 25.f,0.f,0.f });
-	//}
-
-	//if (key == 57357)
-	//{
-	//	m_world.Movement({ 0.f,-100.f,0.f });
-	//}
-
+	
 	if (key == 'a')
 	{
 		float speed = speedSlider;
 		
 		Vector3f velocity = cannonDirection * speed;
 
-		auto newProjectile = m_world.SpawnRigidBody({velocity, 10.f}, cannonDirection, ofGetLastFrameTime() * 10.f);
+		auto newProjectile = m_world.SpawnRigidBody({velocity, massField}, cannonDirection, ofGetLastFrameTime() * 10.f);
 		
 		projectiles.push_back(newProjectile);
 	}
