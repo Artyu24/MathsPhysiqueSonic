@@ -37,9 +37,9 @@ std::shared_ptr<Particle>  World::SpawnParticle(ParticleData data, Vector3f pos,
 	std::shared_ptr<Particle> particleShared = std::make_shared<Particle>(particle);
 	 
 	//Add Gravity
-	/*ParticleGravity gravity(m_gravity);
+	ParticleGravity gravity(m_gravity);
 	std::shared_ptr<ParticleGravity> forceGeneratorGravity = std::make_shared<ParticleGravity>(gravity);
-	m_forceRegistry->Add(particleShared, forceGeneratorGravity, GRAVITY);*/
+	m_forceRegistry->Add(particleShared, forceGeneratorGravity, GRAVITY);
 
 	//Add Collider
 	m_collisionSystem.AddCollider(particle.GetSize(), particleShared);
@@ -112,18 +112,18 @@ void World::Draw()
 
 		//rb->ApplyTorque({ 10,0,0 });
 		
-		glm::mat4 rotationMat = glm::toMat4(glm::quat(rb->GetOrientation().GetNormalize()));
+		glm::quat orientation = glm::quat(rb->GetOrientation().GetNormalize());
+		glm::mat4 rotationMat = glm::toMat4(orientation);
 		ofMultMatrix(rotationMat);
 
 
 
 		ofNoFill();
 		ofSetColor(255);
+		ofDrawBox(0, 0, 0, 50);
 
-		ofDrawBox(rb->GetPosition(), 50);
-
-		ofSetColor(255.f, 0., 0.);
-		ofDrawSphere(rb->GetPosition(), 5.f);
+		ofSetColor(255.f, 0.f, 0.f);
+		ofDrawSphere(0, 0, 0, 5.f);
 
 		ofPopMatrix();
 
