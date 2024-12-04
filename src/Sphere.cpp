@@ -1,7 +1,7 @@
 #include "Sphere.h"
 #include "Particle.h"
 
-Sphere::Sphere(float radius, std::shared_ptr<Particle> particle) :
+Sphere::Sphere(std::shared_ptr<Particle> particle, float radius) :
 m_radius(radius),
 m_particle(particle)
 {
@@ -17,18 +17,18 @@ std::shared_ptr<Particle> Sphere::GetParticle() const
 	return m_particle;
 }
 
-const bool Sphere::IsColliding(std::shared_ptr<Sphere>& otherSphere)
+const bool Sphere::IsColliding(const Sphere& otherSphere)
 {
-	return IsCollidingStatic(shared_from_this(), otherSphere);
+	return IsCollidingStatic(*this, otherSphere);
 }
 
-const bool Sphere::IsCollidingStatic(std::shared_ptr<Sphere>& first, std::shared_ptr<Sphere>& second)
+const bool Sphere::IsCollidingStatic(const Sphere& first, const Sphere& second)
 {
-	Vector3f distance = first->GetParticle()->GetPosition() - second->GetParticle()->GetPosition();
+	Vector3f distance = first.GetParticle()->GetPosition() - second.GetParticle()->GetPosition();
 	Vector3f norme = distance.Normalize();
 
 	double distSquared = distance.DotProduct(distance);
-	double radiusSum = first->GetRadius() + second->GetRadius();
+	double radiusSum = first.GetRadius() + second.GetRadius();
 	if (distSquared < radiusSum * radiusSum) {
 		return true;
 	}

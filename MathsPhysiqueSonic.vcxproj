@@ -105,6 +105,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Area.cpp" />
+    <ClCompile Include="src\Box.cpp" />
+    <ClCompile Include="src\CollisionCallback.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\OcTree.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
@@ -142,6 +144,8 @@
   <ItemGroup>
     <ClInclude Include="src\include\Area.h" />
     <ClInclude Include="src\include\OcTree.h" />
+    <ClInclude Include="src\include\Box.h" />
+    <ClInclude Include="src\include\CollisionCallback.h" />
     <ClInclude Include="src\include\Sphere.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\include\CollisionSystem.h" />
