@@ -6,7 +6,7 @@ OcTree::OcTree(Area area) :
 m_cubeArea(area)
 {
 	Particle particle(area.pos);
-	Sphere sphere(area.sideSize * sqrt(3), std::make_shared<Particle>(particle));
+	Sphere sphere(std::make_shared<Particle>(particle), area.sideSize * sqrt(3));
 	m_OcTreeSphere = make_shared<Sphere>(sphere);
 }
 
@@ -19,7 +19,7 @@ OcTree::~OcTree()
 
 void OcTree::InsertSphere(std::shared_ptr<Sphere> newSphere)
 {
-	if(!m_OcTreeSphere->IsColliding(newSphere))
+	if(!m_OcTreeSphere->IsColliding(*newSphere))
 		return;
 
 	if (m_childs.size() == 0)
