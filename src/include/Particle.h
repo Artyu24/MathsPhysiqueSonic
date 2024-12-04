@@ -7,6 +7,7 @@ class IParticleForceGenerator;
 class Particle
 {
 public:
+	Particle(Vector3f pos);
 	Particle(Vector3f position, Vector3f velocity, float mass, float damping, bool isIntegrateEuler);
 
 	//Getter

@@ -99,6 +99,8 @@
     </ClCompile>
     <ClCompile Include="src\RigidBody.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
+    <ClCompile Include="src\OcTree.cpp" />
+    <ClCompile Include="src\Area.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -230,6 +232,8 @@
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
     <ClInclude Include="src\include\Sphere.h" />
+    <ClInclude Include="src\include\OcTree.h" />
+    <ClInclude Include="src\include\Area.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

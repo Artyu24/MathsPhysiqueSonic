@@ -1,5 +1,11 @@
 #include "include/Particle.h"
 
+Particle::Particle(Vector3f pos) :
+	m_position(pos)
+{
+
+}
+
 Particle::Particle(Vector3f position, Vector3f velocity, float mass, float damping, bool isIntegrateEuler) :
 	m_position(position),
 	m_velocity(velocity),
