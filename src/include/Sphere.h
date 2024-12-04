@@ -7,7 +7,7 @@ class Particle;
 class Sphere : public std::enable_shared_from_this<Sphere>
 {
 	public:
-		explicit Sphere(float radius, std::shared_ptr<Particle> particle);
+		explicit Sphere(std::shared_ptr<Particle> particle, float radius);
 
 		float GetRadius() const;
 		std::shared_ptr<Particle> GetParticle() const;

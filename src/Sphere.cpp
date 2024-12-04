@@ -1,7 +1,7 @@
 #include "Sphere.h"
 #include "Particle.h"
 
-Sphere::Sphere(float radius, std::shared_ptr<Particle> particle) :
+Sphere::Sphere(std::shared_ptr<Particle> particle, float radius) :
 m_radius(radius),
 m_particle(particle)
 {
