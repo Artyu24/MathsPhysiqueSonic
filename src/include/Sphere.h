@@ -12,8 +12,8 @@ class Sphere : public std::enable_shared_from_this<Sphere>
 		float GetRadius() const;
 		std::shared_ptr<Particle> GetParticle() const;
 
-		const bool IsColliding(std::shared_ptr<Sphere>& otherSphere);
-		static const bool IsCollidingStatic(std::shared_ptr<Sphere>& first, std::shared_ptr<Sphere>& second);
+		const bool IsColliding(const Sphere& otherSphere);
+		static const bool IsCollidingStatic(const Sphere& first, const Sphere& second);
 
 	private:
 		float m_radius;
