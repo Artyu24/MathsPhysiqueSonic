@@ -122,6 +122,7 @@
     <ClCompile Include="src\ParticuleCollision.cpp" />
     <ClCompile Include="src\Quaternion.cpp" />
     <ClCompile Include="src\RigidBody.cpp" />
+    <ClCompile Include="src\Sphere.cpp" />
     <ClCompile Include="src\SphereCollider.cpp" />
     <ClCompile Include="src\UnitTest.cpp" />
     <ClCompile Include="src\World.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\include\Sphere.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\include\CollisionSystem.h" />
     <ClInclude Include="src\include\ForceEnum.h" />
