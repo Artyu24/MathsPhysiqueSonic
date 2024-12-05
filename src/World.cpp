@@ -113,6 +113,8 @@ std::shared_ptr<RigidBody>  World::SpawnRigidBody(ParticleData data, Vector3f po
 
 void World::UpdatePhysics(float duration)
 {
+	m_OcTree = std::make_unique<OcTree>(Area(Vector3f(0.f,0.f,0.f), 200.f), 1);
+
 	m_forceRegistry->UpdateForces(duration);
 	
 	for (auto& rb : m_rigidBody) 
@@ -125,8 +127,6 @@ void World::UpdatePhysics(float duration)
 	{
 		particule->Integrate(duration);
 	}
-
-	
 }
 
 void World::Draw()
@@ -157,8 +157,6 @@ void World::Draw()
 		canon.set(20);
 		canon.draw();
 		ofPopMatrix();
-
-
 	}
 		
 	//Draw Particle
@@ -186,6 +184,18 @@ void World::Draw()
 		}
 
 	}
+
+
+	//OCTREE
+	ofNoFill();
+	std::vector<std::shared_ptr<OcTree>> octreeAreas;
+	m_OcTree->GetQuads(octreeAreas);
+	for(auto ocTree : octreeAreas)
+	{
+		ofSetColor(0.f, 50.f * ocTree->GetDepth(), 0.f);
+		ofDrawBox(ocTree->GetArea().pos, ocTree->GetArea().sideSize);
+	}
+	ofFill();
 
 	camera.end();
 

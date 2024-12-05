@@ -2,8 +2,9 @@
 
 #include "Particle.h"
 
-OcTree::OcTree(Area area) :
-m_cubeArea(area)
+OcTree::OcTree(Area area, int depth) :
+m_cubeArea(area),
+m_depth(depth)
 {
 	Particle particle(area.pos);
 	Sphere sphere(std::make_shared<Particle>(particle), area.sideSize * sqrt(3));
@@ -50,15 +51,15 @@ void OcTree::InsertSphere(std::shared_ptr<Sphere> newSphere)
 	}
 }
 
-void OcTree::GetAreas(std::vector<std::shared_ptr<Area>>& areas)
+void OcTree::GetQuads(std::vector<std::shared_ptr<OcTree>>& quads)
 {
 	if (m_childs.size() != 0)
 	{
 		for (auto ocTreeChild : m_childs)
-			ocTreeChild->GetAreas(areas);
+			ocTreeChild->GetQuads(quads);
 	}
 	else
-		areas.emplace_back(std::make_shared<Area>(m_cubeArea));
+		quads.emplace_back(std::make_shared<OcTree>(*this));
 }
 
 void OcTree::Divide()
@@ -73,12 +74,12 @@ void OcTree::Divide()
 	float zMore = m_cubeArea.pos.z + posDivide;
 	float zMinus = m_cubeArea.pos.z - posDivide;
 
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMore, zMore), newSideSize))));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMore, zMinus), newSideSize))));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMinus, zMore), newSideSize))));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMinus, zMinus), newSideSize))));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMore, zMore), newSideSize))));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMore, zMinus), newSideSize))));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMore), newSideSize))));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMinus), newSideSize))));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMore, zMore), newSideSize), m_depth++)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMore, zMinus), newSideSize), m_depth++)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMinus, zMore), newSideSize), m_depth++)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMinus, zMinus), newSideSize), m_depth++)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMore, zMore), newSideSize), m_depth++)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMore, zMinus), newSideSize), m_depth++)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMore), newSideSize), m_depth++)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMinus), newSideSize), m_depth++)));
 }

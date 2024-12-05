@@ -4,6 +4,7 @@
 #include "Particle.h"
 #include "ParticleForceRegistry.h"
 #include "CollisionSystem.h"
+#include "OcTree.h"
 #include "RigidBody.h"
 #include "ofxGui.h"
 
@@ -73,6 +74,6 @@ private:
 	float yaw;
 	float pitch;
 
-	
-
+	//Phase 4
+	std::unique_ptr<OcTree> m_OcTree;
 };
