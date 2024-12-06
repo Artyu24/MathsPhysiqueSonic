@@ -34,6 +34,7 @@ class CollisionSystem
 		void ApplyGroundCollisions();
 		void ApplyCableCollisions();
 		void ApplyStickCollisions();
+		void ApplyBoxCollision(const Box& box1, const Box& box2);
 
 		void AddCollider(float r, std::shared_ptr<Particle> particle);
 		void AddCable(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float cableLength);

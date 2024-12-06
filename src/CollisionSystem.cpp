@@ -3,6 +3,7 @@
 #include "include/CollisionCallback.h"
 #include "include/Box.h"
 #include "include/Plane.h"
+#include "ParticuleCollision.h"
 #include <tuple>
 #include <cmath>
 
@@ -79,6 +80,20 @@ void CollisionSystem::ApplyStickCollisions()
 		{
 			ParticleStick::ResolveStretch((*i), e, std::get<1>(result), std::get<0>(result));
 		}
+	}
+}
+
+void CollisionSystem::ApplyBoxCollision(const Box& box1, const Box& box2)
+{
+	// Variable des informations de collision
+	CollisionCallback3D infos;
+
+	if (CheckCollisionBox(box1, box2, infos))
+	{
+		infos.box = std::make_shared<Box>(box1);
+		infos.restitution = box2.GetRestitution();
+		ParticuleCollision collision(box1.GetParticle(), box2.GetParticle(), infos.restitution, infos.overlap, infos.normal);
+		collision.ApplyCollision();
 	}
 }
 

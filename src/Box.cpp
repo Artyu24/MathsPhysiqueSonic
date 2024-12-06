@@ -2,9 +2,10 @@
 #include "Particle.h"
 #include "Vector3.h"
 
-Box::Box(std::shared_ptr<Particle> particle, float size) :
+Box::Box(std::shared_ptr<Particle> particle, float size, float restitution) :
 m_particle(particle),
-m_size(size)
+m_size(size),
+m_restitution(restitution)
 {
 }
 
@@ -13,9 +14,19 @@ float Box::GetSize() const
 	return m_size;
 }
 
+float Box::GetRestitution() const
+{
+	return m_restitution;
+}
+
 Vector3f Box::GetCenter() const
 {
 	return m_particle->GetPosition();
+}
+
+std::shared_ptr<Particle> Box::GetParticle() const
+{
+	return m_particle;
 }
 
 std::array<Vector3f, 8> Box::GetBoxVertices() const
