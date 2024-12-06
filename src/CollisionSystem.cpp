@@ -1,5 +1,8 @@
 #include "include/CollisionSystem.h"
 #include "include/SphereCollider.h"
+#include "include/CollisionCallback.h"
+#include "include/Box.h"
+#include "include/Plane.h"
 #include <tuple>
 #include <cmath>
 
@@ -93,4 +96,88 @@ void CollisionSystem::AddStick(std::shared_ptr<Particle> particle1, std::shared_
 {
 	m_sticks.push_back(ParticleStick(particle1, particle2, sticklength));
 }
+
+bool CollisionSystem::CheckCollisionBox(const Box& box1, const Box& box2, CollisionCallback3D& callback)
+{
+	std::array<Vector3f, 8> vertices = box2.GetBoxVertices();
+
+	// Centre de la boîte 1
+	const Vector3f& box1Center = box1.GetCenter();
+
+	// Variables pour stocker le sommet en collision le plus proche
+	float minDistanceSquared = std::numeric_limits<float>::max();
+	Vector3f closestVertex;
+	std::tuple<float, Vector3f, Vector3f> bestCollisionResult;
+
+	for (const auto& vertex : vertices)
+	{
+		std::tuple<float, Vector3f, Vector3f> collisionResult;
+		if (CheckVertexInsideBox(box1, vertex, collisionResult))
+		{
+			// Calculer la distance carrée du sommet au centre de la boîte 1
+			float distanceSquared = (vertex - box1Center).SquaredLength();
+
+			// Si ce sommet est plus proche, mettre à jour le meilleur résultat
+			if (distanceSquared < minDistanceSquared)
+			{
+				minDistanceSquared = distanceSquared;
+				closestVertex = vertex;
+				bestCollisionResult = collisionResult;
+			}
+		}
+	}
+
+	if (minDistanceSquared != std::numeric_limits<float>::max())
+	{
+		callback.overlap = std::get<0>(bestCollisionResult);
+		callback.impactPoint = std::get<1>(bestCollisionResult);
+		callback.normal = std::get<2>(bestCollisionResult);
+		return true;
+	}
+
+	return false;
+}
+
+bool CollisionSystem::CheckVertexInsideBox(const Box& box, Vector3f vertex, std::tuple<float, Vector3f, Vector3f>& result)
+{
+	const Vector3f& boxCenter = box.GetCenter();
+	const float boxSize = box.GetSize();
+
+	float maxDistanceSquared = -1.0f;
+	std::tuple<float, Vector3f, Vector3f> bestResult;
+
+	for (const Vector3f& face : faces)
+	{
+		// Initialisation du plan basé sur une face
+		Plane facePlane(face, boxCenter, boxSize);
+
+		const Vector3f vertexToPlane = vertex - facePlane.GetPoint();
+		float interpenetration = facePlane.GetNormal().DotProduct(vertexToPlane);
+
+		// Si interpenetration est superieur a 0, on se trouve a l'exterieur de la box
+		if (interpenetration > 0)
+			return false;
+
+		// Calcul de la distance au centre pour determiner la face associee
+		float distanceSquared = (vertex - boxCenter).SquaredLength();
+
+		if (distanceSquared > maxDistanceSquared)
+		{
+			maxDistanceSquared = distanceSquared;
+
+			// Calcul du point d'impact
+			Vector3f impactPoint = facePlane.GetPoint() - (facePlane.GetNormal() * interpenetration);
+
+			// Mise à jour du meilleur résultat
+			bestResult = { interpenetration, impactPoint, facePlane.GetNormal() };
+		}
+		
+	}
+	
+	// Mise à jour du résultat final
+	result = bestResult;
+	return true;
+}
+
+
 

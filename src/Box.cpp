@@ -1,5 +1,6 @@
 #include "Box.h"
 #include "Particle.h"
+#include "Vector3.h"
 
 Box::Box(std::shared_ptr<Particle> particle, float size) :
 m_particle(particle),
@@ -7,12 +8,37 @@ m_size(size)
 {
 }
 
-const bool Box::IsColliding(const Box& otherBox, CollisionCallback& results)
+float Box::GetSize() const
 {
-	return IsCollidingStatic(*this, otherBox, results);
+	return m_size;
 }
 
-const bool Box::IsCollidingStatic(const Box& first, const Box& second, CollisionCallback& results)
+Vector3f Box::GetCenter() const
 {
-	return false;
+	return m_particle->GetPosition();
+}
+
+std::array<Vector3f, 8> Box::GetBoxVertices() const
+{
+	std::array<Vector3f, 8> verticeArray
+	{
+		//Upper vertices
+		Vector3f{-1.f,  1.f,  1.f},
+		Vector3f{ 1.f,  1.f,  1.f},
+		Vector3f{ 1.f,  1.f, -1.f},
+		Vector3f{-1.f,  1.f, -1.f},
+		//Lower vertices
+		Vector3f{-1.f, -1.f,  1.f},
+		Vector3f{ 1.f, -1.f,  1.f},
+		Vector3f{ 1.f, -1.f, -1.f},
+		Vector3f{-1.f, -1.f, -1.f}
+	};
+
+	for (auto& vertice : verticeArray)
+	{
+		vertice *= m_size;
+		vertice += m_particle.get()->GetPosition();
+	}
+
+	return verticeArray;
 }

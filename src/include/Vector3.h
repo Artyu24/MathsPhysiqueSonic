@@ -22,6 +22,7 @@ struct Vector3
 		x(X), y(Y), z(Z)
 	{
 	}
+
 	Vector3(glm::vec3 vec) :
 		x(vec.x), y(vec.y), z(vec.z)
 	{

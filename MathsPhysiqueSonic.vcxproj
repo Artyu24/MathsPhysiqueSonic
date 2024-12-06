@@ -124,6 +124,7 @@
     <ClCompile Include="src\ParticleSpringFixedPoint.cpp" />
     <ClCompile Include="src\ParticleStick.cpp" />
     <ClCompile Include="src\ParticuleCollision.cpp" />
+    <ClCompile Include="src\Plane.cpp" />
     <ClCompile Include="src\Quaternion.cpp" />
     <ClCompile Include="src\RigidBody.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="src\include\OcTree.h" />
     <ClInclude Include="src\include\Box.h" />
     <ClInclude Include="src\include\CollisionCallback.h" />
+    <ClInclude Include="src\include\Plane.h" />
     <ClInclude Include="src\include\Sphere.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\include\CollisionSystem.h" />

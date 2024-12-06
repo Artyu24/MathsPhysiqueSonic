@@ -2,17 +2,23 @@
 
 #include <memory>
 #include <functional>
+#include <array>
 
 class Particle;
 struct CollisionCallback;
+
+template<typename T> struct Vector3;
+using Vector3f = Vector3<float>;
 
 class Box
 {
 	public:
 		explicit Box(std::shared_ptr<Particle> particle, float size);
 
-		const bool IsColliding(const Box& otherBox, CollisionCallback& results);
-		static const bool IsCollidingStatic(const Box& first, const Box& second, CollisionCallback& results);
+		float GetSize() const;
+		Vector3f GetCenter() const;
+
+		std::array<Vector3f, 8> GetBoxVertices() const;
 
 	private:
 		std::shared_ptr<Particle> m_particle;

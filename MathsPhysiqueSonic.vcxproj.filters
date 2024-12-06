@@ -108,7 +108,10 @@
     <ClCompile Include="src\Sphere.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CollisionCallback.cpp" />
+    <ClCompile Include="src\CollisionCallback.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Plane.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -248,7 +251,10 @@
     <ClInclude Include="src\include\Sphere.h">
       <Filter>src\include</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\CollisionCallback.h" />
+    <ClInclude Include="src\include\CollisionCallback.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\Plane.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
