@@ -2,13 +2,17 @@
 
 #include "Particle.h"
 
-OcTree::OcTree(Area area, int depth) :
+OcTree::OcTree(Area area, int depth, CollisionSystem colSys) :
 m_cubeArea(area),
-m_depth(depth)
+m_depth(depth),
+m_colSys(colSys)
 {
 	Particle particle(area.pos);
 	Sphere sphere(std::make_shared<Particle>(particle), area.sideSize * sqrt(3));
 	m_OcTreeSphere = make_shared<Sphere>(sphere);
+
+	Box box(std::make_shared<Particle>(particle), area.sideSize);
+	m_OcTreeBox = make_shared<Box>(box);
 }
 
 OcTree::~OcTree()
@@ -18,18 +22,18 @@ OcTree::~OcTree()
 	m_childs.clear();
 }
 
-void OcTree::InsertSphere(std::shared_ptr<Sphere> newSphere)
+void OcTree::InsertObject(std::shared_ptr<ObjectCollision> newData)
 {
-	if(!m_OcTreeSphere->IsColliding(*newSphere))
+	if(!m_OcTreeSphere->IsColliding(*newData->Sphere))
 		return;
 
 	if (m_childs.size() == 0)
-		m_objects.push_back(newSphere);
+		m_objects.push_back(newData);
 	else
 	{
 		for(auto ocTreeChild : m_childs)
 		{
-			ocTreeChild->InsertSphere(newSphere);
+			ocTreeChild->InsertObject(newData);
 		}
 
 		return;
@@ -41,9 +45,9 @@ void OcTree::InsertSphere(std::shared_ptr<Sphere> newSphere)
 
 		for (auto ocTreeChild : m_childs)
 		{
-			for (auto sphere : m_objects)
+			for (auto obj : m_objects)
 			{
-				ocTreeChild->InsertSphere(sphere);
+				ocTreeChild->InsertObject(obj);
 			}
 		}
 
@@ -62,6 +66,34 @@ void OcTree::GetQuads(std::vector<std::shared_ptr<OcTree>>& quads)
 		quads.emplace_back(std::make_shared<OcTree>(*this));
 }
 
+void OcTree::TestCollision()
+{
+	if (m_childs.size() != 0)
+	{
+		for (auto ocTreeChild : m_childs)
+		{
+			ocTreeChild->TestCollision();
+		}
+
+		return;
+	}
+
+	if(m_objects.size() <= 1)
+		return;
+
+	for (int i = 0; i < m_objects.size(); i++)
+	{
+		auto c1 = m_objects[i];
+
+		for (int j = i + 1; j < m_objects.size(); j++)
+		{
+			auto c2 = m_objects[j];
+
+			m_colSys.ApplyBoxCollision(*m_objects[i]->Box, *m_objects[j]->Box);
+		}
+	}
+}
+
 void OcTree::Divide()
 {
 	float newSideSize = m_cubeArea.sideSize / 2;
@@ -74,12 +106,12 @@ void OcTree::Divide()
 	float zMore = m_cubeArea.pos.z + posDivide;
 	float zMinus = m_cubeArea.pos.z - posDivide;
 
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMore, zMore), newSideSize), m_depth++)));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMore, zMinus), newSideSize), m_depth++)));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMinus, zMore), newSideSize), m_depth++)));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMinus, zMinus), newSideSize), m_depth++)));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMore, zMore), newSideSize), m_depth++)));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMore, zMinus), newSideSize), m_depth++)));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMore), newSideSize), m_depth++)));
-	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMinus), newSideSize), m_depth++)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMore, zMore), newSideSize), m_depth++, m_colSys)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMore, zMinus), newSideSize), m_depth++, m_colSys)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMinus, zMore), newSideSize), m_depth++, m_colSys)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMinus, yMinus, zMinus), newSideSize), m_depth++, m_colSys)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMore, zMore), newSideSize), m_depth++, m_colSys)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMore, zMinus), newSideSize), m_depth++, m_colSys)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMore), newSideSize), m_depth++, m_colSys)));
+	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMinus), newSideSize), m_depth++, m_colSys)));
 }

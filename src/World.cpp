@@ -113,7 +113,7 @@ std::shared_ptr<RigidBody>  World::SpawnRigidBody(ParticleData data, Vector3f po
 
 void World::UpdatePhysics(float duration)
 {
-	m_OcTree = std::make_unique<OcTree>(Area(Vector3f(0.f,0.f,0.f), 200.f), 1);
+	m_OcTree = std::make_unique<OcTree>(Area(Vector3f(0.f,0.f,0.f), 200.f), 1, m_collisionSystem);
 
 	m_forceRegistry->UpdateForces(duration);
 	
