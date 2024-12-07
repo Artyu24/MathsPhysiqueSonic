@@ -49,6 +49,8 @@ class CollisionSystem
 		*/
 		bool CheckVertexInsideBox(const Box& box, Vector3f vertex, std::tuple<float, Vector3f, Vector3f>& result);
 
+		bool CheckVertexPlane(const Vector3f& vertex, const Plane& plane, std::tuple<float, Vector3f, Vector3f>& result);
+
 		std::vector<SphereCollider>& GetAllColliders() { return m_colliders;}
 
 	private:

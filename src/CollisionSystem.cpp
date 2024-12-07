@@ -194,5 +194,27 @@ bool CollisionSystem::CheckVertexInsideBox(const Box& box, Vector3f vertex, std:
 	return true;
 }
 
+bool CollisionSystem::CheckVertexPlane(const Vector3f& vertex, const Plane& plane, std::tuple<float, Vector3f, Vector3f>& result)
+{
+	float maxDistanceSquared = -1.0f;
+	std::tuple<float, Vector3f, Vector3f> bestResult;
+
+	const Vector3f vertexToPlane = vertex - plane.GetPoint();
+	float interpenetration = plane.GetNormal().DotProduct(vertexToPlane);
+	
+	// Si interpenetration est superieur a 0, on se trouve a l'exterieur de la box
+	if (interpenetration > 0)
+		return false;
+
+	Vector3f impactPoint = plane.GetPoint() - (plane.GetNormal() * interpenetration);
+
+	// Mise à jour du meilleur résultat
+	bestResult = { interpenetration, impactPoint, plane.GetNormal() };
+
+	// Mise à jour du résultat final
+	result = bestResult;
+	return true;
+}
+
 
 
