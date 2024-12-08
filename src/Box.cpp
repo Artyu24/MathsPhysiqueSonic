@@ -2,6 +2,7 @@
 #include "Particle.h"
 #include "Vector3.h"
 #include "Quaternion.h"
+#include "RigidBody.h"
 
 Box::Box(std::shared_ptr<Particle> particle, float size, float restitution) :
 m_particle(particle),
@@ -32,6 +33,8 @@ std::shared_ptr<Particle> Box::GetParticle() const
 
 std::array<Vector3f, 8> Box::GetBoxVertices() const
 {
+	Quaternion rotation = m_rigidbody->GetOrientation();
+
 	std::array<Vector3f, 8> verticeArray
 	{
 		//Upper vertices
@@ -48,6 +51,7 @@ std::array<Vector3f, 8> Box::GetBoxVertices() const
 
 	for (auto& vertice : verticeArray)
 	{
+		Quaternion::RotateVector(rotation, vertice);
 		vertice *= m_size / 2.f;
 		vertice += m_particle.get()->GetPosition();
 	}

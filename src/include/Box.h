@@ -5,6 +5,7 @@
 #include <array>
 
 class Particle;
+class RigidBody;
 struct CollisionCallback;
 
 template<typename T> struct Vector3;
@@ -24,6 +25,7 @@ class Box
 
 	private:
 		std::shared_ptr<Particle> m_particle;
+		std::shared_ptr<RigidBody> m_rigidbody;
 		float m_size;
 		float m_restitution;
 
