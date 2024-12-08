@@ -18,6 +18,7 @@ class Quaternion
         static Quaternion Identity() { return Quaternion(1.f, 0, 0, 0); }
         static Quaternion GetRotationQuaternion(float angle, Vector3f axis);
         static Quaternion Multiply(Quaternion q1, Quaternion q2);
+        static Vector3f RotateVector(Quaternion q, Vector3f vec);
         
         void Normalize();
         float GetMagnitudeSquared();
@@ -25,6 +26,7 @@ class Quaternion
         float DotProduct(Quaternion b);
         Quaternion GetNormalize();
         Quaternion GetConjugaison();
+        Vector3f GetVector() const;
 
         Matrix GetRotationMatrix();
 

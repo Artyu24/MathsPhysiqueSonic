@@ -34,6 +34,14 @@ Quaternion Quaternion::Multiply(Quaternion q1, Quaternion q2)
         q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w);
 }
 
+Vector3f Quaternion::RotateVector(Quaternion q, Vector3f vec)
+{
+    Quaternion vecQuat(vec);
+    Quaternion result = q * vecQuat * q.GetConjugaison();
+
+    return result.GetVector();
+}
+
 float Quaternion::GetMagnitudeSquared()
 {
     return pow(w, 2) + pow(x, 2) + pow(y, 2) + pow(z, 2);
@@ -72,6 +80,11 @@ Quaternion Quaternion::GetNormalize()
 Quaternion Quaternion::GetConjugaison()
 {
     return Quaternion(w, -x, -y, -z);
+}
+
+Vector3f Quaternion::GetVector() const
+{
+    return Vector3f(x, y, z);
 }
 
 Matrix Quaternion::GetRotationMatrix()
