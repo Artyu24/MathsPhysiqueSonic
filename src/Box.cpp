@@ -1,6 +1,7 @@
 #include "Box.h"
 #include "Particle.h"
 #include "Vector3.h"
+#include "Quaternion.h"
 
 Box::Box(std::shared_ptr<Particle> particle, float size, float restitution) :
 m_particle(particle),
@@ -47,7 +48,7 @@ std::array<Vector3f, 8> Box::GetBoxVertices() const
 
 	for (auto& vertice : verticeArray)
 	{
-		vertice *= m_size;
+		vertice *= m_size / 2.f;
 		vertice += m_particle.get()->GetPosition();
 	}
 

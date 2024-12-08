@@ -41,6 +41,7 @@ class CollisionSystem
 		void AddStick(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float sticklength);
 
 		bool CheckCollisionBox(const Box& box1, const Box& box2, CollisionCallback3D& callback);
+		bool CheckCollisionPlane(const Box& box, const Plane& plane, CollisionCallback3D& calback);
 
 		/** result:
 			float -> interpenetration

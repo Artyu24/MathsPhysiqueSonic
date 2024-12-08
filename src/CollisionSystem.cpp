@@ -153,6 +153,13 @@ bool CollisionSystem::CheckCollisionBox(const Box& box1, const Box& box2, Collis
 	return false;
 }
 
+bool CollisionSystem::CheckCollisionPlane(const Box& box, const Plane& plane, CollisionCallback3D& calback)
+{
+	std::array<Vector3f, 8> vertices = box.GetBoxVertices();
+
+	return false;
+}
+
 bool CollisionSystem::CheckVertexInsideBox(const Box& box, Vector3f vertex, std::tuple<float, Vector3f, Vector3f>& result)
 {
 	const Vector3f& boxCenter = box.GetCenter();
