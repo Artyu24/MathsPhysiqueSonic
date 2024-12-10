@@ -2,6 +2,7 @@
 #include "include/SphereCollider.h"
 #include "include/CollisionCallback.h"
 #include "include/Box.h"
+#include "include/RigidBody.h"
 #include "include/Plane.h"
 #include "ParticuleCollision.h"
 #include <tuple>
@@ -83,16 +84,16 @@ void CollisionSystem::ApplyStickCollisions()
 	}
 }
 
-void CollisionSystem::ApplyBoxCollision(const Box& box1, const Box& box2)
+void CollisionSystem::ApplyBoxCollision(const RigidBody& rb1, const RigidBody& rb2)
 {
 	// Variable des informations de collision
 	CollisionCallback3D infos;
 
-	if (CheckCollisionBox(box1, box2, infos))
+	if (CheckCollisionBox(rb1, rb2, infos))
 	{
-		infos.box = std::make_shared<Box>(box1);
-		infos.restitution = box2.GetRestitution();
-		ParticuleCollision collision(box1.GetParticle(), box2.GetParticle(), infos.restitution, infos.overlap, infos.normal);
+		infos.box = rb1.GetBoundingBox();
+		infos.restitution = rb2.GetBoundingBox()->GetRestitution();
+		ParticuleCollision collision(rb1.GetBoundingBox()->GetParticle(), rb2.GetBoundingBox()->GetParticle(), infos.restitution, infos.overlap, infos.normal);
 		collision.ApplyCollision();
 	}
 }
@@ -112,12 +113,12 @@ void CollisionSystem::AddStick(std::shared_ptr<Particle> particle1, std::shared_
 	m_sticks.push_back(ParticleStick(particle1, particle2, sticklength));
 }
 
-bool CollisionSystem::CheckCollisionBox(const Box& box1, const Box& box2, CollisionCallback3D& callback)
+bool CollisionSystem::CheckCollisionBox(const RigidBody& rb1, const RigidBody& rb2, CollisionCallback3D& callback)
 {
-	std::array<Vector3f, 8> vertices = box2.GetBoxVertices();
+	std::array<Vector3f, 8> vertices = rb2.GetBoundingBox()->GetBoxVertices(rb2);
 
 	// Centre de la boîte 1
-	const Vector3f& box1Center = box1.GetCenter();
+	const Vector3f& box1Center = rb1.GetBoundingBox()->GetCenter();
 
 	// Variables pour stocker le sommet en collision le plus proche
 	float minDistanceSquared = std::numeric_limits<float>::max();
@@ -127,7 +128,7 @@ bool CollisionSystem::CheckCollisionBox(const Box& box1, const Box& box2, Collis
 	for (const auto& vertex : vertices)
 	{
 		std::tuple<float, Vector3f, Vector3f> collisionResult;
-		if (CheckVertexInsideBox(box1, vertex, collisionResult))
+		if (CheckVertexInsideBox(rb1, vertex, collisionResult))
 		{
 			// Calculer la distance carrée du sommet au centre de la boîte 1
 			float distanceSquared = (vertex - box1Center).SquaredLength();
@@ -153,17 +154,17 @@ bool CollisionSystem::CheckCollisionBox(const Box& box1, const Box& box2, Collis
 	return false;
 }
 
-bool CollisionSystem::CheckCollisionPlane(const Box& box, const Plane& plane, CollisionCallback3D& calback)
+bool CollisionSystem::CheckCollisionPlane(const RigidBody& rb, const Plane& plane, CollisionCallback3D& calback)
 {
-	std::array<Vector3f, 8> vertices = box.GetBoxVertices();
+	std::array<Vector3f, 8> vertices = rb.GetBoundingBox()->GetBoxVertices(rb);
 
 	return false;
 }
 
-bool CollisionSystem::CheckVertexInsideBox(const Box& box, Vector3f vertex, std::tuple<float, Vector3f, Vector3f>& result)
+bool CollisionSystem::CheckVertexInsideBox(const RigidBody& rb, Vector3f vertex, std::tuple<float, Vector3f, Vector3f>& result)
 {
-	const Vector3f& boxCenter = box.GetCenter();
-	const float boxSize = box.GetSize();
+	const Vector3f& boxCenter = rb.GetBoundingBox()->GetCenter();
+	const float boxSize = rb.GetBoundingBox()->GetSize();
 
 	float maxDistanceSquared = -1.0f;
 	std::tuple<float, Vector3f, Vector3f> bestResult;

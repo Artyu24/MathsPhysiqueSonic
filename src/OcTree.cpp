@@ -1,12 +1,14 @@
 #include "OcTree.h"
 
 #include "Particle.h"
+#include "include/RigidBody.h"
 
 OcTree::OcTree(Area area, int depth, CollisionSystem colSys) :
 m_cubeArea(area),
 m_depth(depth),
 m_colSys(colSys)
 {
+
 	Particle particle(area.pos);
 	Sphere sphere(std::make_shared<Particle>(particle), area.sideSize * sqrt(3));
 	m_OcTreeSphere = make_shared<Sphere>(sphere);
@@ -22,12 +24,13 @@ OcTree::~OcTree()
 	m_childs.clear();
 }
 
-void OcTree::InsertObject(std::shared_ptr<ObjectCollision> newData)
+void OcTree::InsertObject(std::shared_ptr<RigidBody> newData)
 {
-	if(!m_OcTreeSphere->IsColliding(*newData->Sphere))
+	if (!m_OcTreeSphere->IsColliding(*newData->GetBoundingSphere()))
 		return;
 
 	if (m_childs.size() == 0)
+		
 		m_objects.push_back(newData);
 	else
 	{
@@ -89,7 +92,7 @@ void OcTree::TestCollision()
 		{
 			auto c2 = m_objects[j];
 
-			m_colSys.ApplyBoxCollision(*m_objects[i]->Box, *m_objects[j]->Box);
+			m_colSys.ApplyBoxCollision(*m_objects[i], *m_objects[j]);
 		}
 	}
 }
@@ -115,3 +118,13 @@ void OcTree::Divide()
 	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMore), newSideSize), m_depth++, m_colSys)));
 	m_childs.push_back(std::make_shared<OcTree>(OcTree(Area(Vector3f(xMore, yMinus, zMinus), newSideSize), m_depth++, m_colSys)));
 }
+
+//void OcTree::SetRigidBody(std::shared_ptr<RigidBody> rigidBody)
+//{
+//	this->RigidBody = rigidBody;
+//}
+
+//std::shared_ptr<RigidBody> Octree::GetRigidBody() const
+//{
+//	return this->RigidBody;
+//}

@@ -4,6 +4,7 @@
 #include <tuple>
 #include <array>
 #include "SphereCollider.h"
+#include "RigidBody.h"
 #include "Particle.h"
 #include "ParticleCable.h"
 #include "ParticleStick.h"
@@ -34,21 +35,21 @@ class CollisionSystem
 		void ApplyGroundCollisions();
 		void ApplyCableCollisions();
 		void ApplyStickCollisions();
-		void ApplyBoxCollision(const Box& box1, const Box& box2);
+		void ApplyBoxCollision(const RigidBody& rb1, const RigidBody& rb2);
 
 		void AddCollider(float r, std::shared_ptr<Particle> particle);
 		void AddCable(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float cableLength);
 		void AddStick(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float sticklength);
 
-		bool CheckCollisionBox(const Box& box1, const Box& box2, CollisionCallback3D& callback);
-		bool CheckCollisionPlane(const Box& box, const Plane& plane, CollisionCallback3D& calback);
+		bool CheckCollisionBox(const RigidBody& rb1, const RigidBody& rb2, CollisionCallback3D& callback);
+		bool CheckCollisionPlane(const RigidBody& rb, const Plane& plane, CollisionCallback3D& calback);
 
 		/** result:
 			float -> interpenetration
 			Vector3f -> Point d'impact
 			Vector3f -> face traversee
 		*/
-		bool CheckVertexInsideBox(const Box& box, Vector3f vertex, std::tuple<float, Vector3f, Vector3f>& result);
+		bool CheckVertexInsideBox(const RigidBody& rb, Vector3f vertex, std::tuple<float, Vector3f, Vector3f>& result);
 
 		bool CheckVertexPlane(const Vector3f& vertex, const Plane& plane, std::tuple<float, Vector3f, Vector3f>& result);
 

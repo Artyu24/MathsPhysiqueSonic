@@ -29,7 +29,7 @@ void World::Setup()
 	ofxGuiSetTextColor(ofColor::white);
 
 
-	gui.add(planeSizeField.setup("Plane Size", 1920, 1, 3840));
+	gui.add(planeSizeField.setup("Plane Size", 1000, 1, 3840));
 	gui.add(speedSlider.setup("Launch Speed", 25.f, 10.0f, 100.0f));
 
 	gui.add(yawSlider.setup("Canon Yaw", yaw, -180.0f, 180.0f));
@@ -44,11 +44,90 @@ void World::Setup()
 
 
 	///dimensions for width and height in pixels
-	plane.setPosition(0, -300, 0); /// position in x y z
+	/*plane.setPosition(0, -300, 0); /// position in x y z
 	plane.setOrientation({ 90,0,0 });
-	plane.setResolution(8, 8);
+	plane.setResolution(8, 8);*/
 
 	canon.setPosition(0, 0, 0);
+
+	CreateGameBox(planeSizeField);
+}
+
+void World::CreateGameBox(float boxSize)
+{
+	floor.set(boxSize, boxSize);
+	floor.setPosition(0, -boxSize / 2, 0);
+	floor.setOrientation({ 90, 0, 0 }); 
+	floor.setResolution(8, 8);
+	m_walls.push_back(floor);
+
+	auto floorParticle = std::make_shared<Particle>(floor.getPosition());
+	auto floorRb = std::make_shared<RigidBody>(floorParticle);
+	m_WallRigidBody.push_back(floorRb);
+	m_collisionSystem.AddCollider(boxSize, floorParticle);
+
+	/*ceiling.set(boxSize, boxSize); 
+	ceiling.setPosition(0, boxSize / 2, 0);
+	ceiling.setOrientation({ 90, 0, 0 }); 
+	ceiling.setResolution(8, 8);
+	m_walls.push_back(ceiling);*/
+
+	frontWall.set(boxSize, boxSize);
+	frontWall.setPosition(0, 0, boxSize / 2);
+	frontWall.setOrientation({ 0, 0, 0 });
+	frontWall.setResolution(8, 8);
+	m_walls.push_back(frontWall);
+
+	auto frontWallParticle = std::make_shared<Particle>(frontWall.getPosition());
+	auto frontWallRb = std::make_shared<RigidBody>(frontWallParticle);
+	m_WallRigidBody.push_back(frontWallRb);
+	m_collisionSystem.AddCollider(boxSize, frontWallParticle);
+
+	backWall.set(boxSize, boxSize);
+	backWall.setPosition(0, 0, -boxSize / 2);
+	backWall.setOrientation({ 0, 0, 0 }); 
+	backWall.setResolution(8, 8);
+	m_walls.push_back(backWall);
+
+	auto backWallParticle = std::make_shared<Particle>(backWall.getPosition());
+	auto backWallRb = std::make_shared<RigidBody>(backWallParticle);
+	m_WallRigidBody.push_back(backWallRb);
+	m_collisionSystem.AddCollider(boxSize, backWallParticle);
+
+	leftWall.set(boxSize, boxSize);
+	leftWall.setPosition(-boxSize / 2, 0, 0);
+	leftWall.setOrientation({ 0, 90, 0 }); 
+	leftWall.setResolution(8, 8);
+	m_walls.push_back(leftWall);
+
+	auto leftWallParticle = std::make_shared<Particle>(leftWall.getPosition());
+	auto leftWallRb = std::make_shared<RigidBody>(leftWallParticle);
+	m_WallRigidBody.push_back(leftWallRb);
+	m_collisionSystem.AddCollider(boxSize, leftWallParticle);
+
+	rightWall.set(boxSize, boxSize);
+	rightWall.setPosition(boxSize / 2, 0, 0); 
+	rightWall.setOrientation({ 0, 90, 0 }); 
+	rightWall.setResolution(8, 8);
+	m_walls.push_back(rightWall);
+
+	auto rightWallParticle = std::make_shared<Particle>(rightWall.getPosition());
+	auto rightWallRb = std::make_shared<RigidBody>(rightWallParticle);
+	m_WallRigidBody.push_back(rightWallRb);
+	m_collisionSystem.AddCollider(boxSize, rightWallParticle);
+}
+
+void World::UpdateGameBox() {
+	float boxSize = planeSizeField;
+	for (auto& wall : m_walls) {
+		wall.set(boxSize, boxSize);
+	}
+
+	m_walls[0].setPosition(0, -boxSize / 2, 0); 
+	m_walls[1].setPosition(0, 0, boxSize / 2); 
+	m_walls[2].setPosition(0, 0, -boxSize / 2);
+	m_walls[3].setPosition(-boxSize / 2, 0, 0);
+	m_walls[4].setPosition(boxSize / 2, 0, 0);
 }
 
 void World::UpdateGame()
@@ -64,6 +143,7 @@ void World::UpdateGame()
 		sin(pitchRad),
 		cos(pitchRad) * sin(yawRad)
 	);
+	UpdateGameBox();
 }
 
 void World::SpacePressed()
@@ -113,7 +193,25 @@ std::shared_ptr<RigidBody>  World::SpawnRigidBody(ParticleData data, Vector3f po
 
 void World::UpdatePhysics(float duration)
 {
-	m_OcTree = std::make_unique<OcTree>(Area(Vector3f(0.f,0.f,0.f), 200.f), 1, m_collisionSystem);
+	m_OcTree = std::make_unique<OcTree>(Area(Vector3f(0.f,0.f,0.f), planeSizeField), 1, m_collisionSystem);
+
+	for(size_t i = 0 ; i< m_walls.size(); i++)
+	{
+		/*auto wallObject = std::make_shared<OcTree::Rigidboy>();
+		wallObject->Box = m_wallBoxes[i];*/
+		
+		m_OcTree->InsertObject(m_WallRigidBody[i]);
+	}
+
+	for (size_t i = 0; i < m_rigidBody.size(); i++)
+	{
+		/*auto rbCollision = std::make_shared<OcTree::ObjectCollision>();
+		rbCollision->Box = rb->GetBoundingBox();
+		rbCollision->Sphere = rb->GetBoundingSphere();*/
+
+		m_OcTree->InsertObject(m_rigidBody[i]);
+	}
+	
 
 	m_forceRegistry->UpdateForces(duration);
 	
@@ -127,6 +225,7 @@ void World::UpdatePhysics(float duration)
 	{
 		particule->Integrate(duration);
 	}
+	ApplyCollisions();
 }
 
 void World::Draw()
@@ -145,9 +244,9 @@ void World::Draw()
 
 	//Draw Canon
 	ofSetColor(100.f);
-	plane.set(planeSizeField, planeSizeField);
-	plane.draw();
-
+	/*plane.set(planeSizeField, planeSizeField);
+	plane.draw();*/
+	
 	{
 		ofPushMatrix();
 		ofTranslate(0, 0, 0);
@@ -158,11 +257,27 @@ void World::Draw()
 		canon.draw();
 		ofPopMatrix();
 	}
-		
+	
+	/*UpdateGameBox();*/
+	for (const auto& wall : m_walls)
+	{
+		ofSetColor(200);
+		wall.draw();
+	}
+
+	ofNoFill();
+	/*UpdateGameBox();*/
+	for (const auto& wall : m_walls)
+	{
+		ofSetColor(200, 200, 200);
+		wall.draw();
+	}
+	ofFill();
+
 	//Draw Particle
 	for (auto& rb : m_rigidBody)
 	{
-		if (rb->GetPosition().y > -300) {
+		/*if (rb->GetPosition().y > -300) {*/
 
 			ofPushMatrix();
 
@@ -181,7 +296,7 @@ void World::Draw()
 			ofDrawSphere(0, 0, 0, 5.f);
 
 			ofPopMatrix();
-		}
+		/*}*/
 
 	}
 
@@ -207,6 +322,10 @@ void World::Draw()
 void World::ApplyCollisions()
 {
 	m_collisionSystem.ApplyCollisions();
+	if (m_OcTree)
+	{
+		m_OcTree->TestCollision();
+	}
 }
 
 void World::ApplyGroundCollisions()

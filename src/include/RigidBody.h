@@ -4,6 +4,8 @@
 #include "include/Quaternion.h"
 #include "include/Vector3.h"
 #include "include/Particle.h"
+#include "include/Sphere.h"
+#include "include/Box.h"
 #include <memory>
 
 class RigidBody {
@@ -31,12 +33,14 @@ public:
     Quaternion GetOrientation() const;
     Vector3f GetLinearVelocity() const;
     Vector3f GetAngularVelocity() const;
+    std::shared_ptr<Particle> GetCenterOfMass() const;
+    std::shared_ptr<Sphere> GetBoundingSphere() const;
+    std::shared_ptr<Box> GetBoundingBox() const;
 
 private:
     // Attributes
     float mass;
     std::shared_ptr<Particle> centerOfMass;
-    /*Vector3f position;*/
     Quaternion orientation;
     Vector3f linearVelocity;
     Vector3f angularVelocity;
@@ -44,4 +48,7 @@ private:
     Matrix inverseInertiaTensor;
     Vector3f force;
     Vector3f torque;
+
+    std::shared_ptr<Sphere> boundingSphere;
+    std::shared_ptr<Box> boundingBox;
 };

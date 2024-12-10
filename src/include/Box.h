@@ -21,14 +21,13 @@ class Box
 		Vector3f GetCenter() const;
 		std::shared_ptr<Particle> GetParticle() const;
 
-		std::array<Vector3f, 8> GetBoxVertices() const;
+		std::array<Vector3f, 8> GetBoxVertices(const RigidBody &rb) const;
 
 	private:
 		std::shared_ptr<Particle> m_particle;
-		std::shared_ptr<RigidBody> m_rigidbody;
+		/*std::shared_ptr<RigidBody> m_rigidbody;*/
 		float m_size;
 		float m_restitution;
-
 		std::function<void(CollisionCallback)> m_delegates;
 };
 

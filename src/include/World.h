@@ -21,6 +21,8 @@ public:
 	//Game Temp
 	void SpacePressed();
 
+	void CreateGameBox(float boxSize);
+	void UpdateGameBox();
 	std::shared_ptr<Particle> SpawnParticle(ParticleData data, Vector3f pos, bool isIntegrateEulerMode = true);
 	std::shared_ptr<RigidBody> SpawnRigidBody(ParticleData data, Vector3f pos, float duration);
 
@@ -40,6 +42,10 @@ private:
 	std::vector<std::shared_ptr<RigidBody>> m_rigidBody;
 	std::unique_ptr<ParticleForceRegistry> m_forceRegistry;
 
+	std::vector<std::shared_ptr<RigidBody>> m_WallRigidBody;
+	std::vector<std::shared_ptr<Sphere>> m_wallSpheres;
+	std::vector<std::shared_ptr<Box>> m_wallBoxes;
+
 	CollisionSystem m_collisionSystem;
 
 	static Vector3f m_gravity;
@@ -53,6 +59,12 @@ private:
 	ofEasyCam camera;
 
 	ofPlanePrimitive plane;
+	ofPlanePrimitive floor;
+	ofPlanePrimitive ceiling;
+	ofPlanePrimitive frontWall;
+	ofPlanePrimitive backWall;
+	ofPlanePrimitive leftWall;
+	ofPlanePrimitive rightWall;
 
 	ofBoxPrimitive canon;
 	Vector3f cannonDirection;
@@ -74,6 +86,9 @@ private:
 	float yaw;
 	float pitch;
 
+	std::vector<ofPlanePrimitive> m_walls;
+
 	//Phase 4
 	std::unique_ptr<OcTree> m_OcTree;
+	
 };

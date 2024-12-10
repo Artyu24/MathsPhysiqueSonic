@@ -12,6 +12,15 @@ RigidBody::RigidBody(std::shared_ptr<Particle> particle)
 {
     ComputeInertiaTensor();
     inverseInertiaTensor = inertiaTensor.InvertByRowReduction();
+
+    Sphere SphereRb(centerOfMass, 0.5f);
+    std::shared_ptr<Sphere> sphereShared = std::make_shared<Sphere>(SphereRb);
+    boundingSphere = sphereShared;
+
+    Box BoxRb(centerOfMass, 50.0f);
+    std::shared_ptr<Box> boxShared = std::make_shared<Box>(BoxRb);
+    boundingBox = boxShared;
+
 }
 
 void RigidBody::ComputeInertiaTensor() 
@@ -104,4 +113,16 @@ Vector3f RigidBody::GetLinearVelocity() const
 Vector3f RigidBody::GetAngularVelocity() const 
 {
     return angularVelocity;
+}
+
+std::shared_ptr<Particle> RigidBody::GetCenterOfMass() const {
+    return centerOfMass;
+}
+
+std::shared_ptr<Sphere> RigidBody::GetBoundingSphere() const {
+    return boundingSphere;
+}
+
+std::shared_ptr<Box> RigidBody::GetBoundingBox() const {
+    return boundingBox;
 }

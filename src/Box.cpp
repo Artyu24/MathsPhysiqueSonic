@@ -31,9 +31,9 @@ std::shared_ptr<Particle> Box::GetParticle() const
 	return m_particle;
 }
 
-std::array<Vector3f, 8> Box::GetBoxVertices() const
+std::array<Vector3f, 8> Box::GetBoxVertices(const RigidBody &rb) const
 {
-	Quaternion rotation = m_rigidbody->GetOrientation();
+	Quaternion rotation = rb.GetOrientation();
 
 	std::array<Vector3f, 8> verticeArray
 	{
