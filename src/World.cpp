@@ -19,8 +19,12 @@ m_forceRegistry(std::make_unique<ParticleForceRegistry>()) //Create Force Regist
 
 void World::Setup()
 {
+	
 	ofEnableDepthTest();
 	ofSetVerticalSync(true);
+
+	ofDisableArbTex();
+	ofLoadImage(planeText, "Gradient.jpg");
 
 	camera.setDistance(160);
 
@@ -59,6 +63,7 @@ void World::CreateGameBox(float boxSize)
 	floor.setPosition(0, -boxSize / 2, 0);
 	floor.setOrientation({ 90, 0, 0 }); 
 	floor.setResolution(8, 8);
+
 	m_walls.push_back(floor);
 
 	auto floorParticle = std::make_shared<Particle>(floor.getPosition());
@@ -75,6 +80,7 @@ void World::CreateGameBox(float boxSize)
 	frontWall.setPosition(0, 0, boxSize / 2);
 	frontWall.setOrientation({ 0, 0, 0 });
 	frontWall.setResolution(8, 8);
+
 	m_walls.push_back(frontWall);
 
 	auto frontWallParticle = std::make_shared<Particle>(frontWall.getPosition());
@@ -85,6 +91,7 @@ void World::CreateGameBox(float boxSize)
 	backWall.setPosition(0, 0, -boxSize / 2);
 	backWall.setOrientation({ 0, 0, 0 }); 
 	backWall.setResolution(8, 8);
+
 	m_walls.push_back(backWall);
 
 	auto backWallParticle = std::make_shared<Particle>(backWall.getPosition());
@@ -95,6 +102,7 @@ void World::CreateGameBox(float boxSize)
 	leftWall.setPosition(-boxSize / 2, 0, 0);
 	leftWall.setOrientation({ 0, 90, 0 }); 
 	leftWall.setResolution(8, 8);
+
 	m_walls.push_back(leftWall);
 
 	auto leftWallParticle = std::make_shared<Particle>(leftWall.getPosition());
@@ -105,6 +113,7 @@ void World::CreateGameBox(float boxSize)
 	rightWall.setPosition(boxSize / 2, 0, 0); 
 	rightWall.setOrientation({ 0, 90, 0 }); 
 	rightWall.setResolution(8, 8);
+
 	m_walls.push_back(rightWall);
 
 	auto rightWallParticle = std::make_shared<Particle>(rightWall.getPosition());
@@ -255,16 +264,21 @@ void World::Draw()
 	/*UpdateGameBox();*/
 	for (const auto& wall : m_walls)
 	{
-		ofSetColor(200);
+		planeText.bind();
+		//ofSetColor(200);
 		wall.draw();
+		planeText.unbind();
 	}
 
 	ofNoFill();
 	/*UpdateGameBox();*/
 	for (const auto& wall : m_walls)
 	{
-		ofSetColor(200, 200, 200);
+		planeText.bind();
+		//ofSetColor(200);
 		wall.draw();
+		planeText.unbind();
+		
 	}
 	ofFill();
 

@@ -90,5 +90,7 @@ private:
 
 	//Phase 4
 	std::unique_ptr<OcTree> m_OcTree;
+	ofTexture planeText;
+
 	
 };
