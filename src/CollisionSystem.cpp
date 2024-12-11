@@ -91,10 +91,13 @@ void CollisionSystem::ApplyBoxCollision(const RigidBody& rb1, const RigidBody& r
 
 	if (CheckCollisionBox(rb1, rb2, infos))
 	{
-		infos.box = rb1.GetBoundingBox();
+    		infos.box = rb1.GetBoundingBox();
 		infos.restitution = rb2.GetBoundingBox()->GetRestitution();
-		ParticuleCollision collision(rb1.GetBoundingBox()->GetParticle(), rb2.GetBoundingBox()->GetParticle(), infos.restitution, infos.overlap, infos.normal);
+     		ParticuleCollision collision(rb1.GetBoundingBox()->GetParticle(), rb2.GetBoundingBox()->GetParticle(), infos.restitution, std::abs(infos.overlap), infos.normal);
 		collision.ApplyCollision();
+		//std::cout << infos.normal.x << " " << infos.normal.y << " " << infos.normal.z << std::endl;
+		//std::cout << infos.restitution << std::endl;
+		//std::cout << infos.overlap << std::endl;
 	}
 }
 
@@ -172,7 +175,7 @@ bool CollisionSystem::CheckVertexInsideBox(const RigidBody& rb, Vector3f vertex,
 	for (const Vector3f& face : faces)
 	{
 		// Initialisation du plan basé sur une face
-		Plane facePlane(face, boxCenter, boxSize);
+		Plane facePlane(face, boxCenter, boxSize / 2.f);
 
 		const Vector3f vertexToPlane = vertex - facePlane.GetPoint();
 		float interpenetration = facePlane.GetNormal().DotProduct(vertexToPlane);

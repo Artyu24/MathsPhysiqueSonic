@@ -34,7 +34,7 @@ Quaternion Quaternion::Multiply(Quaternion q1, Quaternion q2)
         q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w);
 }
 
-Vector3f Quaternion::RotateVector(Quaternion q, Vector3f vec)
+Vector3f Quaternion::RotateVector(Quaternion q, Vector3f& vec)
 {
     Quaternion vecQuat(vec);
     Quaternion result = q * vecQuat * q.GetConjugaison();

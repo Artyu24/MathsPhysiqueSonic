@@ -64,7 +64,6 @@ void World::CreateGameBox(float boxSize)
 	auto floorParticle = std::make_shared<Particle>(floor.getPosition());
 	auto floorRb = std::make_shared<RigidBody>(floorParticle);
 	m_WallRigidBody.push_back(floorRb);
-	m_collisionSystem.AddCollider(boxSize, floorParticle);
 
 	/*ceiling.set(boxSize, boxSize); 
 	ceiling.setPosition(0, boxSize / 2, 0);
@@ -81,7 +80,6 @@ void World::CreateGameBox(float boxSize)
 	auto frontWallParticle = std::make_shared<Particle>(frontWall.getPosition());
 	auto frontWallRb = std::make_shared<RigidBody>(frontWallParticle);
 	m_WallRigidBody.push_back(frontWallRb);
-	m_collisionSystem.AddCollider(boxSize, frontWallParticle);
 
 	backWall.set(boxSize, boxSize);
 	backWall.setPosition(0, 0, -boxSize / 2);
@@ -92,7 +90,6 @@ void World::CreateGameBox(float boxSize)
 	auto backWallParticle = std::make_shared<Particle>(backWall.getPosition());
 	auto backWallRb = std::make_shared<RigidBody>(backWallParticle);
 	m_WallRigidBody.push_back(backWallRb);
-	m_collisionSystem.AddCollider(boxSize, backWallParticle);
 
 	leftWall.set(boxSize, boxSize);
 	leftWall.setPosition(-boxSize / 2, 0, 0);
@@ -103,7 +100,6 @@ void World::CreateGameBox(float boxSize)
 	auto leftWallParticle = std::make_shared<Particle>(leftWall.getPosition());
 	auto leftWallRb = std::make_shared<RigidBody>(leftWallParticle);
 	m_WallRigidBody.push_back(leftWallRb);
-	m_collisionSystem.AddCollider(boxSize, leftWallParticle);
 
 	rightWall.set(boxSize, boxSize);
 	rightWall.setPosition(boxSize / 2, 0, 0); 
@@ -114,7 +110,6 @@ void World::CreateGameBox(float boxSize)
 	auto rightWallParticle = std::make_shared<Particle>(rightWall.getPosition());
 	auto rightWallRb = std::make_shared<RigidBody>(rightWallParticle);
 	m_WallRigidBody.push_back(rightWallRb);
-	m_collisionSystem.AddCollider(boxSize, rightWallParticle);
 }
 
 void World::UpdateGameBox() {
@@ -153,7 +148,6 @@ void World::SpacePressed()
 	Vector3f velocity = cannonDirection * speed;
 
 	auto newProjectile = SpawnRigidBody({ velocity, massField }, cannonDirection, ofGetLastFrameTime() * 10.f);
-
 }
 
 
@@ -214,6 +208,7 @@ void World::UpdatePhysics(float duration)
 	
 
 	m_forceRegistry->UpdateForces(duration);
+	ApplyCollisions();
 	
 	for (auto& rb : m_rigidBody) 
 	{
@@ -225,7 +220,6 @@ void World::UpdatePhysics(float duration)
 	{
 		particule->Integrate(duration);
 	}
-	ApplyCollisions();
 }
 
 void World::Draw()

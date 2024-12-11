@@ -51,7 +51,7 @@ std::array<Vector3f, 8> Box::GetBoxVertices(const RigidBody &rb) const
 
 	for (auto& vertice : verticeArray)
 	{
-		Quaternion::RotateVector(rotation, vertice);
+		vertice = Quaternion::RotateVector(rotation, vertice);
 		vertice *= m_size / 2.f;
 		vertice += m_particle.get()->GetPosition();
 	}
