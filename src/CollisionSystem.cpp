@@ -150,7 +150,7 @@ bool CollisionSystem::CheckCollisionBox(const RigidBody& rb1, const RigidBody& r
 	{
 		callback.overlap = std::get<0>(bestCollisionResult);
 		callback.impactPoint = std::get<1>(bestCollisionResult);
-		callback.normal = std::get<2>(bestCollisionResult);
+		callback.normal = (rb1.GetPosition() - rb2.GetPosition()).Normalize();
 		return true;
 	}
 
