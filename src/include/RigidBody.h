@@ -37,6 +37,9 @@ public:
     std::shared_ptr<Sphere> GetBoundingSphere() const;
     std::shared_ptr<Box> GetBoundingBox() const;
 
+    void SetBoundingSphereSize(float radius);
+    void SetBoundingBoxSize(float size);
+
 private:
     // Attributes
     float mass;

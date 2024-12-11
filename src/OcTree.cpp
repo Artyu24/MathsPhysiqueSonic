@@ -10,7 +10,7 @@ m_colSys(colSys)
 {
 
 	Particle particle(area.pos);
-	Sphere sphere(std::make_shared<Particle>(particle), area.sideSize * sqrt(3));
+	Sphere sphere(std::make_shared<Particle>(particle), area.sideSize * sqrt(3)/2);
 	m_OcTreeSphere = make_shared<Sphere>(sphere);
 
 	Box box(std::make_shared<Particle>(particle), area.sideSize);

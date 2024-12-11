@@ -61,4 +61,3 @@ class CollisionSystem
 		std::vector<SphereCollider> m_colliders;
 		std::unordered_map<SphereCollider*, CollisionCallback> m_callbacksToCall;
 };
-

@@ -1,4 +1,5 @@
 #include "RigidBody.h"
+#include "include/Sphere.h"
 
 RigidBody::RigidBody(std::shared_ptr<Particle> particle)
     : mass(1/particle->GetInverseMass()),
@@ -13,11 +14,11 @@ RigidBody::RigidBody(std::shared_ptr<Particle> particle)
     ComputeInertiaTensor();
     inverseInertiaTensor = inertiaTensor.InvertByRowReduction();
 
-    Sphere SphereRb(centerOfMass, 50.f * sqrt(3));
+    Sphere SphereRb(centerOfMass, 50.f * sqrt(3)/2);
     std::shared_ptr<Sphere> sphereShared = std::make_shared<Sphere>(SphereRb);
     boundingSphere = sphereShared;
 
-    Box BoxRb(centerOfMass, 25.0f);
+    Box BoxRb(centerOfMass, 50.0f);
     std::shared_ptr<Box> boxShared = std::make_shared<Box>(BoxRb);
     boundingBox = boxShared;
 
@@ -125,4 +126,14 @@ std::shared_ptr<Sphere> RigidBody::GetBoundingSphere() const {
 
 std::shared_ptr<Box> RigidBody::GetBoundingBox() const {
     return boundingBox;
+}
+
+void RigidBody::SetBoundingSphereSize(float radius)
+{
+    this->boundingSphere->SetRadius(radius);
+}
+
+void RigidBody::SetBoundingBoxSize(float size)
+{
+    this->boundingBox->SetSize(size);
 }

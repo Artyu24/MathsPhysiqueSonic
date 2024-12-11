@@ -1,13 +1,13 @@
 #include "include/ParticuleCollision.h"
 #include <cmath>
 
-ParticuleCollision::ParticuleCollision(std::shared_ptr<Particle> particle1, float restitution, float overlap) :
-m_restitution(restitution),
-m_overlap(overlap),
-m_collisionNormal(Vector3f{0.f, 1.0f, 0.0f})
+ParticuleCollision::ParticuleCollision(std::shared_ptr<Particle> particle1, float restitution, float overlap, Vector3f normal) :
+    m_restitution(restitution),
+    m_overlap(overlap),
+    m_collisionNormal(normal) 
 {
-	m_particles[0] = particle1;
-	m_particles[1] = nullptr;
+    m_particles[0] = particle1;
+    m_particles[1] = nullptr;
 }
 
 ParticuleCollision::ParticuleCollision(std::shared_ptr<Particle> particle1, std::shared_ptr<Particle> particle2, float restitution, float overlap, Vector3f normal) :
@@ -51,7 +51,10 @@ float ParticuleCollision::CalculateRelativeVelocity()
 	if (m_particles[1])
 		totalVel -= m_particles[1]->GetVelocity();
 
+    //std::cout << totalVel.DotProduct(m_collisionNormal)<< std::endl;
+
 	return totalVel.DotProduct(m_collisionNormal);
+
 }
 
 float ParticuleCollision::InternalSumInvMass() const
@@ -65,12 +68,11 @@ float ParticuleCollision::InternalSumInvMass() const
 
 void ParticuleCollision::InternalResolveImpulse()
 {
-	float relativeVelocity = CalculateRelativeVelocity();
+	float relativeVelocity = CalculateRelativeVelocity() ;
 	float e = m_restitution;
 	float k = (e + 1) * relativeVelocity;
 
 	float sumInvMass = InternalSumInvMass();
-
 	k = k / sumInvMass;
 
 	m_particles[0]->SetVelocity(m_particles[0]->GetVelocity() - m_collisionNormal * m_particles[0]->GetInverseMass() * k);
@@ -81,13 +83,44 @@ void ParticuleCollision::InternalResolveImpulse()
 
 void ParticuleCollision::InternalResolveOverlap()
 {
-	if (m_overlap < 0)
-		return;
+    // Clamp l'overlap pour éviter les valeurs trop grandes ou négatives
+    m_overlap = std::clamp(m_overlap, 0.0f, 5.0f);
 
-	float sumInvMass = InternalSumInvMass();
+    float sumInvMass = InternalSumInvMass();
+    float correctionFactor = 0.05f;
+    float overlapCorrection = m_overlap * correctionFactor;
 
-	m_particles[0]->SetPosition(m_particles[0]->GetPosition() + m_collisionNormal * (1.f / m_particles[0]->GetInverseMass()) * sumInvMass * m_overlap);
+    Vector3f minimalCorrection = m_collisionNormal * 0.05f;
 
-	if (m_particles[1])
-		m_particles[1]->SetPosition(m_particles[1]->GetPosition() + m_collisionNormal * (-1.f / m_particles[1]->GetInverseMass()) * sumInvMass * m_overlap);
+    if (m_particles[0]->GetIsPlane()) {
+        m_particles[1]->SetPosition(
+            m_particles[1]->GetPosition() + minimalCorrection + m_collisionNormal * (-1.f / m_particles[1]->GetInverseMass()) * overlapCorrection
+        );
+        return;
+    }
+
+    if (m_particles[1] && m_particles[1]->GetIsPlane()) {
+        m_particles[0]->SetPosition(
+            m_particles[0]->GetPosition() + minimalCorrection + m_collisionNormal * (1.f / m_particles[0]->GetInverseMass()) * overlapCorrection
+        );
+        return;
+    }
+
+    m_particles[0]->SetPosition(
+        m_particles[0]->GetPosition() + minimalCorrection + m_collisionNormal * (1.f / m_particles[0]->GetInverseMass()) * overlapCorrection
+    );
+
+    if (m_particles[1]) {
+        m_particles[1]->SetPosition(
+            m_particles[1]->GetPosition() + minimalCorrection + m_collisionNormal * (-1.f / m_particles[1]->GetInverseMass()) * overlapCorrection
+        );
+    }
+
+    Vector3f velocity = m_particles[0]->GetVelocity();
+    m_particles[0]->SetVelocity(velocity * 0.5f);
+
+    if (m_particles[1]) {
+        velocity = m_particles[1]->GetVelocity();
+        m_particles[1]->SetVelocity(velocity * 0.5f);
+    }
 }

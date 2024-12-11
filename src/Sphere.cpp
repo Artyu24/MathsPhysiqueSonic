@@ -34,3 +34,8 @@ const bool Sphere::IsCollidingStatic(const Sphere& first, const Sphere& second)
 	}
 	return false;
 }
+
+void Sphere::SetRadius(float radius)
+{
+	this->m_radius = radius;
+}

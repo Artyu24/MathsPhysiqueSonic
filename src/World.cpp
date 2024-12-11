@@ -14,7 +14,6 @@ m_forceRegistry(std::make_unique<ParticleForceRegistry>()) //Create Force Regist
 	cannonDirection = Vector3f(1.f,0.f,0.f);
 	yaw = 0.0f;
 	pitch = 0.0f;
-
 }
 
 void World::Setup()
@@ -59,15 +58,21 @@ void World::Setup()
 
 void World::CreateGameBox(float boxSize)
 {
+	float largeMass = 1.f;
+
 	floor.set(boxSize, boxSize);
-	floor.setPosition(0, -boxSize / 2, 0);
+	floor.setPosition(0, -boxSize/2, 0);
 	floor.setOrientation({ 90, 0, 0 }); 
 	floor.setResolution(8, 8);
 
 	m_walls.push_back(floor);
 
-	auto floorParticle = std::make_shared<Particle>(floor.getPosition());
+	auto floorParticle = std::make_shared<Particle>(Vector3f(0, -boxSize, 0), Vector3f(0.f, 0.f, 0.f), largeMass, 100000000, true, true);
+	//floorParticle->SetInvMass(largeMass);
 	auto floorRb = std::make_shared<RigidBody>(floorParticle);
+	floorRb->GetBoundingBox()->SetSize(boxSize);
+	floorRb->GetBoundingSphere()->SetRadius(boxSize * sqrt(3)/2);
+	std::cout << "Floor Box Size: " << floorRb->GetBoundingBox()->GetSize() << " " << floorRb->GetBoundingSphere()->GetRadius() << std::endl;
 	m_WallRigidBody.push_back(floorRb);
 
 	/*ceiling.set(boxSize, boxSize); 
@@ -77,47 +82,59 @@ void World::CreateGameBox(float boxSize)
 	m_walls.push_back(ceiling);*/
 
 	frontWall.set(boxSize, boxSize);
-	frontWall.setPosition(0, 0, boxSize / 2);
+	frontWall.setPosition(0, 0, boxSize/2 );
 	frontWall.setOrientation({ 0, 0, 0 });
 	frontWall.setResolution(8, 8);
 
 	m_walls.push_back(frontWall);
 
-	auto frontWallParticle = std::make_shared<Particle>(frontWall.getPosition());
+	auto frontWallParticle = std::make_shared<Particle>(Vector3f(0, 0, boxSize), Vector3f(0.f, 0.f, 0.f), largeMass, 100, true, true);
+	//frontWallParticle->SetInvMass(largeMass);
 	auto frontWallRb = std::make_shared<RigidBody>(frontWallParticle);
+	frontWallRb->GetBoundingBox()->SetSize(boxSize);
+	frontWallRb->GetBoundingSphere()->SetRadius(boxSize * sqrt(3)/2);
 	m_WallRigidBody.push_back(frontWallRb);
 
 	backWall.set(boxSize, boxSize);
-	backWall.setPosition(0, 0, -boxSize / 2);
+	backWall.setPosition(0, 0, -boxSize/2);
 	backWall.setOrientation({ 0, 0, 0 }); 
 	backWall.setResolution(8, 8);
 
 	m_walls.push_back(backWall);
 
-	auto backWallParticle = std::make_shared<Particle>(backWall.getPosition());
+	auto backWallParticle = std::make_shared<Particle>(Vector3f(0, 0, -boxSize), Vector3f(0.f, 0.f, 0.f), largeMass, 100, true, true);
+	//backWallParticle->SetInvMass(largeMass);
 	auto backWallRb = std::make_shared<RigidBody>(backWallParticle);
+	backWallRb->GetBoundingBox()->SetSize(boxSize);
+	backWallRb->GetBoundingSphere()->SetRadius(boxSize * sqrt(3)/2);
 	m_WallRigidBody.push_back(backWallRb);
 
 	leftWall.set(boxSize, boxSize);
-	leftWall.setPosition(-boxSize / 2, 0, 0);
+	leftWall.setPosition(-boxSize/2, 0, 0);
 	leftWall.setOrientation({ 0, 90, 0 }); 
 	leftWall.setResolution(8, 8);
 
 	m_walls.push_back(leftWall);
 
-	auto leftWallParticle = std::make_shared<Particle>(leftWall.getPosition());
+	auto leftWallParticle = std::make_shared<Particle>(Vector3f(-boxSize, 0, 0), Vector3f(0.f, 0.f, 0.f), largeMass, 100, true, true);
+	//leftWallParticle->SetInvMass(largeMass);
 	auto leftWallRb = std::make_shared<RigidBody>(leftWallParticle);
+	leftWallRb->GetBoundingBox()->SetSize(boxSize);
+	leftWallRb->GetBoundingSphere()->SetRadius(boxSize * sqrt(3)/2);
 	m_WallRigidBody.push_back(leftWallRb);
 
 	rightWall.set(boxSize, boxSize);
-	rightWall.setPosition(boxSize / 2, 0, 0); 
+	rightWall.setPosition(boxSize/2, 0, 0); 
 	rightWall.setOrientation({ 0, 90, 0 }); 
 	rightWall.setResolution(8, 8);
 
 	m_walls.push_back(rightWall);
 
-	auto rightWallParticle = std::make_shared<Particle>(rightWall.getPosition());
+	auto rightWallParticle = std::make_shared<Particle>(Vector3f(boxSize, 0, 0), Vector3f(0.f, 0.f, 0.f), largeMass, 100, true, true);
+	//rightWallParticle->SetInvMass(largeMass);
 	auto rightWallRb = std::make_shared<RigidBody>(rightWallParticle);
+	rightWallRb->GetBoundingBox()->SetSize(boxSize);
+	rightWallRb->GetBoundingSphere()->SetRadius(boxSize * sqrt(3)/2);
 	m_WallRigidBody.push_back(rightWallRb);
 }
 
@@ -147,7 +164,7 @@ void World::UpdateGame()
 		sin(pitchRad),
 		cos(pitchRad) * sin(yawRad)
 	);
-	UpdateGameBox();
+	//UpdateGameBox();
 }
 
 void World::SpacePressed()
@@ -282,6 +299,20 @@ void World::Draw()
 	}
 	ofFill();
 
+	//ofSetColor(0, 255, 0); 
+	//for (const auto& wallRb : m_WallRigidBody)
+	//{
+	//	if (wallRb)
+	//	{
+	//		//std::cout << "Wall Pos: " << wallRb->GetPosition().x << " " << wallRb->GetPosition().y << " " << wallRb->GetPosition().z << " "  << std::endl;
+	//		auto pos = wallRb->GetPosition(); 
+	//		ofDrawBox(pos.x, pos.y, pos.z, wallRb->GetBoundingBox()->GetSize());
+	//		ofNoFill();
+	//		ofDrawSphere(pos.x, pos.y, pos.z, wallRb->GetBoundingSphere()->GetRadius());
+	//		ofFill();
+	//	}
+	//}
+
 	//Draw Particle
 	for (auto& rb : m_rigidBody)
 	{
@@ -290,6 +321,12 @@ void World::Draw()
 			ofPushMatrix();
 
 			ofTranslate(rb->GetPosition());
+
+			auto position = rb->GetPosition();
+			/*std::cout << "Projectile Position: X=" << position.x
+				<< " Y=" << position.y
+				<< " Z=" << position.z << std::endl;*/
+
 
 			glm::quat orientation = glm::quat(rb->GetOrientation().GetNormalize());
 			glm::mat4 rotationMat = glm::toMat4(orientation);

@@ -84,20 +84,44 @@ void CollisionSystem::ApplyStickCollisions()
 	}
 }
 
-void CollisionSystem::ApplyBoxCollision(const RigidBody& rb1, const RigidBody& rb2)
-{
+void CollisionSystem::ApplyBoxCollision(const RigidBody& rb1, const RigidBody& rb2) {
 	// Variable des informations de collision
 	CollisionCallback3D infos;
 
-	if (CheckCollisionBox(rb1, rb2, infos))
-	{
-    		infos.box = rb1.GetBoundingBox();
-		infos.restitution = rb2.GetBoundingBox()->GetRestitution();
-     		ParticuleCollision collision(rb1.GetBoundingBox()->GetParticle(), rb2.GetBoundingBox()->GetParticle(), infos.restitution, std::abs(infos.overlap), infos.normal);
-		collision.ApplyCollision();
-		//std::cout << infos.normal.x << " " << infos.normal.y << " " << infos.normal.z << std::endl;
-		//std::cout << infos.restitution << std::endl;
-		//std::cout << infos.overlap << std::endl;
+	// Vérification de la collision entre les deux boîtes
+ 	if (CheckCollisionBox(rb1, rb2, infos)) {
+		auto particle1 = rb1.GetBoundingBox()->GetParticle();
+		auto particle2 = rb2.GetBoundingBox()->GetParticle();
+		infos.restitution = 1.f;
+		// Cas où les deux RigidBody sont des plans
+		if (particle1->GetIsPlane() && particle2->GetIsPlane()) {
+			return;
+		}
+		// Cas où le premier RigidBody est un plan
+		if (particle1->GetIsPlane() && !particle2->GetIsPlane()) {
+			infos.normal.Normalize();
+			// Corriger la direction de la normale si nécessaire
+			if (particle1->GetPosition().DotProduct(infos.normal) > 0.0f) {
+				infos.normal = -infos.normal;
+			}
+			// S'assurer que l'overlap est positif
+			infos.overlap = std::abs(infos.overlap);
+			// Limiter la restitution à une valeur réaliste
+			infos.restitution = std::clamp(infos.restitution, 0.0f, 0.8f);
+			ParticuleCollision collision(particle2, infos.restitution, infos.overlap, infos.normal);
+			collision.ApplyCollision();
+		}
+		else if (particle2->GetIsPlane() && !particle1->GetIsPlane()) {
+			ParticuleCollision collision(particle1, infos.restitution, std::abs(infos.overlap), infos.normal);
+			collision.ApplyCollision();
+		}
+		// Cas général (deux objets dynamiques)
+		else {
+			ParticuleCollision collision(
+				particle1, particle2, infos.restitution, std::abs(infos.overlap), infos.normal
+			);
+			collision.ApplyCollision();
+		}
 	}
 }
 
@@ -226,6 +250,3 @@ bool CollisionSystem::CheckVertexPlane(const Vector3f& vertex, const Plane& plan
 	result = bestResult;
 	return true;
 }
-
-
-

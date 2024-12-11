@@ -23,6 +23,8 @@ class Box
 
 		std::array<Vector3f, 8> GetBoxVertices(const RigidBody &rb) const;
 
+		void SetSize(float size);
+
 	private:
 		std::shared_ptr<Particle> m_particle;
 		/*std::shared_ptr<RigidBody> m_rigidbody;*/

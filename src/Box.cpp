@@ -58,3 +58,8 @@ std::array<Vector3f, 8> Box::GetBoxVertices(const RigidBody &rb) const
 
 	return verticeArray;
 }
+
+void Box::SetSize(float size)
+{
+	this->m_size = size;
+}

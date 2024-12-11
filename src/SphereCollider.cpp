@@ -73,7 +73,7 @@ void SphereCollider::ResolveCollision(SphereCollider& col1, SphereCollider& col2
 
 void SphereCollider::ResolveCollision(SphereCollider& col1, float restitution, std::tuple<Vector3f, double> info)
 {
-	ParticuleCollision collision(col1.GetParticle(), restitution, std::get<1>(info));
+	ParticuleCollision collision(col1.GetParticle(), restitution, std::get<1>(info), std::get<0>(info));
 	collision.ApplyCollision();
 }
 

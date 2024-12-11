@@ -6,7 +6,7 @@ Particle::Particle(Vector3f pos) :
 
 }
 
-Particle::Particle(Vector3f position, Vector3f velocity, float mass, float damping, bool isIntegrateEuler) :
+Particle::Particle(Vector3f position, Vector3f velocity, float mass, float damping, bool isIntegrateEuler, bool isPlane) :
 	m_position(position),
 	m_velocity(velocity),
 	m_acceleration(),
@@ -14,7 +14,8 @@ Particle::Particle(Vector3f position, Vector3f velocity, float mass, float dampi
 	m_invMass(1.f / mass),
 	m_size(mass / 50),
 	m_damping(damping),
-	m_isIntegrateEuler(isIntegrateEuler)
+	m_isIntegrateEuler(isIntegrateEuler),
+	m_isPlane(isPlane)
 {
 
 	//We integrate Euler at start to get a first previous position needed for integrate Verlet
@@ -91,6 +92,11 @@ void Particle::SetSize(const float value)
 	m_size = value;
 }
 
+void Particle::SetInvMass(const float value)
+{
+	this->m_invMass = value;
+}
+
 void Particle::AddForceGeneratorToMap(ForceEnum forceEnum, std::shared_ptr<IParticleForceGenerator> fG)
 {
 	auto it = m_forceMap.find(forceEnum);
@@ -124,12 +130,16 @@ void Particle::RemoveAllForceGeneratorToMap()
 // Apply a force to the particle
 void Particle::AddForce(Vector3f force)
 {
+	if (m_isPlane) {
+		return;
+	}
 	Vector3f accel = force + m_velocity * m_invMass - (m_velocity * (1 - m_damping)) * m_invMass;  // F = m * a -> a = F / m
 	m_acceleration += accel;
 }
 
 void Particle::Integrate(float deltaTime)
 {
+	
 	if (m_isIntegrateEuler)
 		IntegrateEuler(deltaTime);
 	else
@@ -150,4 +160,8 @@ void Particle::IntegrateVerlet(float deltaTime)
 	m_prevPosition = m_position;
 	m_position = newPosition;
 	m_acceleration = Vector3f(0, 0, 0);
+}
+
+bool Particle::GetIsPlane() const {
+	return m_isPlane;
 }

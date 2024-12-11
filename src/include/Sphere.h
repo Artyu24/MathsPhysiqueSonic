@@ -15,6 +15,8 @@ class Sphere
 		const bool IsColliding(const Sphere& otherSphere);
 		static const bool IsCollidingStatic(const Sphere& first, const Sphere& second);
 
+		void SetRadius(float radius);
+		
 	private:
 		float m_radius;
 		std::shared_ptr<Particle> m_particle;

@@ -8,7 +8,7 @@ class Particle
 {
 public:
 	Particle(Vector3f pos);
-	Particle(Vector3f position, Vector3f velocity, float mass, float damping, bool isIntegrateEuler);
+	Particle(Vector3f position, Vector3f velocity, float mass, float damping, bool isIntegrateEuler, bool isPlane = false);
 
 	//Getter
 	Vector3f GetPosition() const;
@@ -19,6 +19,7 @@ public:
 	float GetInverseMass() const;
 	float GetDamping() const;
 	bool GetIsIntegrateEuler() const;
+	bool GetIsPlane() const; 
 
 	//Setter
 	void SetPosition(const Vector3f value);
@@ -26,6 +27,7 @@ public:
 	void SetAcceleration(const Vector3f value);
 	void SetPrevPosition(const Vector3f value);
 	void SetSize(const float value);
+	void SetInvMass(const float value);
 
 	//Force into the Particle
 	void AddForceGeneratorToMap(ForceEnum forceEnum, std::shared_ptr<IParticleForceGenerator> fG);
@@ -47,6 +49,7 @@ private:
 	float m_damping;
 
 	bool m_isIntegrateEuler = false;
+	bool m_isPlane = false;
 
 	std::unordered_map<ForceEnum, std::shared_ptr<IParticleForceGenerator>> m_forceMap;
 
